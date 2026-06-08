@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Klinik</title>
-    <!-- Gunakan direktif Vite di bawah ini jika Tailwind sudah di-install via NPM -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <!-- Alternatif CDN hanya untuk prototyping cepat (hapus jika pakai Vite) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen">
 
-    <!-- Navbar Sederhana -->
-    <nav class="bg-blue-600 shadow-md">
+    <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="text-white font-bold text-xl">Klinik Sehat</div>
-                <div class="text-white text-sm">
-                    <!-- Nanti bisa diisi nama user yang login -->
+                <div class="text-blue-600 font-bold text-xl tracking-tight">Klinik Sehat</div>
+                <div class="text-gray-500 text-sm font-medium">
                     Halo, Pasien
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Konten Utama -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         @yield('content')
     </main>
