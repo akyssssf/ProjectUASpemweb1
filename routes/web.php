@@ -1,27 +1,51 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasienAuthController;
+use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PendaftaranProsesController;
+use Illuminate\Http\Request;
 
 // --- Route Utama ---
 Route::get('/', function () {
     return view('welcome');
 });
 
-// --- Route Auth (Login & Register) ---
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+// --- Route Auth (Login & Register Pasien) ---
+Route::get('/login', [PasienAuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [PasienAuthController::class, 'login']);
 
-Route::get('/register', [AuthController::class, 'showRegister']);
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register', [PasienAuthController::class, 'showRegister']);
+Route::post('/register', [PasienAuthController::class, 'register']);
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [PasienAuthController::class, 'logout']);
 
-Route::get('/dashboard', function () {
-    return view('patient.dashboard');
-})->middleware('auth');
+// --- Route Dashboard & Layanan Pasien ---
+Route::middleware(['auth:pasien'])->group(function () {
+    
+    Route::get('/dashboard', function () {
+        return view('patient.dashboard');
+    });
 
-// --- Route Sementara (Testing UI) ---
+    // Rute Pendaftaran
+    Route::get('/pendaftaran', [PendaftaranController::class, 'pilihJenis']);
+    
+    // Rute Form Pendaftaran
+    Route::get('/pendaftaran/form', function(Request $request) {
+        if ($request->jenis == 'umum') {
+            return view('pendaftaran.form-umum');
+        } elseif ($request->jenis == 'bpjs') {
+            return view('pendaftaran.form-bpjs'); // Nanti kita buat file ini
+        }
+        return redirect('/pendaftaran');
+    });
+
+    // Rute Proses Simpan
+    Route::post('/pendaftaran/simpan-umum', [PendaftaranProsesController::class, 'simpanUmum']);
+    
+});
+
+// --- Route Testing ---
 Route::get('/test-login', function () {
     return view('auth.login');
 });
