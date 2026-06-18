@@ -10,19 +10,20 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('pendaftarans', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('cascade');
-        $table->string('klinik');
-        $table->string('poli');
-        $table->string('dokter');
-        $table->date('tanggal');
-        $table->text('keluhan')->nullable();
-        $table->enum('status', ['menunggu', 'selesai', 'batal'])->default('menunggu');
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('pendaftarans', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('cascade');
+            $table->string('jenis_pendaftaran'); // <--- INI KOLOM BARUNYA
+            $table->string('klinik');
+            $table->string('poli');
+            $table->string('dokter');
+            $table->date('tanggal');
+            $table->text('keluhan')->nullable();
+            $table->enum('status', ['menunggu', 'selesai', 'batal'])->default('menunggu');
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pendaftaran; // <-- WAJIB ADA INI
+use App\Models\Pendaftaran;
 use Illuminate\Support\Facades\Auth;
 
 class PendaftaranProsesController extends Controller
@@ -12,15 +12,15 @@ class PendaftaranProsesController extends Controller
     {
         $pasien = Auth::guard('pasien')->user();
 
-        // Simpan data
         Pendaftaran::create([
-            'pasien_id' => $pasien->id,
-            'klinik'    => $request->klinik,
-            'poli'      => $request->poli,
-            'dokter'    => $request->dokter,
-            'tanggal'   => $request->tanggal,
-            'keluhan'   => $request->keluhan,
-            'status'    => 'menunggu',
+            'pasien_id'         => $pasien->id,
+            'jenis_pendaftaran' => 'umum', // <--- TAMBAHKAN INI
+            'klinik'            => $request->klinik,
+            'poli'              => $request->poli,
+            'dokter'            => $request->dokter,
+            'tanggal'           => $request->tanggal,
+            'keluhan'           => $request->keluhan,
+            'status'            => 'menunggu',
         ]);
         
         return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil!');
