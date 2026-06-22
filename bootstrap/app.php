@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,4 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        // Kalau yang gagal auth itu halaman /petugas/*, lempar ke login staff,
+        // bukan ke login pasien (yang jadi default karena route-nya bernama 'login').
+        $exceptions->render(function (AuthenticationException $e, Request $request) {
+            if ($request->is('petugas/*')) {
+                return redirect('/petugas/login');
+            }
+        });
     })->create();

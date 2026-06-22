@@ -32,6 +32,11 @@ return [
             'driver' => 'session',
             'provider' => 'pasiens',
         ],
+
+        'staff' => [
+        'driver' => 'session',
+        'provider' => 'staffs',
+        ],
     ],
 
     /*
@@ -49,6 +54,11 @@ return [
         'pasiens' => [
             'driver' => 'eloquent',
             'model' => Pasien::class,
+        ],
+
+        'staffs' => [
+            'driver' => 'eloquent',
+             'model' => App\Models\Staff::class,
         ],
     ],
 
