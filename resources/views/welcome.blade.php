@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang di Klinik Sehat</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
@@ -12,8 +12,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="text-blue-600 font-bold text-xl tracking-tight">Klinik Sehat</div>
-                <div class="space-x-4">
-                    <a href="/login" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Masuk</a>
+                
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('petugas.login') }}" class="text-sm text-slate-400 hover:text-blue-600 font-medium transition-colors hidden sm:block">
+                        Akses Petugas
+                    </a>
+                    
+                    <div class="w-px h-6 bg-gray-200 hidden sm:block"></div>
+
+                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Masuk</a>
                     <a href="/register" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">Daftar</a>
                 </div>
             </div>
@@ -67,6 +74,10 @@
             </div>
         </div>
     </section>
+
+    <footer class="py-8 text-center text-gray-400 text-sm bg-gray-50">
+        &copy; {{ date('Y') }} Sistem Manajemen Klinik Sehat. Hak Cipta Dilindungi.
+    </footer>
 
 </body>
 </html>

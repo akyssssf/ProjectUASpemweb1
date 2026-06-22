@@ -12,10 +12,14 @@ class Staff extends Authenticatable
     protected $table = 'staffs';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'email', 
+        'password', 
+        'role', // Kita tambahkan ini agar Laravel mengizinkan pengisian field role
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
+        'remember_token',
     ];
 }
