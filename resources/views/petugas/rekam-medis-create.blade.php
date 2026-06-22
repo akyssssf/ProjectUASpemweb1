@@ -13,6 +13,7 @@
             <div>
                 <h2 class="text-3xl font-extrabold text-slate-800">Rekam Medis</h2>
                 <p class="text-slate-500 font-medium mt-1">Input data medis untuk <span class="text-blue-600 font-bold">{{ $pasien->name }}</span></p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Antrean: {{ $antrian->nomor_antrian }}</p>
             </div>
             <a href="{{ route('dokter.dashboard') }}" class="bg-white border border-slate-200 text-slate-600 px-6 py-3 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-sm flex items-center">
                 <i class="fas fa-times mr-2"></i> Batal
@@ -22,6 +23,7 @@
         <form action="{{ route('rekam_medis.store') }}" method="POST" class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100">
             @csrf
             <input type="hidden" name="pasien_id" value="{{ $pasien->id }}">
+            <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-6">

@@ -11,7 +11,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\AntreanController;
-use App\Http\Controllers\DokterController; // Tambahkan ini
+use App\Http\Controllers\DokterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,10 +73,11 @@ Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
     Route::get('/monitoring/panggil/{id}', [MonitoringController::class, 'panggil']);
     Route::get('/monitoring/selesai/{id}', [MonitoringController::class, 'selesai']);
 
-    // --- Rute Khusus Dokter ---
+    // --- Rute Khusus Dokter (SUDAH DIPERBAIKI) ---
     Route::middleware(['role:dokter'])->group(function () {
         Route::get('/dashboard-dokter', [DokterController::class, 'index'])->name('dokter.dashboard');
-        Route::get('/rekam-medis/create/{pasien_id}', [DokterController::class, 'create'])->name('rekam_medis.create');
+        // Menggunakan antrian_id sebagai parameter agar aman
+        Route::get('/rekam-medis/create/{antrian_id}', [DokterController::class, 'create'])->name('rekam_medis.create');
         Route::post('/rekam-medis/store', [DokterController::class, 'store'])->name('rekam_medis.store');
     });
 
@@ -84,7 +85,6 @@ Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
         
-        // Rute CRUD Staff Lengkap
         Route::get('/staff-register', [StaffController::class, 'create'])->name('staff.register');
         Route::post('/staff-register', [StaffController::class, 'store']);
         Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
