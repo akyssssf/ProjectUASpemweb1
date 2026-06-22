@@ -11,7 +11,6 @@ class StaffAuthController extends Controller
     // Tampilkan form login staff
     public function showLogin()
     {
-        // Disesuaikan: Mengarah ke 'auth.staff-login' (sesuai folder di screenshot)
         return view('auth.staff-login'); 
     }
 
@@ -28,10 +27,16 @@ class StaffAuthController extends Controller
             
             $staff = Auth::guard('staff')->user();
 
+            // LOGIKA PEMBAGIAN HALAMAN BERDASARKAN ROLE
             if ($staff->role === 'admin') {
                 return redirect()->intended('/petugas/dashboard');
+            } 
+            elseif ($staff->role === 'dokter') {
+                // Arahkan ke route dokter yang sudah kita buat
+                return redirect()->intended('/petugas/dashboard-dokter');
             }
             
+            // Jika bukan admin atau dokter, arahkan ke monitoring (petugas antrian)
             return redirect()->intended('/petugas/monitoring');
         }
 

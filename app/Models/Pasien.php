@@ -20,6 +20,11 @@ class Pasien extends Authenticatable
         'nik',
     ];
 
+    public function medicalRecords()
+{
+    return $this->hasMany(MedicalRecord::class, 'pasien_id');
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

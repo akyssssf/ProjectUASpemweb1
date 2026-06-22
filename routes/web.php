@@ -11,6 +11,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\DokterController; // Tambahkan ini
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -71,6 +72,13 @@ Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
     Route::get('/monitoring', [MonitoringController::class, 'index']);
     Route::get('/monitoring/panggil/{id}', [MonitoringController::class, 'panggil']);
     Route::get('/monitoring/selesai/{id}', [MonitoringController::class, 'selesai']);
+
+    // --- Rute Khusus Dokter ---
+    Route::middleware(['role:dokter'])->group(function () {
+        Route::get('/dashboard-dokter', [DokterController::class, 'index'])->name('dokter.dashboard');
+        Route::get('/rekam-medis/create/{pasien_id}', [DokterController::class, 'create'])->name('rekam_medis.create');
+        Route::post('/rekam-medis/store', [DokterController::class, 'store'])->name('rekam_medis.store');
+    });
 
     // Rute Khusus Admin
     Route::middleware(['role:admin'])->group(function () {
