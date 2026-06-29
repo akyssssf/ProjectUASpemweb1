@@ -15,17 +15,13 @@ class Antrian extends Model
         return $this->belongsTo(Pendaftaran::class);
     }
 
-    /**
-     * Buat antrian baru otomatis berdasarkan poli, nomor reset tiap hari.
-     * Dipanggil setelah Pendaftaran::create() berhasil.
-     */
+    
     public static function buatUntuk(Pendaftaran $pendaftaran): self
     {
         $hariIni = now()->format('Y-m-d');
         $poli = $pendaftaran->poli;
 
-        // Kode poli = huruf pertama, kapital (sama seperti logic lama: U, G, A, dst)
-        $kodePoli = strtoupper(substr($poli, 0, 1));
+        $kodePoli = self::buatKodePoli($poli);
 
         // Cari nomor terakhir untuk poli ini, di tanggal ini
         $terakhir = self::where('poli', $poli)
@@ -46,5 +42,17 @@ class Antrian extends Model
             'tanggal_antrian' => $hariIni,
             'status'          => 'menunggu',
         ]);
+    }
+
+    
+    private static function buatKodePoli(string $poli): string
+    {
+        $kata = explode(' ', trim($poli));
+
+        if (count($kata) > 1 && strtolower($kata[0]) === 'poli') {
+            return strtoupper(substr($kata[1], 0, 1));
+        }
+
+        return strtoupper(substr($poli, 0, 1));
     }
 }
