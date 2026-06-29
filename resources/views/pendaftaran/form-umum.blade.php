@@ -1,22 +1,5 @@
 @extends('layouts.app')
 
-@php
-$dataKlinik = [
-    'Klinik Red Grave' => [
-        'Poli Bedah' => ['Dr. Dante', 'Dr. Vergil'],
-        'Poli Umum'  => ['Dr. Lady', 'Dr. Trish'],
-    ],
-    'Klinik Raccoon City' => [
-        'Poli Saraf' => ['Dr. Leon Kennedy', 'Dr. Jill Valentine'],
-        'Poli Umum'  => ['Dr. Chris Redfield', 'Dr. Rebecca Chambers'],
-    ],
-    'Klinik Fortuna' => [
-        'Poli Bedah' => ['Dr. Nero', 'Dr. Credo'],
-        'Poli Saraf' => ['Dr. Kyrie', 'Dr. Nico'],
-    ]
-];
-@endphp
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-10 px-4">
     <div class="max-w-2xl mx-auto">

@@ -9,4 +9,14 @@ class Pendaftaran extends Model
     protected $fillable = [
         'pasien_id', 'jenis_pendaftaran', 'klinik', 'poli', 'dokter', 'tanggal', 'keluhan', 'status'
     ];
+
+    public function pasien()
+    {
+        return $this->belongsTo(Pasien::class);
+    }
+
+    public function antrian()
+    {
+        return $this->hasOne(Antrian::class);
+    }
 }

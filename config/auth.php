@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Pasien;
+use App\Models\Staff; // Tambahkan ini
 
 return [
 
@@ -32,6 +33,11 @@ return [
             'driver' => 'session',
             'provider' => 'pasiens',
         ],
+
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staffs',
+        ],
     ],
 
     /*
@@ -49,6 +55,11 @@ return [
         'pasiens' => [
             'driver' => 'eloquent',
             'model' => Pasien::class,
+        ],
+
+        'staffs' => [
+            'driver' => 'eloquent',
+            'model' => Staff::class, // Menggunakan class Staff yang di-import di atas
         ],
     ],
 

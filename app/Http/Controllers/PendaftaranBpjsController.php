@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pendaftaran; 
+use App\Models\Pendaftaran;
+use App\Models\Antrian;
 use Illuminate\Support\Facades\Auth;
 
 class PendaftaranBpjsController extends Controller
@@ -23,7 +24,7 @@ class PendaftaranBpjsController extends Controller
         ]);
 
         // 2. Simpan ke database
-        Pendaftaran::create([
+        $pendaftaran = Pendaftaran::create([
             'pasien_id'         => Auth::guard('pasien')->id(),
             'no_bpjs'           => $request->no_bpjs,
             'faskes_asal'       => $request->faskes_asal,
@@ -33,11 +34,14 @@ class PendaftaranBpjsController extends Controller
             'dokter'            => $request->dokter,
             'tanggal'           => $request->tanggal,
             'keluhan'           => $request->keluhan,
-            'jenis_pendaftaran' => 'BPJS', 
-            'status'            => 'menunggu', 
+            'jenis_pendaftaran' => 'BPJS',
+            'status'            => 'menunggu',
         ]);
 
-        // 3. Redirect ke dashboard dengan pesan sukses
-        return redirect('/dashboard')->with('success', 'Pendaftaran BPJS berhasil diajukan! Silakan menunggu verifikasi.');
+        // 3. Generate nomor antrian otomatis berdasarkan poli (reset tiap hari)
+        $antrian = Antrian::buatUntuk($pendaftaran);
+
+        // 4. Redirect ke dashboard dengan pesan sukses
+        return redirect('/dashboard')->with('success', 'Pendaftaran BPJS berhasil diajukan! Nomor antrian Anda: ' . $antrian->nomor_antrian);
     }
 }

@@ -13,8 +13,23 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="text-blue-600 font-bold text-xl tracking-tight">Klinik Sehat</div>
-                <div class="text-gray-500 text-sm font-medium">
-                    Halo, Pasien
+
+                <div class="flex items-center gap-4">
+                    @auth('pasien')
+                        <span class="text-gray-500 text-sm font-medium">
+                            Halo, {{ Auth::guard('pasien')->user()->name }}
+                        </span>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button type="submit" class="text-red-600 hover:text-red-700 text-sm font-bold transition-colors">
+                                Logout
+                            </button>
+                        </form>
+                    @else
+                        <span class="text-gray-500 text-sm font-medium">
+                            Halo, Pasien
+                        </span>
+                    @endauth
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang di Klinik Sehat</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
@@ -12,9 +12,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="text-blue-600 font-bold text-xl tracking-tight">Klinik Sehat</div>
-                <div class="space-x-4">
-                    <a href="/test-login" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Masuk</a>
-                    <a href="/test-register" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">Daftar</a>
+                
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('petugas.login') }}" class="text-sm text-slate-400 hover:text-blue-600 font-medium transition-colors hidden sm:block">
+                        Akses Petugas
+                    </a>
+                    
+                    <div class="w-px h-6 bg-gray-200 hidden sm:block"></div>
+
+                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Masuk</a>
+                    <a href="/register" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">Daftar</a>
                 </div>
             </div>
         </div>
@@ -30,7 +37,7 @@
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="/test-register" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                <a href="/register" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
                     Daftar Sebagai Pasien
                 </a>
                 <a href="#fitur" class="bg-white text-gray-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-all border border-gray-200 shadow-sm">
@@ -67,6 +74,10 @@
             </div>
         </div>
     </section>
+
+    <footer class="py-8 text-center text-gray-400 text-sm bg-gray-50">
+        &copy; {{ date('Y') }} Sistem Manajemen Klinik Sehat. Hak Cipta Dilindungi.
+    </footer>
 
 </body>
 </html>

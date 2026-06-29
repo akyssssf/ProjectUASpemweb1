@@ -23,7 +23,9 @@
         </div>
         <h3 class="text-lg font-semibold text-gray-900 mb-2">Cek Antrean</h3>
         <p class="text-sm text-gray-500 mb-6 flex-grow">Pantau nomor antrean Anda saat ini secara real-time.</p>
-        <a href="/antrean" class="w-full bg-emerald-500 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-600 transition-colors text-center block">Lihat Antrean</a>
+        <a href="/antrean"
+             onclick="try { window.speechSynthesis.speak(new SpeechSynthesisUtterance('')); } catch(e) {}"
+             class="w-full bg-emerald-500 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-600 transition-colors text-center block">Lihat Antrean</a>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6 border border-gray-100 flex flex-col items-center text-center group">

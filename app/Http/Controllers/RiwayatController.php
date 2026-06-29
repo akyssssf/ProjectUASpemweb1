@@ -9,8 +9,9 @@ class RiwayatController extends Controller
 {
     public function index()
     {
-        // Hanya mengambil data milik user yang sedang login
+        // Tambahkan with('antrian') untuk mengambil status terbaru
         $riwayat = Pendaftaran::where('pasien_id', Auth::guard('pasien')->id())
+                     ->with('antrian') 
                      ->orderBy('created_at', 'desc')
                      ->get();
 
