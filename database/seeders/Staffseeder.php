@@ -10,11 +10,13 @@ class StaffSeeder extends Seeder
 {
     public function run(): void
     {
-        Staff::create([
-            'name' => 'Admin',
-            'email' => 'admin@klinik.com',
-            'password' => Hash::make('123456'), // Ganti password sesuai keinginanmu
-            'role' => 'admin',
-        ]);
+        Staff::firstOrCreate(
+            ['email' => 'admin@klinik.com'],
+            [
+                'name'     => 'Admin',
+                'password' => Hash::make('123456'),
+                'role'     => 'admin',
+            ]
+        );
     }
 }

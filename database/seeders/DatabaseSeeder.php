@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,14 +11,18 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * Urutan penting: Klinik/Poli/Dokter harus dibuat dulu sebelum
+     * DokterStaffSeeder, karena DokterStaffSeeder membaca nama-nama
+     * dokter yang sudah ada di tabel `dokters`.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            StaffSeeder::class,            // akun admin@klinik.com
+            KlinikPoliDokterSeeder::class, // klinik, poli, dokter awal
+            PoliTambahanSeeder::class,     // poli & dokter tambahan
+            DokterStaffSeeder::class,      // akun login untuk semua dokter
         ]);
     }
 }
