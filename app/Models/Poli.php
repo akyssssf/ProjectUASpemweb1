@@ -17,4 +17,9 @@ class Poli extends Model
     {
         return $this->hasMany(Dokter::class);
     }
+
+    public function surveis()
+    {
+        return $this->hasMany(Survei::class);
+    }
 }

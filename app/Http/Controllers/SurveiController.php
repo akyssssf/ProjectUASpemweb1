@@ -13,7 +13,7 @@ class SurveiController extends Controller
     // GET ALL + Fitur Filter Rentang Tanggal
     public function index(Request $request)
     {
-        $query = Survei::query();
+        $query = Survei::with(['klinik', 'poli']);
 
         // Fitur Filter Rentang Tanggal berdasarkan created_at
         if ($request->has('start_date') && $request->has('end_date')) {
@@ -38,7 +38,7 @@ class SurveiController extends Controller
     public function show($id)
     {
         try {
-            $survei = Survei::findOrFail($id);
+            $survei = Survei::with(['klinik', 'poli'])->findOrFail($id);
             return new SurveiResource($survei);
         } catch (ModelNotFoundException $e) {
             return response()->json([

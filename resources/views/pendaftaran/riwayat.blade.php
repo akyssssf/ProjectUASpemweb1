@@ -23,6 +23,7 @@
                     <th class="p-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Klinik / Poli</th>
                     <th class="p-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Dokter</th>
                     <th class="p-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                    <th class="p-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Penilaian</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
@@ -61,10 +62,54 @@
                             <span class="text-slate-400 text-xs italic font-medium">Menunggu Antrean</span>
                         @endif
                     </td>
+
+                    <td class="p-6">
+                        @if($data->antrian && $data->antrian->status == 'selesai')
+                            @if($data->survei)
+                                <span class="text-amber-500 font-bold text-xs">&#9733; {{ $data->survei->rating }}/5 (terkirim)</span>
+                            @else
+                                <button type="button" onclick="document.getElementById('modal-survei-{{ $data->id }}').classList.remove('hidden')"
+                                    class="text-xs font-bold px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100">
+                                    Beri Penilaian
+                                </button>
+
+                                <div id="modal-survei-{{ $data->id }}" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+                                    <div class="bg-white rounded-2xl p-6 max-w-md w-full">
+                                        <h4 class="font-bold text-slate-800 mb-1">Penilaian Kunjungan</h4>
+                                        <p class="text-xs text-slate-400 mb-4">{{ $data->klinik }} &mdash; {{ $data->poli }}</p>
+
+                                        <form method="POST" action="{{ route('survei.spesifik') }}">
+                                            @csrf
+                                            <input type="hidden" name="pendaftaran_id" value="{{ $data->id }}">
+
+                                            <div class="flex gap-2 mb-4">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <label class="cursor-pointer">
+                                                        <input type="radio" name="rating" value="{{ $i }}" class="hidden peer" required>
+                                                        <span class="text-3xl text-slate-300 peer-checked:text-amber-400">&#9733;</span>
+                                                    </label>
+                                                @endfor
+                                            </div>
+
+                                            <textarea name="komentar" rows="3" placeholder="Komentar (opsional)" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm mb-4"></textarea>
+
+                                            <div class="flex gap-2 justify-end">
+                                                <button type="button" onclick="document.getElementById('modal-survei-{{ $data->id }}').classList.add('hidden')"
+                                                    class="px-4 py-2 text-sm font-bold text-slate-500">Batal</button>
+                                                <button type="submit" class="px-4 py-2 text-sm font-bold bg-indigo-600 text-white rounded-xl hover:bg-indigo-700">Kirim</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            <span class="text-slate-300 text-xs italic">-</span>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="p-16 text-center text-slate-400 font-bold">
+                    <td colspan="6" class="p-16 text-center text-slate-400 font-bold">
                         <i class="fas fa-folder-open text-4xl mb-4 block opacity-50"></i>
                         Belum ada riwayat pendaftaran.
                     </td>

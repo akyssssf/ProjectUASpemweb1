@@ -21,4 +21,10 @@ class AdminDashboardController extends Controller
 
         return view('admin.dashboard', compact('stats', 'allStaff', 'allPasien'));
     }
+
+    public function destroyPasien($id)
+    {
+        Pasien::findOrFail($id)->delete();
+        return redirect()->route('admin.dashboard')->with('success', 'Data pasien dihapus');
+    }
 }

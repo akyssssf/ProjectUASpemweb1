@@ -19,4 +19,9 @@ class Pendaftaran extends Model
     {
         return $this->hasOne(Antrian::class);
     }
+
+    public function survei()
+    {
+        return $this->hasOne(Survei::class);
+    }
 }

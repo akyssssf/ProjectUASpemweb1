@@ -1,19 +1,34 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Survei extends Model
 {
-    // Tambahkan baris ini agar Laravel tahu tabel yang dipakai adalah 'surveys'
-    protected $table = 'surveys'; 
+    protected $table = 'surveys';
 
     protected $fillable = [
-        'user_id', 'rating', 'komentar'
+        'pasien_id', 'klinik_id', 'poli_id', 'pendaftaran_id', 'tipe', 'rating', 'komentar',
     ];
 
-    public function user()
+    public function pasien()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Pasien::class);
+    }
+
+    public function klinik()
+    {
+        return $this->belongsTo(Klinik::class);
+    }
+
+    public function poli()
+    {
+        return $this->belongsTo(Poli::class);
+    }
+
+    public function pendaftaran()
+    {
+        return $this->belongsTo(Pendaftaran::class);
     }
 }

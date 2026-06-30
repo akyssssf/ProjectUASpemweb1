@@ -14,6 +14,11 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="text-blue-600 font-bold text-xl tracking-tight">Klinik Sehat</div>
 
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('rating.index') }}" class="text-slate-500 hover:text-indigo-600 text-sm font-bold transition-colors">
+                        Cari RS / Rating
+                    </a>
+
                 <div class="flex items-center gap-4">
                     @auth('pasien')
                         <span class="text-gray-500 text-sm font-medium">
@@ -26,10 +31,11 @@
                             </button>
                         </form>
                     @else
-                        <span class="text-gray-500 text-sm font-medium">
-                            Halo, Pasien
-                        </span>
+                        <a href="{{ route('login') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-bold transition-colors">
+                            Login Pasien
+                        </a>
                     @endauth
+                </div>
                 </div>
             </div>
         </div>

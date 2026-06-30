@@ -6,15 +6,19 @@ class StoreSurveiRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Ubah jadi true agar diizinkan
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
-            'rating' => 'required|integer|min:1|max:5', // Rating dibatasi 1-5
-            'komentar' => 'nullable|string'
+            'pasien_id'      => 'nullable|exists:pasiens,id',
+            'klinik_id'      => 'required|exists:kliniks,id',
+            'poli_id'        => 'nullable|exists:polis,id',
+            'pendaftaran_id' => 'nullable|exists:pendaftarans,id|unique:surveys,pendaftaran_id',
+            'tipe'           => 'required|in:umum,spesifik',
+            'rating'         => 'required|integer|min:1|max:5',
+            'komentar'       => 'nullable|string',
         ];
     }
-}   
+}

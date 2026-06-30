@@ -72,6 +72,7 @@
                     <tr>
                         <th class="px-6 py-4">Nama Pasien</th>
                         <th class="px-6 py-4">Email</th>
+                        <th class="px-6 py-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -79,6 +80,12 @@
                     <tr>
                         <td class="px-6 py-4 font-medium">{{ $pasien->name }}</td>
                         <td class="px-6 py-4 text-slate-500">{{ $pasien->email }}</td>
+                        <td class="px-6 py-4 text-center">
+                            <form action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" onsubmit="return confirm('Hapus pasien ini? Seluruh riwayat & rekam medisnya juga akan terhapus.')">
+                                @csrf @method('DELETE')
+                                <button class="text-red-600 hover:text-red-700 px-3 py-1 bg-red-50 rounded">Hapus</button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -12,6 +12,8 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\AntreanController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\SurveiPasienController;
+use App\Http\Controllers\RatingRsController;
 use App\Models\Klinik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// --- Route Publik: Cari RS berdasarkan rating ---
+Route::get('/rating', [RatingRsController::class, 'index'])->name('rating.index');
+Route::get('/rating/{id}', [RatingRsController::class, 'show'])->name('rating.show');
+Route::post('/rating/survei-umum', [SurveiPasienController::class, 'simpanUmum'])->name('survei.umum');
 
 // --- Route Auth Pasien ---
 Route::get('/login', [PasienAuthController::class, 'showLogin'])->name('login');
@@ -69,6 +76,8 @@ Route::middleware(['auth:pasien'])->group(function () {
 
     Route::post('/pendaftaran/simpan-umum', [PendaftaranProsesController::class, 'simpanUmum']);
     Route::post('/pendaftaran/simpan-bpjs', [PendaftaranBpjsController::class, 'simpan']);
+
+    Route::post('/survei/spesifik', [SurveiPasienController::class, 'simpanSpesifik'])->name('survei.spesifik');
 });
 
 // --- Route Khusus Petugas ---
@@ -94,5 +103,7 @@ Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
         Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
         Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
         Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+
+        Route::delete('/pasien/{id}', [AdminDashboardController::class, 'destroyPasien'])->name('pasien.destroy');
     });
 });

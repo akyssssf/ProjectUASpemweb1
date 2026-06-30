@@ -12,6 +12,14 @@ class PendaftaranProsesController extends Controller
 {
     public function simpanUmum(Request $request)
     {
+        $request->validate([
+            'klinik'  => 'required|string',
+            'poli'    => 'required|string',
+            'dokter'  => 'required|string',
+            'tanggal' => 'required|date',
+            'keluhan' => 'nullable|string',
+        ]);
+
         $pasien = Auth::guard('pasien')->user();
 
         $pendaftaran = Pendaftaran::create([

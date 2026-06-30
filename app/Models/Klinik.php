@@ -12,4 +12,9 @@ class Klinik extends Model
     {
         return $this->hasMany(Poli::class);
     }
+
+    public function surveis()
+    {
+        return $this->hasMany(Survei::class);
+    }
 }
