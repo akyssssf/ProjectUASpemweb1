@@ -2,55 +2,60 @@
 
 @section('content')
 <div class="min-h-[80vh] flex items-center justify-center py-8">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Pendaftaran Akun Pasien</h2>
-        
-        <form method="POST" action="/register">
-            @csrf
-            
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
-                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+    <div class="w-full max-w-md">
+
+        <div class="text-center mb-8">
+            <div class="clay-blue w-16 h-16 flex items-center justify-center mx-auto mb-4" style="border-radius:20px;box-shadow:0 6px 0 #3730A3;">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
             </div>
+            <h1 class="text-3xl font-black text-slate-800">Buat Akun Baru</h1>
+            <p class="text-slate-500 mt-1 font-medium">Daftar dan mulai layanan klinik digital 🏥</p>
+        </div>
 
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+        <div class="clay p-8">
+            <form method="POST" action="/register" class="space-y-4">
+                @csrf
+                <div>
+                    <label class="label-clay">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ old('name') }}" class="input-clay" placeholder="Nama sesuai KTP" required>
+                </div>
+                <div>
+                    <label class="label-clay">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" class="input-clay" placeholder="email@kamu.com" required>
+                </div>
+                <div>
+                    <label class="label-clay">NIK (16 digit)</label>
+                    <input type="text" name="nik" value="{{ old('nik') }}" maxlength="16" class="input-clay" placeholder="3301xxxxxxxxxxxxxxxx" required>
+                </div>
+                <div>
+                    <label class="label-clay">Nomor HP / WhatsApp</label>
+                    <input type="text" name="no_hp" value="{{ old('no_hp') }}" class="input-clay" placeholder="08xxxxxxxxxx" required>
+                </div>
+                <div>
+                    <label class="label-clay">Alamat</label>
+                    <textarea name="alamat" rows="2" class="input-clay" style="resize:none;" placeholder="Jl. Contoh No.1, Kota..." required>{{ old('alamat') }}</textarea>
+                </div>
+                <div>
+                    <label class="label-clay">Password</label>
+                    <input type="password" name="password" class="input-clay" placeholder="Min. 8 karakter" required>
+                </div>
+                <div>
+                    <label class="label-clay">Konfirmasi Password</label>
+                    <input type="password" name="password_confirmation" class="input-clay" placeholder="Ulangi password" required>
+                </div>
+
+                <button type="submit" class="btn-clay btn-primary w-full text-center text-base mt-2" style="padding:14px;">
+                    Daftar Sekarang →
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t-2 border-indigo-50 text-center">
+                <p class="text-slate-500 text-sm font-medium">
+                    Sudah punya akun?
+                    <a href="/login" class="font-black text-indigo-600 hover:text-indigo-700 ml-1">Masuk di sini</a>
+                </p>
             </div>
-
-            <div class="mb-4">
-                <label for="nik" class="block text-sm font-medium text-gray-700 mb-2">NIK</label>
-                <input type="text" id="nik" name="nik" maxlength="16" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="no_hp" class="block text-sm font-medium text-gray-700 mb-2">No HP</label>
-                <input type="text" id="no_hp" name="no_hp" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="alamat" class="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
-                <textarea id="alamat" name="alamat" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required></textarea>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
-            </div>
-
-            <div class="mb-6">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                Daftar Sekarang
-            </button>
-        </form>
-
-        <p class="mt-4 text-center text-sm text-gray-600">
-            Sudah punya akun? <a href="/login" class="text-blue-600 hover:underline font-medium">Masuk di sini</a>
-        </p>
+        </div>
     </div>
 </div>
 @endsection

@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Kontrol Petugas</title>
+    <title>Panel Petugas — Klinik Sehat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: #EEF2FF; }
+        .clay { background: white; border-radius: 24px; box-shadow: 0 8px 0 0 #C7D2FE, 0 12px 32px rgba(99,102,241,0.10); border: 2px solid #E0E7FF; }
+        .clay-blue { background: linear-gradient(135deg, #6366F1, #4F46E5); border-radius: 20px; box-shadow: 0 6px 0 #3730A3; border: 2px solid #818CF8; }
+        .clay-dark { background: linear-gradient(135deg, #1E1B4B, #312E81); border-radius: 24px; box-shadow: 0 8px 0 #0F0A2E; border: 2px solid #4338CA; }
+        .clay-green { background: linear-gradient(135deg, #10B981, #059669); border-radius: 20px; box-shadow: 0 6px 0 #047857; }
+        .clay-amber { background: linear-gradient(135deg, #F59E0B, #D97706); border-radius: 20px; box-shadow: 0 6px 0 #B45309; }
+        .btn-clay { display: inline-block; padding: 10px 24px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; transition: all 0.15s ease; position: relative; top: 0; cursor: pointer; }
+        .btn-clay:active { top: 3px; }
+        .btn-green { background: linear-gradient(135deg, #10B981, #059669); color: white; box-shadow: 0 5px 0 #047857; }
+        .btn-green:hover { transform: translateY(-1px); }
+        .btn-slate { background: linear-gradient(135deg, #475569, #334155); color: white; box-shadow: 0 5px 0 #1E293B; }
+        .btn-slate:hover { transform: translateY(-1px); }
+        .btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; box-shadow: 0 5px 0 #B91C1C; }
+        .btn-white { background: white; color: #4F46E5; box-shadow: 0 5px 0 #C7D2FE; border: 2px solid #E0E7FF; }
+        .badge-menunggu { background: #FFFBEB; color: #D97706; border: 1.5px solid #FDE68A; border-radius: 99px; padding: 4px 12px; font-size: 0.7rem; font-weight: 800; }
+        .badge-dipanggil { background: #EEF2FF; color: #4F46E5; border: 1.5px solid #C7D2FE; border-radius: 99px; padding: 4px 12px; font-size: 0.7rem; font-weight: 800; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.15; pointer-events: none; }
+        .scrollbar::-webkit-scrollbar { width: 4px; }
+        .scrollbar::-webkit-scrollbar-thumb { background: #C7D2FE; border-radius: 99px; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen p-4 md:p-8">
+<body class="min-h-screen p-4 md:p-8 relative overflow-x-hidden">
 
-    <div class="max-w-7xl mx-auto">
+    <div class="blob w-96 h-96 bg-indigo-400 -top-20 -left-20"></div>
+    <div class="blob w-72 h-72 bg-blue-300 top-1/2 -right-20"></div>
 
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-            <div>
-                <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight">Panel Petugas</h1>
-                <p class="text-slate-500 mt-1">Sistem Manajemen Antrean Digital — <span class="font-semibold text-emerald-600">{{ now()->translatedFormat('d F Y') }}</span></p>
-            </div>
-            <div class="flex flex-wrap gap-3">
-                <a href="/display" target="_blank" class="bg-blue-600 text-white px-5 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center">
-                    <i class="fas fa-desktop mr-2"></i> Buka Display
-                </a>
-                <form method="POST" action="/petugas/logout">
-                    @csrf
-                    <button type="submit" class="group bg-white text-red-500 px-5 py-3 rounded-2xl border border-red-100 font-bold hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm flex items-center">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </button>
-                </form>
+    <div class="max-w-7xl mx-auto relative z-10">
+
+        <!-- Header -->
+        <div class="clay-dark p-6 md:p-8 mb-8 relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-64 h-64 rounded-full" style="background:rgba(255,255,255,0.06);transform:translate(30%,-30%);"></div>
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+                <div>
+                    <p class="text-indigo-300 text-xs font-black uppercase tracking-widest mb-1">Panel Kontrol</p>
+                    <h1 class="text-3xl font-black text-white">Manajemen Antrean 🏥</h1>
+                    <p class="text-indigo-300 mt-1 font-medium">{{ now()->translatedFormat('l, d F Y') }}</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <a href="/display" target="_blank" class="btn-clay btn-white">📺 Buka Display</a>
+                    <form method="POST" action="/petugas/logout" class="inline">
+                        @csrf
+                        <button type="submit" class="btn-clay btn-danger">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 overflow-hidden border border-slate-100">
-                    <div class="p-8 border-b border-slate-50 bg-white flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-slate-800 flex items-center">
-                            <span class="w-2 h-8 bg-emerald-500 rounded-full mr-4"></span>
-                            Antrean Berjalan
-                        </h2>
-                        <span class="bg-emerald-50 text-emerald-600 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest">
+            <!-- Antrean Berjalan -->
+            <div class="lg:col-span-2">
+                <div class="clay overflow-hidden">
+                    <div class="px-8 py-6 flex justify-between items-center" style="border-bottom:2px solid #EEF2FF;">
+                        <h2 class="text-lg font-black text-slate-800">⚡ Antrean Berjalan</h2>
+                        <span class="text-xs font-black px-4 py-2 rounded-full" style="background:#ECFDF5;color:#059669;border:1.5px solid #A7F3D0;">
                             {{ $antrianAktif->count() }} Aktif
                         </span>
                     </div>
@@ -53,56 +71,45 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="bg-slate-50/50 text-slate-400 text-[10px] uppercase tracking-[0.2em]">
-                                    <th class="px-8 py-4 font-bold">No. Antrean</th>
-                                    <th class="px-8 py-4 font-bold">Informasi Pasien</th>
-                                    <th class="px-8 py-4 font-bold">Layanan Poli</th>
-                                    <th class="px-8 py-4 text-center font-bold">Tindakan</th>
+                                <tr style="background:#F8FAFF;border-bottom:2px solid #EEF2FF;">
+                                    <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">No.</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">Pasien</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">Poli</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50">
+                            <tbody>
                                 @forelse ($antrianAktif as $row)
-                                <tr class="group hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-8 py-6">
-                                        <span class="text-4xl font-black tracking-tighter {{ $row->status == 'dipanggil' ? 'text-orange-500' : 'text-emerald-600' }}">
+                                <tr style="border-bottom:2px solid #EEF2FF;" class="hover:bg-indigo-50/40 transition-colors">
+                                    <td class="px-6 py-5">
+                                        <span class="text-4xl font-black {{ $row->status == 'dipanggil' ? 'text-indigo-600' : 'text-slate-300' }}">
                                             {{ $row->nomor_antrian }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <div class="font-bold text-slate-700 text-lg">{{ $row->pendaftaran->pasien->name ?? '-' }}</div>
+                                    <td class="px-6 py-5">
+                                        <div class="font-black text-slate-800">{{ $row->pendaftaran->pasien->name ?? '—' }}</div>
                                         @if($row->status == 'dipanggil')
-                                            <span class="flex items-center text-[10px] text-orange-500 font-black uppercase mt-1 animate-pulse">
-                                                <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2"></span>
-                                                Sedang Dipanggil
-                                            </span>
+                                            <span class="badge-dipanggil mt-1 inline-block">📢 Dipanggil</span>
                                         @else
-                                            <span class="text-[10px] text-slate-400 font-bold uppercase mt-1">Status: Menunggu</span>
+                                            <span class="badge-menunggu mt-1 inline-block">⏳ Menunggu</span>
                                         @endif
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wide">
-                                            {{ $row->poli }}
-                                        </span>
+                                    <td class="px-6 py-5">
+                                        <span class="text-xs font-black px-3 py-1.5 rounded-xl" style="background:#EEF2FF;color:#4F46E5;">{{ $row->poli }}</span>
                                     </td>
-                                    <td class="px-8 py-6 text-center">
+                                    <td class="px-6 py-5 text-center">
                                         @if($row->status == 'menunggu')
-                                            <a href="/petugas/monitoring/panggil/{{ $row->id }}" class="inline-block bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-100 hover:-translate-y-1">
-                                                PANGGIL
-                                            </a>
+                                            <a href="/petugas/monitoring/panggil/{{ $row->id }}" class="btn-clay btn-green">PANGGIL</a>
                                         @else
-                                            <a href="/petugas/monitoring/selesai/{{ $row->id }}" class="inline-block bg-slate-800 hover:bg-black text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-slate-200 hover:-translate-y-1">
-                                                SELESAI
-                                            </a>
+                                            <a href="/petugas/monitoring/selesai/{{ $row->id }}" class="btn-clay btn-slate">SELESAI</a>
                                         @endif
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="py-24 text-center">
-                                        <div class="flex flex-col items-center">
-                                            <i class="fas fa-check-circle text-slate-200 text-6xl mb-4"></i>
-                                            <p class="text-slate-400 font-medium">Semua antrean telah terlayani.</p>
-                                        </div>
+                                    <td colspan="4" class="py-16 text-center">
+                                        <div class="text-5xl mb-3">✅</div>
+                                        <p class="text-slate-400 font-bold">Semua antrean telah terlayani.</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -112,46 +119,41 @@
                 </div>
             </div>
 
-            <div class="space-y-8">
-                <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 overflow-hidden border border-slate-100">
-                    <div class="p-8 border-b border-slate-50 bg-blue-600">
-                        <h2 class="text-xl font-bold text-white flex items-center">
-                            <i class="fas fa-history mr-3 opacity-70"></i> Riwayat Selesai
-                        </h2>
+            <!-- Sidebar: Riwayat + Info -->
+            <div class="space-y-6">
+
+                <!-- Riwayat Selesai -->
+                <div class="clay overflow-hidden">
+                    <div class="clay-blue px-6 py-4 flex items-center gap-2">
+                        <span class="text-white font-black">📋 Riwayat Selesai</span>
                     </div>
-                    <div class="overflow-y-auto max-h-[500px] custom-scrollbar">
+                    <div class="overflow-y-auto max-h-80 scrollbar">
                         @forelse ($riwayatSelesai as $row)
-                        <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-50">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="text-xl font-black text-slate-300">#{{ $row->nomor_antrian }}</span>
-                                <span class="text-[10px] bg-blue-50 text-blue-500 px-3 py-1 rounded-full font-bold uppercase">
-                                    {{ $row->updated_at->format('H:i') }}
-                                </span>
+                        <div class="px-6 py-4 hover:bg-indigo-50/40 transition-colors" style="border-bottom:2px solid #EEF2FF;">
+                            <div class="flex justify-between items-start">
+                                <span class="text-2xl font-black text-slate-200">#{{ $row->nomor_antrian }}</span>
+                                <span class="text-[10px] font-black px-2 py-1 rounded-lg" style="background:#EEF2FF;color:#6366F1;">{{ $row->updated_at->format('H:i') }}</span>
                             </div>
-                            <div class="font-bold text-slate-700">{{ $row->pendaftaran->pasien->name ?? '-' }}</div>
-                            <div class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wider">
-                                {{ $row->poli }} • Selesai
-                            </div>
+                            <div class="font-black text-slate-700 text-sm mt-1">{{ $row->pendaftaran->pasien->name ?? '—' }}</div>
+                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{{ $row->poli }}</div>
                         </div>
                         @empty
-                        <div class="p-16 text-center text-slate-400 italic text-sm">Belum ada riwayat hari ini.</div>
+                        <div class="py-10 text-center text-slate-400 text-sm font-bold">Belum ada riwayat hari ini.</div>
                         @endforelse
                     </div>
                 </div>
 
-                <div class="bg-emerald-600 rounded-[2rem] p-8 text-white shadow-xl shadow-emerald-200/50 relative overflow-hidden group">
-                    <i class="fas fa-clinic-medical absolute -right-4 -bottom-4 text-8xl opacity-10 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="font-bold text-lg mb-2 leading-tight">Saran Penggunaan</h3>
-                    <p class="text-emerald-100 text-xs leading-relaxed opacity-80">
-                        Pastikan layar display pasien aktif untuk memunculkan suara panggilan otomatis.
-                    </p>
+                <!-- Tips -->
+                <div class="clay-blue p-6 text-center">
+                    <div class="text-3xl mb-2">💡</div>
+                    <p class="text-white font-black text-sm mb-1">Saran Penggunaan</p>
+                    <p class="text-indigo-200 text-xs">Aktifkan layar display pasien agar notifikasi suara panggilan berfungsi otomatis.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Auto-refresh halaman tiap 5 detik biar data antrean ter-update
         setInterval(() => { window.location.reload(); }, 5000);
     </script>
 </body>

@@ -1,41 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-[70vh] flex items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center text-gray-900 mb-6">Login Pasien</h2>
+<div class="min-h-[80vh] flex items-center justify-center py-8">
+    <div class="w-full max-w-md">
 
-        @if($errors->any())
-            <div class="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-200">
-                {{ $errors->first() }}
+        <div class="text-center mb-8">
+            <div class="clay-blue w-16 h-16 flex items-center justify-center mx-auto mb-4" style="border-radius:20px;box-shadow:0 6px 0 #3730A3;">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             </div>
-        @endif
-        
-        <form method="POST" action="/login">
-            @csrf
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Masukkan email Anda" required>
+            <h1 class="text-3xl font-black text-slate-800">Masuk Akun</h1>
+            <p class="text-slate-500 mt-1 font-medium">Selamat datang kembali! 👋</p>
+        </div>
+
+        <div class="clay p-8">
+            <form method="POST" action="/login" class="space-y-5">
+                @csrf
+                <div>
+                    <label class="label-clay">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" class="input-clay" placeholder="email@kamu.com" required>
+                </div>
+                <div>
+                    <label class="label-clay">NIK (16 digit)</label>
+                    <input type="text" name="nik" maxlength="16" class="input-clay" placeholder="3301xxxxxxxxxxxxxxxx" required>
+                </div>
+                <div>
+                    <label class="label-clay">Password</label>
+                    <input type="password" name="password" class="input-clay" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-clay btn-primary w-full text-center text-base mt-2" style="padding:14px;">
+                    Masuk Sekarang →
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t-2 border-indigo-50 text-center">
+                <p class="text-slate-500 text-sm font-medium">
+                    Belum punya akun?
+                    <a href="/register" class="font-black text-indigo-600 hover:text-indigo-700 ml-1">Daftar di sini</a>
+                </p>
             </div>
+        </div>
 
-            <div class="mb-4">
-                <label for="nik" class="block text-sm font-medium text-gray-700 mb-2">NIK</label>
-                <input type="text" id="nik" name="nik" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Masukkan 16 digit NIK" maxlength="16" required>
-            </div>
-
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="••••••••" required>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors">
-                Masuk
-            </button>
-        </form>
-
-        <p class="mt-6 text-center text-sm text-gray-600">
-            Belum punya akun? <a href="/register" class="text-blue-600 hover:text-blue-700 font-semibold hover:underline">Daftar di sini</a>
-        </p>
+        <div class="text-center mt-4">
+            <a href="{{ route('petugas.login') }}" class="text-sm font-bold text-slate-400 hover:text-indigo-500 transition-colors">
+                Akses Petugas / Dokter →
+            </a>
+        </div>
     </div>
 </div>
 @endsection

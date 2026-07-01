@@ -1,82 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 py-10 px-4">
-    <div class="max-w-2xl mx-auto">
-        
-        <div class="mb-6">
-            <a href="{{ url('/pendaftaran') }}" class="inline-flex items-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-6 rounded-xl transition-all shadow-sm">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Kembali ke Layanan
-            </a>
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6 flex items-center gap-4">
+        <a href="/pendaftaran" class="btn-clay btn-white" style="padding:10px 20px;font-size:0.85rem;">← Kembali</a>
+        <div>
+            <h2 class="text-2xl font-black text-slate-800">Pendaftaran Umum 🩺</h2>
+            <p class="text-slate-500 text-sm font-medium">Isi form di bawah untuk mendaftar pemeriksaan.</p>
         </div>
+    </div>
 
-        <div class="mb-8">
-            <h2 class="text-3xl font-extrabold text-gray-900">Form Pendaftaran Umum</h2>
-        </div>
+    <div class="clay p-8">
+        <form action="/pendaftaran/simpan-umum" method="POST" class="space-y-5">
+            @csrf
+            <input type="hidden" name="klinik" id="klinik_hidden">
 
-        <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-            <form action="/pendaftaran/simpan-umum" method="POST" class="space-y-6">
-                @csrf
-                <input type="hidden" name="klinik" id="klinik_hidden">
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Info pasien (readonly) -->
+            <div class="p-4 mb-2" style="background:#EEF2FF;border-radius:16px;border:2px solid #E0E7FF;">
+                <p class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-3">Data Pasien</p>
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
-                        <input type="text" value="{{ Auth::guard('pasien')->user()->name }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed" readonly>
+                        <p class="text-xs font-bold text-slate-400 mb-1">Nama</p>
+                        <p class="font-black text-slate-700">{{ Auth::guard('pasien')->user()->name }}</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK</label>
-                        <input type="text" value="{{ Auth::guard('pasien')->user()->nik }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed" readonly>
+                        <p class="text-xs font-bold text-slate-400 mb-1">NIK</p>
+                        <p class="font-black text-slate-700">{{ Auth::guard('pasien')->user()->nik }}</p>
                     </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 mb-1">No HP</p>
+                        <p class="font-black text-slate-700">{{ Auth::guard('pasien')->user()->no_hp }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="label-clay">Klinik</label>
+                    <select id="klinik" onchange="updatePoli()" class="input-clay" required>
+                        <option value="">Pilih Klinik</option>
+                        @foreach(array_keys($dataKlinik) as $k)
+                            <option value="{{ $k }}">{{ $k }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor HP</label>
-                    <input type="text" value="{{ Auth::guard('pasien')->user()->no_hp }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed" readonly>
+                    <label class="label-clay">Poli</label>
+                    <select name="poli" id="poli" onchange="updateDokter()" disabled class="input-clay" style="opacity:0.6;" required>
+                        <option value="">Pilih Klinik Dulu</option>
+                    </select>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Klinik</label>
-                        <select id="klinik" onchange="updatePoli()" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500" required>
-                            <option value="">Pilih Klinik</option>
-                            @foreach(array_keys($dataKlinik) as $k)
-                                <option value="{{ $k }}">{{ $k }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Poli</label>
-                        <select name="poli" id="poli" onchange="updateDokter()" disabled class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-100 cursor-not-allowed" required>
-                            <option value="">Pilih Klinik Dulu</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Dokter</label>
-                        <select name="dokter" id="dokter" disabled class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-100 cursor-not-allowed" required>
-                            <option value="">Pilih Poli Dulu</option>
-                        </select>
-                    </div>
+                <div>
+                    <label class="label-clay">Dokter</label>
+                    <select name="dokter" id="dokter" disabled class="input-clay" style="opacity:0.6;" required>
+                        <option value="">Pilih Poli Dulu</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal</label>
-                        <input type="date" name="tanggal" class="w-full px-4 py-3 border border-gray-300 rounded-xl" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Keluhan</label>
-                        <input type="text" name="keluhan" class="w-full px-4 py-3 border border-gray-300 rounded-xl" placeholder="Tuliskan keluhan...">
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="label-clay">Tanggal Periksa</label>
+                    <input type="date" name="tanggal" class="input-clay" min="{{ date('Y-m-d') }}" required>
                 </div>
+                <div>
+                    <label class="label-clay">Keluhan</label>
+                    <input type="text" name="keluhan" class="input-clay" placeholder="Tuliskan keluhan Anda...">
+                </div>
+            </div>
 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-95">
-                    Konfirmasi Pendaftaran
-                </button>
-            </form>
-        </div>
+            <button type="submit" class="btn-clay btn-primary w-full text-center text-base" style="padding:14px;">
+                Konfirmasi Pendaftaran →
+            </button>
+        </form>
     </div>
 </div>
 
@@ -89,19 +85,21 @@
         const d = document.getElementById('dokter');
         p.innerHTML = '<option value="">Pilih Poli</option>';
         d.innerHTML = '<option value="">Pilih Poli Dulu</option>';
-        if(k) { p.disabled = false; p.classList.remove('bg-gray-100', 'cursor-not-allowed');
+        if (k) {
+            p.disabled = false; p.style.opacity = '1';
             Object.keys(dataKlinik[k]).forEach(poli => p.innerHTML += `<option value="${poli}">${poli}</option>`);
-        } else { p.disabled = true; p.classList.add('bg-gray-100', 'cursor-not-allowed'); }
-        d.disabled = true; d.classList.add('bg-gray-100', 'cursor-not-allowed');
+        } else { p.disabled = true; p.style.opacity = '0.6'; }
+        d.disabled = true; d.style.opacity = '0.6';
     }
     function updateDokter() {
         const k = document.getElementById('klinik').value;
         const p = document.getElementById('poli').value;
         const d = document.getElementById('dokter');
         d.innerHTML = '<option value="">Pilih Dokter</option>';
-        if(p) { d.disabled = false; d.classList.remove('bg-gray-100', 'cursor-not-allowed');
+        if (p) {
+            d.disabled = false; d.style.opacity = '1';
             dataKlinik[k][p].forEach(doc => d.innerHTML += `<option value="${doc}">${doc}</option>`);
-        } else { d.disabled = true; d.classList.add('bg-gray-100', 'cursor-not-allowed'); }
+        } else { d.disabled = true; d.style.opacity = '0.6'; }
     }
 </script>
 @endsection

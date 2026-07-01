@@ -2,58 +2,94 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Dokter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Dokter — Klinik Sehat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: #EEF2FF; }
+        .clay { background: white; border-radius: 24px; box-shadow: 0 8px 0 0 #C7D2FE, 0 12px 32px rgba(99,102,241,0.10); border: 2px solid #E0E7FF; }
+        .clay-blue { background: linear-gradient(135deg, #6366F1, #4F46E5); border-radius: 24px; box-shadow: 0 8px 0 #3730A3; border: 2px solid #818CF8; }
+        .clay-dark { background: linear-gradient(135deg, #1E1B4B, #312E81); border-radius: 24px; box-shadow: 0 8px 0 #0F0A2E; border: 2px solid #4338CA; }
+        .btn-clay { display: inline-block; padding: 10px 24px; border-radius: 14px; font-weight: 800; transition: all 0.15s ease; position: relative; top: 0; }
+        .btn-clay:active { top: 3px; }
+        .btn-primary { background: linear-gradient(135deg, #6366F1, #4F46E5); color: white; box-shadow: 0 5px 0 #3730A3; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; box-shadow: 0 5px 0 #B91C1C; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.15; pointer-events: none; }
+    </style>
 </head>
-<body class="bg-slate-50 p-8">
-    <div class="max-w-7xl mx-auto">
-        
-        <div class="flex justify-between items-center mb-10">
-            <div>
-                <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight">Dashboard Dokter</h1>
-                <p class="text-slate-500">Antrean Pasien yang Dipanggil Hari Ini</p>
+<body class="min-h-screen p-4 md:p-8 relative overflow-x-hidden">
+
+    <div class="blob w-96 h-96 bg-indigo-400 -top-20 -left-20"></div>
+    <div class="blob w-72 h-72 bg-violet-300 bottom-0 right-0"></div>
+
+    <div class="max-w-5xl mx-auto relative z-10">
+
+        <!-- Header -->
+        <div class="clay-dark p-6 md:p-8 mb-8 relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-56 h-56 rounded-full" style="background:rgba(255,255,255,0.06);transform:translate(30%,-30%);"></div>
+            <div class="relative z-10 flex justify-between items-center gap-5">
+                <div>
+                    <p class="text-indigo-300 text-xs font-black uppercase tracking-widest mb-1">Portal Dokter</p>
+                    <h1 class="text-2xl md:text-3xl font-black text-white">Dashboard Dokter 👨‍⚕️</h1>
+                    <p class="text-indigo-300 mt-1 font-medium">Antrean pasien yang dipanggil hari ini</p>
+                </div>
+                <form method="POST" action="{{ route('petugas.logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="btn-clay btn-danger">Logout</button>
+                </form>
             </div>
-            
-            <form method="POST" action="{{ route('petugas.logout') }}">
-                @csrf
-                <button type="submit" class="bg-white text-red-500 px-6 py-3 rounded-2xl border border-red-100 font-bold hover:bg-red-500 hover:text-white transition-all shadow-sm flex items-center">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                </button>
-            </form>
         </div>
 
         @if(session('success'))
-            <div class="bg-emerald-500 text-white p-4 rounded-2xl mb-6 font-bold shadow-lg">{{ session('success') }}</div>
+            <div class="clay mb-6 p-4 flex items-center gap-3" style="border-color:#A7F3D0;box-shadow:0 6px 0 #A7F3D0;">
+                <span class="text-2xl">✅</span>
+                <span class="font-bold text-emerald-700">{{ session('success') }}</span>
+            </div>
         @endif
-        
-        <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden">
+
+        <div class="clay overflow-hidden">
+            <div class="px-8 py-6 flex items-center justify-between" style="border-bottom:2px solid #EEF2FF;">
+                <h2 class="text-lg font-black text-slate-800">📢 Pasien Dipanggil</h2>
+                <span class="text-xs font-black px-4 py-2 rounded-full" style="background:#EEF2FF;color:#4F46E5;border:1.5px solid #C7D2FE;">
+                    {{ $antrianDipanggil->count() }} pasien
+                </span>
+            </div>
+
             <table class="w-full text-left">
-                <thead class="bg-slate-50">
-                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em]">
-                        <th class="p-8">No. Antrean</th>
-                        <th class="p-8">Nama Pasien</th>
-                        <th class="p-8">Poli</th>
-                        <th class="p-8 text-center">Aksi</th>
+                <thead>
+                    <tr style="background:#F8FAFF;border-bottom:2px solid #EEF2FF;">
+                        <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">No. Antrean</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">Nama Pasien</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest">Poli</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-indigo-300 uppercase tracking-widest text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-50">
+                <tbody>
                     @forelse($antrianDipanggil as $antrian)
-                    <tr>
-                        <td class="p-8 font-black text-2xl text-slate-700">{{ $antrian->nomor_antrian }}</td>
-                        <td class="p-8 font-bold text-slate-700">{{ $antrian->pendaftaran->pasien->name ?? '-' }}</td>
-                        <td class="p-8 text-slate-600">{{ $antrian->poli }}</td>
-                        <td class="p-8 text-center">
-                            <a href="{{ route('rekam_medis.create', $antrian->id) }}" class="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-all">
-                                Periksa Sekarang
+                    <tr style="border-bottom:2px solid #EEF2FF;" class="hover:bg-indigo-50/40 transition-colors">
+                        <td class="px-6 py-5">
+                            <span class="text-4xl font-black text-indigo-600">{{ $antrian->nomor_antrian }}</span>
+                        </td>
+                        <td class="px-6 py-5">
+                            <div class="font-black text-slate-800">{{ $antrian->pendaftaran->pasien->name ?? '—' }}</div>
+                        </td>
+                        <td class="px-6 py-5">
+                            <span class="text-xs font-black px-3 py-1.5 rounded-xl" style="background:#EEF2FF;color:#4F46E5;">{{ $antrian->poli }}</span>
+                        </td>
+                        <td class="px-6 py-5 text-center">
+                            <a href="{{ route('rekam_medis.create', $antrian->id) }}" class="btn-clay btn-primary">
+                                🩺 Periksa Sekarang
                             </a>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="p-16 text-center text-slate-400 font-bold">
-                            <i class="fas fa-user-check text-4xl mb-4 block opacity-50"></i>
-                            Tidak ada pasien yang dipanggil saat ini.
+                        <td colspan="4" class="py-16 text-center">
+                            <div class="text-5xl mb-3">✅</div>
+                            <p class="text-slate-400 font-bold">Tidak ada pasien yang dipanggil saat ini.</p>
                         </td>
                     </tr>
                     @endforelse
@@ -61,5 +97,9 @@
             </table>
         </div>
     </div>
+
+    <script>
+        setInterval(() => { window.location.reload(); }, 8000);
+    </script>
 </body>
 </html>
