@@ -36,7 +36,7 @@ class MedicalRecordController extends Controller
             'plan'       => $request->plan,
         ]);
 
-        // Setelah simpan, balik ke daftar pasien
-        return redirect()->route('pasien.index')->with('success', 'Rekam medis berhasil ditambahkan!');
+        // Setelah simpan, balik ke dashboard dokter
+        return redirect()->route('dokter.dashboard')->with('success', 'Rekam medis berhasil ditambahkan!');
     }
 }

@@ -34,7 +34,7 @@
         </div>
         <h3 class="text-lg font-semibold text-gray-900 mb-2">Survei Kepuasan</h3>
         <p class="text-sm text-gray-500 mb-6 flex-grow">Bantu kami meningkatkan layanan dengan memberikan ulasan Anda.</p>
-        <a href="/survei" class="w-full bg-amber-500 text-white font-medium py-2.5 rounded-lg hover:bg-amber-600 transition-colors text-center block">Isi Survei</a>
+        <a href="{{ route('rating.index') }}" class="w-full bg-amber-500 text-white font-medium py-2.5 rounded-lg hover:bg-amber-600 transition-colors text-center block">Isi Survei & Rating</a>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6 border border-gray-100 flex flex-col items-center text-center group">
