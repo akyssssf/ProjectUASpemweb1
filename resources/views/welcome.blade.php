@@ -79,7 +79,8 @@
                 </div>
                 <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
                     Layanan Kesehatan<br>
-                    <span class="text-transparent bg-clip-text" style="background:linear-gradient(90deg,#A5B4FC,#C4B5FD);">Terbaik & Cepat</span>
+                    <span style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background:linear-gradient(90deg,#A5B4FC,#C4B5FD);background-clip:text;">Terbaik & Cepat</span>
+
                 </h1>
                 <p class="text-indigo-200 text-lg leading-relaxed mb-8 max-w-lg">
                     Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
