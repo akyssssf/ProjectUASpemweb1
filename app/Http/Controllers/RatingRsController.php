@@ -7,24 +7,20 @@ use Illuminate\Http\Request;
 
 class RatingRsController extends Controller
 {
-    /**
-     * Halaman publik: daftar klinik/RS diurutkan dari rating tertinggi.
-     * Menggabungkan survei 'umum' (rating keseluruhan RS) dan 'spesifik'
-     * (rating per kunjungan) jadi satu rata-rata per klinik, plus rata-rata
-     * per poli supaya pengguna bisa lihat poli mana yang paling bagus di
-     * RS tersebut.
-     */
     public function index(Request $request)
     {
-        $kliniks = Klinik::with(['polis' => function ($q) {
-                $q->withCount('surveis')
-                  ->withAvg('surveis', 'rating');
-            }])
+        $kliniks = Klinik::with([
+                'polis' => function ($q) {
+                    $q->withCount('surveis')->withAvg('surveis', 'rating');
+                },
+                'surveis' => function ($q) {
+                    $q->with('poli')->whereNotNull('komentar')->latest()->limit(5);
+                },
+            ])
             ->withCount('surveis')
             ->withAvg('surveis', 'rating')
             ->get();
 
-        // Filter opsional: hanya tampilkan klinik yang punya poli tertentu
         if ($request->filled('poli')) {
             $kliniks = $kliniks->filter(function ($klinik) use ($request) {
                 return $klinik->polis->contains(function ($poli) use ($request) {
@@ -33,24 +29,49 @@ class RatingRsController extends Controller
             })->values();
         }
 
-        // Urutkan dari rating tertinggi (yang belum ada survei taruh di bawah)
-        $kliniks = $kliniks->sortByDesc(function ($klinik) {
-            return $klinik->surveis_avg_rating ?? -1;
+        $kliniks = $kliniks->sortByDesc(function ($k) {
+            return $k->surveis_avg_rating ?? -1;
         })->values();
 
-        // Daftar nama poli unik, untuk dropdown filter di view
-        $semuaPoli = $kliniks->flatMap(fn ($k) => $k->polis->pluck('nama'))
-            ->unique()
-            ->sort()
-            ->values();
+        $semuaPoli = $kliniks->flatMap(function ($k) {
+            return $k->polis->pluck('nama');
+        })->unique()->sort()->values();
 
-        return view('rating.index', compact('kliniks', 'semuaPoli'));
+        // Siapkan data JSON di controller, bukan di Blade
+        $klinikJson = $kliniks->map(function ($k) {
+            $polis = $k->polis->map(function ($p) {
+                return [
+                    'id'     => $p->id,
+                    'nama'   => $p->nama,
+                    'rating' => $p->surveis_avg_rating ? round($p->surveis_avg_rating, 1) : null,
+                    'count'  => $p->surveis_count,
+                ];
+            })->sortByDesc('rating')->values();
+
+            $ulasan = $k->surveis->filter(function ($s) {
+                return $s->komentar !== null;
+            })->sortByDesc('created_at')->take(5)->map(function ($s) {
+                return [
+                    'rating'   => $s->rating,
+                    'komentar' => $s->komentar,
+                    'poli'     => $s->poli ? $s->poli->nama : null,
+                    'tipe'     => $s->tipe,
+                ];
+            })->values();
+
+            return [
+                'id'            => $k->id,
+                'nama'          => $k->nama,
+                'rating'        => $k->surveis_avg_rating ? round($k->surveis_avg_rating, 1) : null,
+                'count'         => $k->surveis_count,
+                'polis'         => $polis,
+                'ulasanTerbaru' => $ulasan,
+            ];
+        })->values();
+
+        return view('rating.index', compact('kliniks', 'semuaPoli', 'klinikJson'));
     }
 
-    /**
-     * Detail satu klinik/RS: rata-rata rating, breakdown per poli, dan
-     * daftar komentar terbaru (dari kedua jenis survei).
-     */
     public function show($id)
     {
         $klinik = Klinik::with(['polis' => function ($q) {

@@ -1,199 +1,182 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klinik Sehat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: #EEF2FF; }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Klinik Sehat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; }
+    body { background: #f0f4ff; min-height: 100vh; color: #1e293b; overflow-x: hidden; }
 
-        /* === CLAYMORPHISM CORE === */
-        .clay {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 0 0 #C7D2FE, 0 12px 32px rgba(99,102,241,0.10);
-            border: 2px solid #E0E7FF;
-        }
-        .clay-blue {
-            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 0 0 #3730A3, 0 12px 32px rgba(99,102,241,0.30);
-            border: 2px solid #818CF8;
-        }
-        .clay-soft {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 6px 0 0 #DDD6FE, 0 10px 24px rgba(139,92,246,0.08);
-            border: 2px solid #EDE9FE;
-        }
-        .clay-green {
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 0 0 #047857, 0 12px 32px rgba(16,185,129,0.25);
-            border: 2px solid #34D399;
-        }
-        .clay-amber {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 0 0 #B45309, 0 12px 32px rgba(245,158,11,0.25);
-            border: 2px solid #FCD34D;
-        }
-        .clay-red {
-            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 0 0 #B91C1C, 0 12px 32px rgba(239,68,68,0.25);
-            border: 2px solid #FCA5A5;
-        }
-        .btn-clay {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 16px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            transition: all 0.15s ease;
-            cursor: pointer;
-            border: none;
-            position: relative;
-            top: 0;
-        }
-        .btn-clay:active { top: 4px; }
-        .btn-primary {
-            background: linear-gradient(135deg, #6366F1, #4F46E5);
-            color: white;
-            box-shadow: 0 6px 0 0 #3730A3, 0 8px 20px rgba(99,102,241,0.30);
-        }
-        .btn-primary:hover { background: linear-gradient(135deg, #818CF8, #6366F1); box-shadow: 0 8px 0 0 #3730A3; transform: translateY(-1px); }
-        .btn-white {
-            background: white;
-            color: #4F46E5;
-            box-shadow: 0 6px 0 0 #C7D2FE, 0 8px 20px rgba(99,102,241,0.12);
-            border: 2px solid #E0E7FF;
-        }
-        .btn-white:hover { background: #EEF2FF; box-shadow: 0 8px 0 0 #C7D2FE; transform: translateY(-1px); }
-        .btn-green {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            box-shadow: 0 6px 0 0 #047857, 0 8px 20px rgba(16,185,129,0.25);
-        }
-        .btn-green:hover { box-shadow: 0 8px 0 0 #047857; transform: translateY(-1px); }
-        .btn-danger {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            box-shadow: 0 6px 0 0 #B91C1C;
-        }
-        .btn-danger:hover { box-shadow: 0 8px 0 0 #B91C1C; transform: translateY(-1px); }
+    /* Background */
+    .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 5% 10%, rgba(99,143,247,.13) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 95% 85%, rgba(52,211,153,.09) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 80% at 50% 50%, rgba(240,244,255,1) 0%, transparent 100%); }
 
-        .input-clay {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 16px;
-            border: 2.5px solid #E0E7FF;
-            background: #F8FAFF;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1E1B4B;
-            outline: none;
-            transition: all 0.2s;
-            box-shadow: inset 0 3px 0 rgba(99,102,241,0.06);
-        }
-        .input-clay:focus {
-            border-color: #6366F1;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(99,102,241,0.12), inset 0 3px 0 rgba(99,102,241,0.06);
-        }
-        .label-clay {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #4F46E5;
-            margin-bottom: 8px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 99px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        .badge-blue { background: #EEF2FF; color: #4F46E5; border: 1.5px solid #C7D2FE; }
-        .badge-green { background: #ECFDF5; color: #059669; border: 1.5px solid #A7F3D0; }
-        .badge-amber { background: #FFFBEB; color: #D97706; border: 1.5px solid #FDE68A; }
-        .badge-red { background: #FEF2F2; color: #DC2626; border: 1.5px solid #FECACA; }
+    /* Blobs */
+    .blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+    .blob-1 { width: 500px; height: 500px; background: radial-gradient(circle,#bfdbfe,#93c5fd); opacity: .25; top: -120px; left: -120px; }
+    .blob-2 { width: 350px; height: 350px; background: radial-gradient(circle,#a5f3fc,#67e8f9); opacity: .18; bottom: -80px; right: -80px; }
 
-        /* Decorative blobs */
-        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.15; pointer-events: none; }
-    </style>
+    /* Top Nav */
+    .top-nav { background: linear-gradient(135deg, #0f2057, #1e3a8a, #0369a1);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 4px 24px rgba(15,32,87,.35); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+    /* Clay Cards */
+    .clay-card { background: #fff; border-radius: 24px;
+      box-shadow: 8px 8px 24px rgba(99,149,210,.18), -2px -2px 8px rgba(255,255,255,.9),
+        inset 3px 3px 8px rgba(255,255,255,.85), inset -3px -3px 8px rgba(180,210,245,.25);
+      border: 1.5px solid rgba(255,255,255,.8); }
+
+    /* Buttons */
+    .clay-btn { border-radius: 16px; font-weight: 700; border: none; cursor: pointer;
+      box-shadow: 5px 5px 14px rgba(59,130,246,.3), -1px -1px 5px rgba(255,255,255,.7),
+        inset 2px 2px 5px rgba(255,255,255,.35), inset -2px -2px 5px rgba(37,99,235,.2);
+      transition: all .2s ease; display: inline-block; text-decoration: none; }
+    .clay-btn:hover { transform: translateY(-2px) scale(1.01); }
+    .clay-btn:active { transform: translateY(0) scale(.98); }
+
+    /* Inputs */
+    .clay-input { background: #f1f8ff; border: 1.5px solid rgba(147,197,253,.55); border-radius: 14px;
+      box-shadow: inset 2px 2px 5px rgba(180,210,245,.3), inset -2px -2px 5px rgba(255,255,255,.8);
+      outline: none; width: 100%; padding: .75rem 1rem; font-size: .95rem; color: #1e293b;
+      transition: border-color .2s, box-shadow .2s; }
+    .clay-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.12), inset 2px 2px 5px rgba(180,210,245,.3); }
+
+    /* Labels */
+    .clay-label { display: block; font-size: .8rem; font-weight: 700; color: #374151; margin-bottom: 6px; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+    .badge-blue { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    .badge-green { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+    .badge-amber { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+    .badge-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .badge-admin { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    .badge-dokter { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+    .badge-petugas { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+
+    /* Select */
+    .clay-select { background: #f1f8ff; border: 1.5px solid rgba(147,197,253,.55); border-radius: 14px;
+      box-shadow: inset 2px 2px 5px rgba(180,210,245,.3); outline: none; width: 100%;
+      padding: .75rem 1rem; font-size: .9rem; color: #1e293b; }
+
+    /* Aliases lama supaya halaman lain tidak pecah */
+    .btn-clay { border-radius: 16px; font-weight: 700; border: none; cursor: pointer;
+      box-shadow: 5px 5px 14px rgba(59,130,246,.3), inset 2px 2px 5px rgba(255,255,255,.35);
+      transition: all .2s ease; display: inline-block; text-decoration: none; }
+    .btn-clay:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg,#1e3a8a,#2563eb); color: white;
+      box-shadow: 5px 5px 14px rgba(37,99,235,.35); }
+    .btn-white { background: white; color: #2563eb;
+      box-shadow: 5px 5px 14px rgba(99,149,210,.2); border: 1.5px solid #bfdbfe; }
+    .btn-green { background: linear-gradient(135deg,#16a34a,#10b981); color: white;
+      box-shadow: 5px 5px 14px rgba(16,185,129,.3); }
+    .btn-danger { background: linear-gradient(135deg,#dc2626,#ef4444); color: white;
+      box-shadow: 5px 5px 14px rgba(239,68,68,.3); }
+    .btn-amber { background: linear-gradient(135deg,#d97706,#f59e0b); color: white;
+      box-shadow: 5px 5px 14px rgba(245,158,11,.3); }
+    .input-clay { background: #f1f8ff; border: 1.5px solid rgba(147,197,253,.55); border-radius: 14px;
+      box-shadow: inset 2px 2px 5px rgba(180,210,245,.3); outline: none; width: 100%;
+      padding: .75rem 1rem; font-size: .95rem; color: #1e293b; transition: border-color .2s; }
+    .input-clay:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
+    .label-clay { display: block; font-size: .8rem; font-weight: 700; color: #1e3a8a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    .clay { background: white; border-radius: 24px;
+      box-shadow: 8px 8px 24px rgba(99,149,210,.18), -2px -2px 8px rgba(255,255,255,.9),
+        inset 3px 3px 8px rgba(255,255,255,.85), inset -3px -3px 8px rgba(180,210,245,.25);
+      border: 1.5px solid rgba(255,255,255,.8); }
+    .clay-blue { background: linear-gradient(135deg,#1e3a8a,#2563eb); border-radius: 20px;
+      box-shadow: 5px 5px 14px rgba(37,99,235,.35); border: 2px solid #3b82f6; }
+    .clay-dark { background: linear-gradient(135deg,#0f2057,#1e3a8a); border-radius: 24px;
+      box-shadow: 8px 8px 24px rgba(15,32,87,.4); border: 2px solid #2563eb; }
+    .clay-green { background: linear-gradient(135deg,#16a34a,#10b981); border-radius: 20px;
+      box-shadow: 5px 5px 14px rgba(16,185,129,.3); }
+    .clay-gold { background: linear-gradient(135deg,#d97706,#f59e0b); border-radius: 20px;
+      box-shadow: 5px 5px 14px rgba(245,158,11,.3); }
+    .clay-red { background: linear-gradient(135deg,#dc2626,#ef4444); border-radius: 20px;
+      box-shadow: 5px 5px 14px rgba(239,68,68,.3); }
+    .clay-soft { background: white; border-radius: 20px;
+      box-shadow: 6px 6px 18px rgba(99,149,210,.15); border: 1.5px solid rgba(255,255,255,.8); }
+  </style>
 </head>
-<body class="min-h-screen">
+<body>
+<div class="bg-mesh"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-    <!-- Decorative background -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="blob w-96 h-96 bg-indigo-400 -top-20 -left-20"></div>
-        <div class="blob w-80 h-80 bg-blue-300 top-1/3 -right-20"></div>
-        <div class="blob w-64 h-64 bg-violet-400 bottom-20 left-1/4"></div>
+{{-- TOP NAV --}}
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="/" class="flex items-center gap-3" style="text-decoration:none;">
+      <img src="https://uns.ac.id/id/wp-content/uploads/2023/06/logo-uns-biru.png" alt="UNS"
+        style="height:32px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(30,58,138,.3));"/>
+      <div>
+        <p style="font-family:'Sora',sans-serif;font-weight:800;color:white;font-size:.9rem;line-height:1.2;">Klinik Sehat</p>
+        <p style="font-size:.62rem;color:rgba(147,197,253,.8);">Sistem Layanan Klinik Digital</p>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <a href="{{ route('rating.index') }}"
+        style="font-size:.78rem;font-weight:700;color:rgba(147,197,253,.9);text-decoration:none;
+          padding:6px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);
+          background:rgba(255,255,255,.08);transition:.2s;"
+        onmouseover="this.style.background='rgba(255,255,255,.18)'"
+        onmouseout="this.style.background='rgba(255,255,255,.08)'">
+        ⭐ Cari RS / Rating
+      </a>
+      @auth('pasien')
+        <span style="font-size:.8rem;font-weight:700;color:rgba(255,255,255,.7);">
+          Halo, {{ Auth::guard('pasien')->user()->name }} 👋
+        </span>
+        <form method="POST" action="/logout" class="inline">@csrf
+          <button type="submit" class="clay-btn btn-danger" style="padding:8px 18px;font-size:.8rem;">Logout</button>
+        </form>
+      @else
+        <a href="{{ route('login') }}" class="clay-btn btn-white" style="padding:8px 18px;font-size:.82rem;">Masuk</a>
+      @endauth
     </div>
+  </div>
+</nav>
 
-    <!-- Navbar -->
-    <nav class="relative z-50 sticky top-0">
-        <div class="mx-4 mt-4">
-            <div class="clay max-w-7xl mx-auto px-6 py-4 flex justify-between items-center" style="border-radius:20px;">
-                <a href="/" class="flex items-center gap-3">
-                    <div class="w-9 h-9 clay-blue flex items-center justify-center" style="border-radius:12px;box-shadow:0 4px 0 0 #3730A3;">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                    </div>
-                    <span class="font-black text-lg text-indigo-700">Klinik Sehat</span>
-                </a>
+<main class="relative z-10 max-w-6xl mx-auto px-4 py-8">
 
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('rating.index') }}" class="hidden sm:block text-sm font-bold text-indigo-500 hover:text-indigo-700 px-4 py-2 rounded-xl hover:bg-indigo-50 transition-all">
-                        ⭐ Cari RS / Rating
-                    </a>
-                    @auth('pasien')
-                        <span class="hidden sm:block text-sm font-bold text-slate-500">Halo, {{ Auth::guard('pasien')->user()->name }} 👋</span>
-                        <form method="POST" action="/logout" class="inline">
-                            @csrf
-                            <button type="submit" class="btn-clay btn-danger" style="padding:10px 20px;font-size:0.8rem;">Logout</button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="btn-clay btn-white" style="padding:10px 20px;font-size:0.85rem;">Masuk</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+  @if (session('success'))
+    <div class="clay-card mb-6 p-4 flex items-center gap-3" style="border-left:4px solid #16a34a;">
+      <span class="text-2xl">✅</span>
+      <span style="font-weight:700;color:#16a34a;">{{ session('success') }}</span>
+    </div>
+  @endif
+  @if (session('error'))
+    <div class="clay-card mb-6 p-4 flex items-center gap-3" style="border-left:4px solid #dc2626;">
+      <span class="text-2xl">❌</span>
+      <span style="font-weight:700;color:#dc2626;">{{ session('error') }}</span>
+    </div>
+  @endif
+  @if ($errors->any())
+    <div class="clay-card mb-6 p-4" style="border-left:4px solid #dc2626;">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xl">⚠️</span>
+        <span style="font-weight:800;color:#dc2626;">Ada kesalahan:</span>
+      </div>
+      <ul style="list-style:disc;padding-left:20px;">
+        @foreach ($errors->all() as $error)
+          <li style="color:#dc2626;font-weight:600;font-size:.875rem;">{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
 
-    <main class="relative z-10 max-w-7xl mx-auto px-4 py-8">
-        @if (session('success'))
-            <div class="clay mb-6 p-4 flex items-center gap-3" style="border-color:#A7F3D0;box-shadow:0 6px 0 0 #A7F3D0;">
-                <span class="text-2xl">✅</span>
-                <span class="font-bold text-emerald-700">{{ session('success') }}</span>
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="clay mb-6 p-4 flex items-center gap-3" style="border-color:#FECACA;box-shadow:0 6px 0 0 #FECACA;">
-                <span class="text-2xl">❌</span>
-                <span class="font-bold text-red-700">{{ session('error') }}</span>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="clay mb-6 p-4" style="border-color:#FECACA;box-shadow:0 6px 0 0 #FECACA;">
-                <div class="flex items-center gap-2 mb-2"><span class="text-xl">⚠️</span><span class="font-black text-red-700">Ada kesalahan:</span></div>
-                <ul class="list-disc list-inside space-y-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-red-600 font-semibold text-sm">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        @yield('content')
-    </main>
+  @yield('content')
+</main>
 
 </body>
 </html>

@@ -28,6 +28,16 @@ Route::get('/rating', [RatingRsController::class, 'index'])->name('rating.index'
 Route::get('/rating/{id}', [RatingRsController::class, 'show'])->name('rating.show');
 Route::post('/rating/survei-umum', [SurveiPasienController::class, 'simpanUmum'])->name('survei.umum');
 
+// API endpoint: ambil dokter berdasarkan klinik & poli (untuk dropdown dinamis di halaman rating)
+Route::get('/api/dokter-by-poli', function(\Illuminate\Http\Request $request) {
+    $klinikId = $request->get('klinik_id');
+    $poliNama = $request->get('poli');
+    $dokters = \App\Models\Dokter::whereHas('poli', function($q) use ($klinikId, $poliNama) {
+        $q->where('klinik_id', $klinikId)->where('nama', $poliNama);
+    })->get(['nama']);
+    return response()->json($dokters);
+});
+
 // --- Route Auth Pasien ---
 Route::get('/login', [PasienAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [PasienAuthController::class, 'login']);
