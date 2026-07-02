@@ -9,20 +9,13 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     *
-     * Urutan penting: Klinik/Poli/Dokter harus dibuat dulu sebelum
-     * DokterStaffSeeder, karena DokterStaffSeeder membaca nama-nama
-     * dokter yang sudah ada di tabel `dokters`.
-     */
     public function run(): void
     {
         $this->call([
-            StaffSeeder::class,            // akun admin@klinik.com
-            KlinikPoliDokterSeeder::class, // klinik, poli, dokter awal
-            PoliTambahanSeeder::class,     // poli & dokter tambahan
-            DokterStaffSeeder::class,      // akun login untuk semua dokter
+            StaffSeeder::class,             // admin@klinik.com / 123456
+            KaresidenanMadiunSeeder::class, // 14 RS nyata Karesidenan Madiun
+            DokterStaffSeeder::class,       // akun login semua dokter (password: dokter123)
+            DummyDataSeeder::class,         // 20 pasien + pendaftaran + rekam medis + survei
         ]);
     }
 }
