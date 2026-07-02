@@ -14,6 +14,7 @@ use App\Http\Controllers\AntreanController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\SurveiPasienController;
 use App\Http\Controllers\RatingRsController;
+use App\Http\Controllers\FetchBpsController;
 use App\Models\Klinik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,9 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// --- Route Publik: Proxy API BPS (statistik fasilitas kesehatan) ---
+Route::get('/api/bps', [FetchBpsController::class, 'fetch'])->name('bps.fetch');
 
 // --- Route Publik: Cari RS berdasarkan rating ---
 Route::get('/rating', [RatingRsController::class, 'index'])->name('rating.index');

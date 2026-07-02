@@ -286,6 +286,223 @@
     </div>
 </section>
 
+<!-- DATA BPS: STATISTIK FASILITAS KESEHATAN INDONESIA -->
+<section id="statistik-bps" class="relative z-10 max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-10">
+        <div class="section-tag">📊 Data BPS Indonesia</div>
+        <h2 class="text-3xl md:text-4xl font-black text-slate-800">Statistik Fasilitas Kesehatan Nasional</h2>
+        <p class="text-slate-500 mt-3 max-w-xl mx-auto">Data resmi jumlah fasilitas kesehatan Indonesia dari <span class="font-bold text-indigo-600">Badan Pusat Statistik (BPS)</span>, diambil secara real-time.</p>
+    </div>
+
+    <!-- Loading -->
+    <div id="bps-loading" class="clay p-10 text-center">
+        <div class="flex items-center justify-center gap-3 text-indigo-500">
+            <svg class="animate-spin w-6 h-6" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            <span class="font-bold">Mengambil data dari API BPS...</span>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div id="bps-error" class="hidden clay p-8 text-center" style="border-color:#FECACA;box-shadow:0 6px 0 #FECACA;">
+        <div class="text-3xl mb-2">⚠️</div>
+        <p class="font-bold text-red-600">Gagal mengambil data dari API BPS.</p>
+        <p class="text-slate-400 text-sm mt-1">Coba refresh halaman atau kunjungi <a href="https://www.bps.go.id" target="_blank" class="text-indigo-500 underline">bps.go.id</a> langsung.</p>
+    </div>
+
+    <!-- Data -->
+    <div id="bps-data" class="hidden">
+        <div id="bps-cards" class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8"></div>
+        <div class="clay overflow-hidden">
+            <div class="px-8 py-5" style="border-bottom:2px solid #EEF2FF;">
+                <h3 class="text-lg font-black text-slate-800">🗺️ Data Fasilitas Kesehatan per Provinsi</h3>
+                <p class="text-xs text-slate-400 font-bold mt-0.5" id="bps-source-label">Sumber: webapi.bps.go.id</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr style="background:#EEF2FF;">
+                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Provinsi</th>
+                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">RS Umum</th>
+                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">RS Khusus</th>
+                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">Puskesmas RI</th>
+                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">Puskesmas Non-RI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bps-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// ============================================================
+// fetchBPS() — Ambil data dari /api/bps (FetchBpsController)
+// Controller mem-proxy ke webapi.bps.go.id dengan cache 1 jam
+// ============================================================
+async function fetchBPS() {
+    try {
+        const res = await fetch('/api/bps');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        if (json.error) throw new Error(json.message);
+        return json;
+    } catch (err) {
+        console.error('[fetchBPS] Error:', err.message);
+        return null;
+    }
+}
+
+// ── Parser BPS SIMDASI (sesuai struktur JSON asli) ──
+function parseBpsJson(json) {
+    if (json.error) throw new Error(json.error);
+    const dataArr = json.data;
+    if (!Array.isArray(dataArr) || dataArr.length === 0) throw new Error('Struktur tidak dikenal');
+
+    let tabel = null;
+    for (const c of dataArr) {
+        if (!c || typeof c !== 'object') continue;
+        const kolRaw = c.kolom;
+        const hasKolom = kolRaw &&
+            ((typeof kolRaw === 'object' && !Array.isArray(kolRaw) && Object.keys(kolRaw).length > 0) ||
+             (Array.isArray(kolRaw) && kolRaw.length > 0));
+        if (hasKolom && Array.isArray(c.data) && c.data.length > 0) { tabel = c; break; }
+    }
+    if (!tabel) tabel = dataArr.find(d => d && Array.isArray(d.data) && d.data.length > 0);
+    if (!tabel) throw new Error('Tabel data tidak ditemukan');
+
+    let kolom = [];
+    const kr = tabel.kolom;
+    if (kr && typeof kr === 'object' && !Array.isArray(kr) && Object.keys(kr).length > 0) {
+        kolom = Object.entries(kr).map(([key, meta]) => ({
+            key, nama: (typeof meta === 'object' ? meta?.nama_variabel || meta?.nama || key : String(meta)) || key,
+        }));
+    } else if (Array.isArray(kr) && kr.length > 0) {
+        kolom = kr.map((m, i) => ({ key: m?.key || m?.id || String(i), nama: m?.nama || m?.nama_variabel || m?.label || String(i) }));
+    } else {
+        const firstVars = tabel.data[0]?.variables || tabel.data[0]?.vars || {};
+        const keys = Object.keys(firstVars);
+        if (!keys.length) throw new Error('Kolom tidak ditemukan');
+        kolom = keys.map(k => ({ key: k, nama: k }));
+    }
+
+    const allRows = tabel.data.map(row => {
+        const vars = {};
+        kolom.forEach(kol => {
+            const cell = row.variables?.[kol.key] ?? row.vars?.[kol.key];
+            let raw = '0';
+            if (cell != null) raw = (typeof cell === 'object') ? (cell?.value_raw ?? cell?.value ?? '0') : cell;
+            else if (row[kol.key] != null) raw = row[kol.key];
+            vars[kol.key] = parseInt(String(raw).replace(/[^0-9-]/g, ''), 10) || 0;
+        });
+        return {
+            label:        row.label || row.label_raw || row.nama || row.name || '?',
+            kode_wilayah: row.kode_wilayah ?? row.kode ?? row.id ?? null,
+            vars,
+        };
+    });
+
+    return { kolom, allRows };
+}
+
+async function renderBPS() {
+    const elLoading = document.getElementById('bps-loading');
+    const elError   = document.getElementById('bps-error');
+    const elData    = document.getElementById('bps-data');
+    const elCards   = document.getElementById('bps-cards');
+    const elTbody   = document.getElementById('bps-table-body');
+    const elSource  = document.getElementById('bps-source-label');
+
+    const raw = await fetchBPS();
+    if (!raw) {
+        elLoading.classList.add('hidden');
+        elError.classList.remove('hidden');
+        return;
+    }
+
+    let provinsiRows = [];
+    let kolom = [];
+    try {
+        const parsed = parseBpsJson(raw);
+        kolom = parsed.kolom;
+        provinsiRows = parsed.allRows.filter(function(p) {
+            return p.kode_wilayah && Number(p.kode_wilayah) !== 0 &&
+                   Object.values(p.vars).some(function(v){ return v > 0; });
+        });
+        if (!provinsiRows.length) provinsiRows = parsed.allRows;
+        // Tandai Jawa Timur
+        provinsiRows.forEach(function(p) {
+            p.highlight = p.label.toLowerCase().includes('jawa timur');
+        });
+    } catch(e) { console.warn('[renderBPS] Parse error', e); }
+
+
+    // Hitung total per kolom
+    var totals = {};
+    kolom.forEach(function(k) {
+        totals[k.key] = provinsiRows.reduce(function(a, r){ return a + (r.vars[k.key] || 0); }, 0);
+    });
+
+    elSource.textContent = 'Sumber: webapi.bps.go.id — BPS RI, data fasilitas kesehatan 2025 (real-time)';
+
+    // Stat cards — 4 kolom pertama, icon & warna tetap
+    var cardMeta = [
+        { icon: '🏥', cls: 'clay-blue'   },
+        { icon: '🏨', cls: 'clay-violet' },
+        { icon: '🩺', cls: 'clay-green'  },
+        { icon: '🏪', cls: 'clay'        },
+    ];
+    elCards.innerHTML = kolom.slice(0, 4).map(function(k, i) {
+        var meta  = cardMeta[i] || { icon: '📊', cls: 'clay' };
+        var white = meta.cls !== 'clay';
+        var vc    = white ? 'text-white' : 'text-indigo-600';
+        var lc    = white ? 'text-white' : 'text-slate-400';
+        var val   = (totals[k.key] || 0).toLocaleString('id-ID');
+        return '<div class="' + meta.cls + ' p-6 text-center">'
+             + '<div class="text-4xl mb-2">' + meta.icon + '</div>'
+             + '<div class="text-3xl font-black ' + vc + ' mb-1">' + val + '</div>'
+             + '<div class="text-xs font-black uppercase tracking-wide ' + lc + '">' + k.nama + '</div>'
+             + '<div class="text-[10px] font-bold mt-1 ' + lc + '" style="opacity:0.65">Indonesia 2025</div>'
+             + '</div>';
+    }).join('');
+
+    // Update thead tabel secara dinamis
+    var thead = document.querySelector('#statistik-bps thead tr');
+    if (thead) {
+        thead.innerHTML = '<th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Provinsi</th>'
+            + kolom.map(function(k) {
+                return '<th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">' + k.nama + '</th>';
+            }).join('');
+    }
+
+    // Tabel baris provinsi
+    var colspan = kolom.length + 1;
+    elTbody.innerHTML = provinsiRows.length
+        ? provinsiRows.map(function(p) {
+            var hl    = p.highlight ? 'background:#EEF2FF;' : '';
+            var pin   = p.highlight ? '📍 ' : '';
+            var badge = p.highlight
+                ? '<span class="ml-2 text-[10px] font-black text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded-full">Jawa Timur</span>'
+                : '';
+            var cols = kolom.map(function(k) {
+                return '<td class="px-6 py-3 text-center font-bold text-slate-600">' + (p.vars[k.key] ?? '-') + '</td>';
+            }).join('');
+            return '<tr style="border-bottom:2px solid #EEF2FF;' + hl + '" class="hover:bg-indigo-50/40 transition-colors">'
+                 + '<td class="px-6 py-3 font-black text-slate-800">' + pin + p.label + badge + '</td>'
+                 + cols + '</tr>';
+          }).join('')
+        : '<tr><td colspan="' + colspan + '" class="px-6 py-8 text-center text-slate-400 font-bold">Data provinsi tidak tersedia dari API BPS saat ini.</td></tr>';
+
+    elLoading.classList.add('hidden');
+    elData.classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', renderBPS);
+</script>
+
 <!-- CTA FINAL -->
 <section class="relative z-10 max-w-7xl mx-auto px-4 py-8 pb-16">
     <div class="clay-dark p-12 text-center relative overflow-hidden">
