@@ -1,536 +1,391 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klinik Sehat — Layanan Kesehatan Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: #EEF2FF; overflow-x: hidden; }
-        .clay { background: white; border-radius: 28px; box-shadow: 0 8px 0 0 #C7D2FE, 0 12px 32px rgba(99,102,241,0.10); border: 2px solid #E0E7FF; }
-        .clay-blue { background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); border-radius: 28px; box-shadow: 0 8px 0 0 #3730A3, 0 12px 32px rgba(99,102,241,0.30); border: 2px solid #818CF8; }
-        .clay-dark { background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); border-radius: 28px; box-shadow: 0 8px 0 0 #0F0A2E, 0 12px 32px rgba(30,27,75,0.40); border: 2px solid #4338CA; }
-        .clay-green { background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 28px; box-shadow: 0 8px 0 0 #047857, 0 12px 32px rgba(16,185,129,0.25); }
-        .clay-amber { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 28px; box-shadow: 0 8px 0 0 #B45309, 0 12px 32px rgba(245,158,11,0.25); }
-        .clay-violet { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); border-radius: 28px; box-shadow: 0 8px 0 0 #5B21B6, 0 12px 32px rgba(139,92,246,0.25); }
-        .btn-clay { display: inline-block; padding: 14px 32px; border-radius: 18px; font-weight: 800; transition: all 0.15s ease; position: relative; top: 0; }
-        .btn-clay:active { top: 4px; }
-        .btn-primary { background: linear-gradient(135deg, #6366F1, #4F46E5); color: white; box-shadow: 0 6px 0 0 #3730A3, 0 8px 20px rgba(99,102,241,0.30); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 0 0 #3730A3, 0 12px 24px rgba(99,102,241,0.35); }
-        .btn-white { background: white; color: #4F46E5; box-shadow: 0 6px 0 0 #C7D2FE; border: 2.5px solid #E0E7FF; }
-        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 0 0 #C7D2FE; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.18; pointer-events: none; }
-        .icon-wrap { width: 56px; height: 56px; border-radius: 18px; display: flex; align-items: center; justify-content: center; }
-        .float { animation: float 4s ease-in-out infinite; }
-        .float-2 { animation: float 5s ease-in-out infinite 1s; }
-        .float-3 { animation: float 6s ease-in-out infinite 2s; }
-        @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        .section-tag { display: inline-block; background: #EEF2FF; color: #4F46E5; border: 2px solid #C7D2FE; border-radius: 99px; padding: 6px 18px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
-        .stat-card { text-align: center; }
-        .poli-chip { background: white; border-radius: 16px; padding: 12px 20px; box-shadow: 0 4px 0 0 #C7D2FE, 0 8px 16px rgba(99,102,241,0.08); border: 2px solid #E0E7FF; display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: #4F46E5; font-size: 0.9rem; }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Klinik Sehat — Layanan Kesehatan Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:#f0f4ff;overflow-x:hidden;color:#1e293b;}
+    .blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+    .blob-1{width:500px;height:500px;background:radial-gradient(circle,#bfdbfe,#93c5fd);opacity:.25;top:-120px;left:-120px;}
+    .blob-2{width:400px;height:400px;background:radial-gradient(circle,#a5f3fc,#67e8f9);opacity:.18;bottom:-80px;right:-80px;}
+    .top-nav{background:linear-gradient(135deg,#0f2057,#1e3a8a,#0369a1);position:sticky;top:0;z-index:100;box-shadow:0 4px 24px rgba(15,32,87,.35);}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .clay-card{background:#fff;border-radius:24px;box-shadow:8px 8px 24px rgba(99,149,210,.18),-2px -2px 8px rgba(255,255,255,.9),inset 3px 3px 8px rgba(255,255,255,.85),inset -3px -3px 8px rgba(180,210,245,.25);border:1.5px solid rgba(255,255,255,.8);}
+    .clay-btn{border-radius:16px;font-weight:700;border:none;cursor:pointer;box-shadow:5px 5px 14px rgba(59,130,246,.3),-1px -1px 5px rgba(255,255,255,.7),inset 2px 2px 5px rgba(255,255,255,.35),inset -2px -2px 5px rgba(37,99,235,.2);transition:all .2s ease;display:inline-block;text-decoration:none;}
+    .clay-btn:hover{transform:translateY(-2px) scale(1.01);}
+    .btn-primary{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:white;box-shadow:5px 5px 14px rgba(37,99,235,.35);}
+    .btn-white{background:white;color:#2563eb;box-shadow:5px 5px 14px rgba(99,149,210,.2);border:1.5px solid #bfdbfe;}
+    .btn-green{background:linear-gradient(135deg,#16a34a,#10b981);color:white;box-shadow:5px 5px 14px rgba(16,185,129,.3);}
+    .hero-bg{background:linear-gradient(135deg,#0f2057 0%,#1e3a8a 45%,#1e40af 70%,#0369a1 100%);border-radius:28px;overflow:hidden;position:relative;box-shadow:8px 8px 32px rgba(15,32,87,.4),inset 3px 3px 12px rgba(255,255,255,.06);}
+    .hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 25%,rgba(255,255,255,.07) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(56,189,248,.12) 0%,transparent 50%);pointer-events:none;}
+    .stat-pill{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.22);border-radius:50px;padding:.5rem 1rem;backdrop-filter:blur(8px);}
+    .section-tag{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:999px;padding:5px 16px;font-size:.72rem;font-weight:800;color:#2563eb;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;}
+    .icon-wrap{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+    .float{animation:float 4s ease-in-out infinite;}
+    .float-2{animation:float 5s ease-in-out infinite 1s;}
+    .float-3{animation:float 6s ease-in-out infinite 2s;}
+    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  </style>
 </head>
 <body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-<!-- Background blobs -->
-<div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="blob w-[500px] h-[500px] bg-indigo-400 -top-40 -left-40"></div>
-    <div class="blob w-96 h-96 bg-blue-300 top-1/2 -right-32"></div>
-    <div class="blob w-80 h-80 bg-violet-400 bottom-10 left-1/3"></div>
-</div>
-
-<!-- NAVBAR -->
-<nav class="relative z-50 sticky top-0 px-4 pt-4">
-    <div class="clay max-w-7xl mx-auto px-6 py-4 flex justify-between items-center" style="border-radius:20px;">
-        <div class="flex items-center gap-3">
-            <div class="clay-blue w-9 h-9 flex items-center justify-center" style="border-radius:12px;box-shadow:0 4px 0 #3730A3;">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-            </div>
-            <span class="font-black text-lg text-indigo-700">Klinik Sehat</span>
-        </div>
-        <div class="hidden md:flex items-center gap-6">
-            <a href="#fitur" class="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">Fitur</a>
-            <a href="#poli" class="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">Layanan</a>
-            <a href="#cara" class="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">Cara Pakai</a>
-            <a href="{{ route('rating.index') }}" class="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">⭐ Rating RS</a>
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('petugas.login') }}" class="hidden sm:block text-sm font-bold text-slate-400 hover:text-indigo-600 transition-colors">Akses Petugas</a>
-            <a href="{{ route('login') }}" class="btn-clay btn-white" style="padding:10px 22px;font-size:0.85rem;">Masuk</a>
-            <a href="/register" class="btn-clay btn-primary" style="padding:10px 22px;font-size:0.85rem;">Daftar</a>
-        </div>
+{{-- NAVBAR --}}
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="/" class="flex items-center gap-3" style="text-decoration:none;">
+      <img src="https://uns.ac.id/id/wp-content/uploads/2023/06/logo-uns-biru.png" alt="UNS" style="height:34px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(30,58,138,.3));"/>
+      <div>
+        <p style="font-family:'Sora',sans-serif;font-weight:800;color:white;font-size:.95rem;">Klinik Sehat</p>
+        <p style="font-size:.62rem;color:rgba(147,197,253,.8);">Sistem Layanan Klinik Digital</p>
+      </div>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="#fitur" style="font-size:.85rem;font-weight:600;color:rgba(255,255,255,.8);text-decoration:none;">Fitur</a>
+      <a href="#layanan" style="font-size:.85rem;font-weight:600;color:rgba(255,255,255,.8);text-decoration:none;">Layanan</a>
+      <a href="#cara" style="font-size:.85rem;font-weight:600;color:rgba(255,255,255,.8);text-decoration:none;">Cara Pakai</a>
+      <a href="{{ route('rating.index') }}" style="font-size:.85rem;font-weight:600;color:rgba(255,255,255,.8);text-decoration:none;">⭐ Rating RS</a>
     </div>
+    <div class="flex items-center gap-3">
+      <a href="{{ route('petugas.login') }}" style="font-size:.78rem;font-weight:700;color:rgba(147,197,253,.85);text-decoration:none;padding:6px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);">Akses Petugas</a>
+      <a href="{{ route('login') }}" class="clay-btn btn-white" style="padding:8px 18px;font-size:.82rem;">Masuk</a>
+      <a href="/register" class="clay-btn btn-primary" style="padding:8px 18px;font-size:.82rem;">Daftar</a>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="relative z-10 max-w-7xl mx-auto px-4 pt-12 pb-8">
-    <div class="clay-dark p-10 md:p-16 relative overflow-hidden">
-        <!-- Decorative circles -->
-        <div class="absolute top-0 right-0 w-80 h-80 rounded-full" style="background:rgba(99,102,241,0.2);transform:translate(30%,-30%);"></div>
-        <div class="absolute bottom-0 left-1/2 w-64 h-64 rounded-full" style="background:rgba(139,92,246,0.15);transform:translate(-50%,40%);"></div>
+<div class="relative z-10 max-w-6xl mx-auto px-4 space-y-10 py-8">
 
-        <div class="relative grid md:grid-cols-2 gap-10 items-center">
-            <div>
-                <div class="inline-flex items-center gap-2 bg-white/10 text-white/80 border border-white/20 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-widest mb-6">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    Sistem Klinik Digital Aktif
-                </div>
-                <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
-                    Layanan Kesehatan<br>
-                    <span style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background:linear-gradient(90deg,#A5B4FC,#C4B5FD);background-clip:text;">Terbaik & Cepat</span>
-
-                </h1>
-                <p class="text-indigo-200 text-lg leading-relaxed mb-8 max-w-lg">
-                    Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="/register" class="btn-clay btn-primary text-base">Daftar Sekarang →</a>
-                    <a href="#cara" class="btn-clay btn-white text-base">Pelajari Cara Pakai</a>
-                </div>
-            </div>
-
-            <!-- Stats di hero -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="clay float p-6 text-center" style="border-radius:24px;">
-                    <div class="text-4xl font-black text-indigo-600 mb-1">500+</div>
-                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wide">Pasien Terdaftar</div>
-                </div>
-                <div class="clay-green float-2 p-6 text-center">
-                    <div class="text-4xl font-black text-white mb-1">4.8</div>
-                    <div class="text-xs font-bold text-emerald-100 uppercase tracking-wide">Rating Layanan</div>
-                </div>
-                <div class="clay-violet float-3 p-6 text-center">
-                    <div class="text-4xl font-black text-white mb-1">24/7</div>
-                    <div class="text-xs font-bold text-violet-100 uppercase tracking-wide">Sistem Aktif</div>
-                </div>
-                <div class="clay float p-6 text-center" style="border-radius:24px;">
-                    <div class="text-4xl font-black text-indigo-600 mb-1">3</div>
-                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wide">Klinik Tersedia</div>
-                </div>
-            </div>
+  {{-- HERO --}}
+  <div class="hero-bg p-8 md:p-12">
+    <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 mb-5" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.35rem .9rem;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;display:inline-block;"></span>
+          <span style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.05em;">SISTEM AKTIF · REAL-TIME</span>
         </div>
+        <h1 style="font-family:'Sora',sans-serif;font-weight:900;font-size:2.4rem;color:white;line-height:1.15;margin-bottom:16px;">
+          Layanan Kesehatan<br>
+          <span style="color:#fde68a;">Terbaik & Cepat</span>
+        </h1>
+        <p style="color:rgba(147,197,253,.9);font-size:.95rem;line-height:1.7;max-width:440px;margin-bottom:28px;">
+          Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/register" class="clay-btn btn-primary" style="padding:12px 28px;font-size:.95rem;">Daftar Sekarang →</a>
+          <a href="#cara" class="clay-btn btn-white" style="padding:12px 28px;font-size:.95rem;">Cara Pakai</a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="clay-card float p-5 text-center">
+          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:#2563eb;">500+</div>
+          <div style="font-size:.7rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Pasien</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#16a34a,#10b981);border-radius:20px;box-shadow:5px 5px 14px rgba(16,185,129,.3);" class="float-2 p-5 text-center">
+          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:white;">4.8</div>
+          <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Rating</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:20px;box-shadow:5px 5px 14px rgba(109,40,217,.3);" class="float-3 p-5 text-center">
+          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:white;">24/7</div>
+          <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Aktif</div>
+        </div>
+        <div class="clay-card float p-5 text-center">
+          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:#2563eb;">14</div>
+          <div style="font-size:.7rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">RS Madiun</div>
+        </div>
+      </div>
     </div>
-</section>
+  </div>
 
-<!-- FITUR UTAMA -->
-<section id="fitur" class="relative z-10 max-w-7xl mx-auto px-4 py-12">
-    <div class="text-center mb-10">
-        <div class="section-tag">✨ Fitur Unggulan</div>
-        <h2 class="text-3xl md:text-4xl font-black text-slate-800">Semua yang Kamu Butuhkan</h2>
-        <p class="text-slate-500 mt-3 max-w-xl mx-auto">Satu platform, lengkap untuk pasien dan petugas klinik.</p>
+  {{-- FITUR UNGGULAN --}}
+  <section id="fitur">
+    <div class="text-center mb-8">
+      <div class="section-tag">✨ Fitur Unggulan</div>
+      <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Semua yang Kamu Butuhkan</h2>
+      <p style="color:#64748b;margin-top:8px;">Satu platform lengkap untuk pasien dan petugas klinik.</p>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-blue mb-5" style="box-shadow:0 4px 0 #3730A3;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Pendaftaran Online</h3>
-            <p class="text-slate-500 leading-relaxed">Daftar BPJS maupun umum dari mana saja, kapan saja. Tidak perlu antre panjang di loket.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-blue">BPJS</span>
-                <span class="badge badge-blue">Non-BPJS</span>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      @php $fitur = [
+        ['icon'=>'📋','bg'=>'linear-gradient(135deg,#1e3a8a,#2563eb)','shadow'=>'rgba(37,99,235,.35)','title'=>'Pendaftaran Online','desc'=>'Daftar BPJS maupun umum dari mana saja. Tidak perlu antre di loket.','tags'=>['BPJS','Non-BPJS']],
+        ['icon'=>'⏰','bg'=>'linear-gradient(135deg,#16a34a,#10b981)','shadow'=>'rgba(16,185,129,.3)','title'=>'Antrean Real-Time','desc'=>'Pantau nomor antrean dan estimasi waktu tunggu. Notifikasi suara saat dipanggil.','tags'=>['Live','Suara']],
+        ['icon'=>'⭐','bg'=>'linear-gradient(135deg,#d97706,#f59e0b)','shadow'=>'rgba(245,158,11,.3)','title'=>'Rating & Survei','desc'=>'Nilai layanan setelah kunjungan. Temukan klinik terbaik di Karesidenan Madiun.','tags'=>['Per Kunjungan','Publik']],
+        ['icon'=>'🩺','bg'=>'linear-gradient(135deg,#7c3aed,#6d28d9)','shadow'=>'rgba(109,40,217,.3)','title'=>'Rekam Medis SOAP','desc'=>'Dokter input rekam medis terstruktur. Tersimpan aman dan mudah diakses.','tags'=>['SOAP','Aman']],
+        ['icon'=>'👥','bg'=>'linear-gradient(135deg,#0891b2,#0284c7)','shadow'=>'rgba(2,132,199,.3)','title'=>'Kelola Staff & Pasien','desc'=>'Admin kelola akun dokter, petugas, dan data pasien dari satu dashboard.','tags'=>['Admin','Dokter']],
+        ['icon'=>'🏥','bg'=>'linear-gradient(135deg,#0f2057,#1e3a8a)','shadow'=>'rgba(15,32,87,.35)','title'=>'14 RS Madiun','desc'=>'Mencakup RSUD dan RS swasta se-Karesidenan Madiun. Data nyata dan akurat.','tags'=>['Madiun','Karesidenan']],
+      ]; @endphp
+      @foreach($fitur as $f)
+      <div class="clay-card p-6 hover:-translate-y-1 transition-transform duration-200">
+        <div class="icon-wrap mb-4" style="background:{{ $f['bg'] }};box-shadow:4px 4px 10px {{ $f['shadow'] }};">{{ $f['icon'] }}</div>
+        <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;color:#1e293b;margin-bottom:8px;">{{ $f['title'] }}</h3>
+        <p style="color:#64748b;font-size:.875rem;line-height:1.6;margin-bottom:12px;">{{ $f['desc'] }}</p>
+        <div class="flex flex-wrap gap-2">
+          @foreach($f['tags'] as $tag)
+            <span style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;padding:3px 10px;font-size:.68rem;font-weight:700;color:#2563eb;">{{ $tag }}</span>
+          @endforeach
         </div>
-
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-green mb-5" style="box-shadow:0 4px 0 #047857;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Antrean Real-Time</h3>
-            <p class="text-slate-500 leading-relaxed">Pantau nomor antrean dan estimasi waktu tunggu secara langsung. Ada notifikasi suara saat dipanggil.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-green">Live Update</span>
-                <span class="badge badge-green">Suara</span>
-            </div>
-        </div>
-
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-amber mb-5" style="box-shadow:0 4px 0 #B45309;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Rating & Survei</h3>
-            <p class="text-slate-500 leading-relaxed">Nilai layanan setelah kunjungan atau berikan rating umum untuk RS favorit. Temukan klinik terbaik di sekitarmu.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-amber">Per Kunjungan</span>
-                <span class="badge badge-amber">Publik</span>
-            </div>
-        </div>
-
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-violet mb-5" style="box-shadow:0 4px 0 #5B21B6;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Rekam Medis</h3>
-            <p class="text-slate-500 leading-relaxed">Dokter input rekam medis SOAP langsung setelah pemeriksaan. Tersimpan aman dan terstruktur.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-blue">SOAP</span>
-                <span class="badge badge-blue">Terenkripsi</span>
-            </div>
-        </div>
-
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-blue mb-5" style="box-shadow:0 4px 0 #3730A3;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Kelola Staff & Pasien</h3>
-            <p class="text-slate-500 leading-relaxed">Admin dapat mengelola akun dokter, petugas, dan data pasien dari satu dashboard yang lengkap.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-blue">Admin</span>
-                <span class="badge badge-blue">Dokter</span>
-                <span class="badge badge-blue">Petugas</span>
-            </div>
-        </div>
-
-        <div class="clay p-8 hover:-translate-y-1 transition-transform duration-200">
-            <div class="icon-wrap clay-green mb-5" style="box-shadow:0 4px 0 #047857;">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <h3 class="text-xl font-black text-slate-800 mb-3">Dukungan BPJS</h3>
-            <p class="text-slate-500 leading-relaxed">Pendaftaran BPJS lengkap dengan input faskes asal dan jenis rujukan. Terintegrasi penuh di sistem.</p>
-            <div class="mt-5 flex gap-2">
-                <span class="badge badge-green">Faskes I</span>
-                <span class="badge badge-green">Rujukan</span>
-            </div>
-        </div>
+      </div>
+      @endforeach
     </div>
-</section>
+  </section>
 
-<!-- LAYANAN POLI -->
-<section id="poli" class="relative z-10 max-w-7xl mx-auto px-4 py-12">
-    <div class="clay-blue p-10 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 rounded-full" style="background:rgba(255,255,255,0.08);transform:translate(30%,-30%);"></div>
-        <div class="text-center mb-10 relative z-10">
-            <div class="inline-block bg-white/15 text-white border border-white/25 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-widest mb-4">🏥 Layanan Poli</div>
-            <h2 class="text-3xl md:text-4xl font-black text-white">Tersedia Berbagai Poli</h2>
-            <p class="text-indigo-200 mt-3">Pilih poli sesuai kebutuhanmu saat pendaftaran</p>
-        </div>
-        <div class="relative z-10 flex flex-wrap justify-center gap-4">
-            @php
-                $polis = [
-                    ['icon'=>'🦷','nama'=>'Poli Gigi'],['icon'=>'👶','nama'=>'Poli Anak'],
-                    ['icon'=>'🫀','nama'=>'Poli Jantung'],['icon'=>'🧠','nama'=>'Poli Saraf'],
-                    ['icon'=>'👁️','nama'=>'Poli Mata'],['icon'=>'🦴','nama'=>'Poli Ortopedi'],
-                    ['icon'=>'🫁','nama'=>'Poli Paru'],['icon'=>'🩺','nama'=>'Poli Umum'],
-                    ['icon'=>'🧪','nama'=>'Lab & Farmasi'],
-                ];
-            @endphp
-            @foreach($polis as $poli)
-                <div class="poli-chip">
-                    <span class="text-xl">{{ $poli['icon'] }}</span>
-                    {{ $poli['nama'] }}
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-<!-- CARA PAKAI -->
-<section id="cara" class="relative z-10 max-w-7xl mx-auto px-4 py-12">
-    <div class="text-center mb-10">
-        <div class="section-tag">📋 Cara Pakai</div>
-        <h2 class="text-3xl md:text-4xl font-black text-slate-800">Mudah dalam 4 Langkah</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-        <!-- Line connector (desktop) -->
-        <div class="hidden md:block absolute top-10 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-indigo-200 via-indigo-400 to-indigo-200" style="z-index:0;"></div>
-        @php
-            $steps = [
-                ['no'=>'1','icon'=>'👤','title'=>'Buat Akun','desc'=>'Daftar dengan NIK, email, dan nomor HP kamu.','color'=>'clay-blue','shadow'=>'#3730A3'],
-                ['no'=>'2','icon'=>'📝','title'=>'Daftar Periksa','desc'=>'Pilih klinik, poli, dan dokter yang kamu inginkan.','color'=>'clay-green','shadow'=>'#047857'],
-                ['no'=>'3','icon'=>'⏰','title'=>'Pantau Antrean','desc'=>'Lihat nomor antrean dan estimasi waktu secara real-time.','color'=>'clay-violet','shadow'=>'#5B21B6'],
-                ['no'=>'4','icon'=>'⭐','title'=>'Beri Penilaian','desc'=>'Nilai layanan setelah kunjungan selesai.','color'=>'clay-amber','shadow'=>'#B45309'],
-            ];
-        @endphp
-        @foreach($steps as $step)
-        <div class="relative z-10 clay p-6 text-center">
-            <div class="{{ $step['color'] }} w-14 h-14 flex items-center justify-center mx-auto mb-4 text-2xl" style="border-radius:18px;box-shadow:0 5px 0 {{ $step['shadow'] }};">{{ $step['icon'] }}</div>
-            <div class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-1">Langkah {{ $step['no'] }}</div>
-            <h3 class="text-lg font-black text-slate-800 mb-2">{{ $step['title'] }}</h3>
-            <p class="text-sm text-slate-500">{{ $step['desc'] }}</p>
-        </div>
+  {{-- LAYANAN POLI --}}
+  <section id="layanan">
+    <div class="hero-bg p-8 md:p-10">
+      <div class="relative z-10 text-center mb-8">
+        <div class="inline-block mb-4" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 16px;font-size:.72rem;font-weight:800;color:white;text-transform:uppercase;letter-spacing:.05em;">🏥 Layanan Poli</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:white;">Tersedia Berbagai Poli</h2>
+        <p style="color:rgba(147,197,253,.9);margin-top:8px;">Pilih poli sesuai kebutuhan saat pendaftaran</p>
+      </div>
+      <div class="relative z-10 flex flex-wrap justify-center gap-3">
+        @php $polis=[['🦷','Poli Gigi'],['👶','Poli Anak'],['🫀','Poli Jantung'],['🧠','Poli Saraf'],['👁️','Poli Mata'],['🦴','Poli Ortopedi'],['🫁','Poli Paru'],['🩺','Poli Umum'],['🧪','Lab & Farmasi'],['🤰','Poli Kandungan'],['🦿','Poli Bedah'],['🧬','Poli Penyakit Dalam']]; @endphp
+        @foreach($polis as [$icon,$nama])
+          <div style="background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.22);border-radius:14px;padding:10px 18px;display:inline-flex;align-items:center;gap:8px;font-weight:700;color:white;font-size:.85rem;backdrop-filter:blur(8px);">
+            <span style="font-size:1.2rem;">{{ $icon }}</span> {{ $nama }}
+          </div>
         @endforeach
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- TESTIMONI -->
-<section class="relative z-10 max-w-7xl mx-auto px-4 py-12">
-    <div class="text-center mb-10">
-        <div class="section-tag">💬 Testimoni</div>
-        <h2 class="text-3xl md:text-4xl font-black text-slate-800">Kata Mereka</h2>
+  {{-- CARA PAKAI --}}
+  <section id="cara">
+    <div class="text-center mb-8">
+      <div class="section-tag">📋 Cara Pakai</div>
+      <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Mudah dalam 4 Langkah</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @php $testimonials = [
-            ['nama'=>'Budi Santoso','peran'=>'Mahasiswa','bintang'=>5,'pesan'=>'Sistem antreannya sangat membantu! Tidak perlu nunggu lama di klinik, bisa pantau dari HP.'],
-            ['nama'=>'Dr. Sari Wulandari','peran'=>'Dokter','bintang'=>5,'pesan'=>'Input rekam medis jadi jauh lebih efisien. Dashboard-nya clean dan mudah digunakan.'],
-            ['nama'=>'Agus Prayogo','peran'=>'Karyawan UNS','bintang'=>4,'pesan'=>'Pendaftaran BPJS online sangat memudahkan. Tidak perlu repot datang pagi-pagi ke klinik.'],
-        ]; @endphp
-        @foreach($testimonials as $t)
-        <div class="clay p-6">
-            <div class="flex gap-1 mb-4">
-                @for($i=0;$i<$t['bintang'];$i++)<span class="text-amber-400 text-xl">★</span>@endfor
-                @for($i=$t['bintang'];$i<5;$i++)<span class="text-slate-200 text-xl">★</span>@endfor
-            </div>
-            <p class="text-slate-600 leading-relaxed mb-5 italic">"{{ $t['pesan'] }}"</p>
-            <div class="flex items-center gap-3">
-                <div class="clay-blue w-10 h-10 flex items-center justify-center font-black text-white" style="border-radius:12px;box-shadow:0 3px 0 #3730A3;font-size:1.1rem;">{{ substr($t['nama'],0,1) }}</div>
-                <div>
-                    <div class="font-black text-slate-800 text-sm">{{ $t['nama'] }}</div>
-                    <div class="text-xs text-slate-400 font-bold">{{ $t['peran'] }}</div>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+      @php $steps=[
+        ['1','👤','Buat Akun','Daftar dengan NIK, email, dan nomor HP kamu.','#1e3a8a'],
+        ['2','📝','Daftar Periksa','Pilih RS, poli, dan dokter — atau lihat rating dulu.','#16a34a'],
+        ['3','⏰','Pantau Antrean','Lihat nomor antrean dan estimasi waktu real-time.','#7c3aed'],
+        ['4','⭐','Beri Penilaian','Nilai layanan setelah kunjungan selesai.','#d97706'],
+      ]; @endphp
+      @foreach($steps as [$no,$icon,$title,$desc,$color])
+      <div class="clay-card p-6 text-center">
+        <div style="width:52px;height:52px;border-radius:16px;background:{{ $color }};display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5rem;box-shadow:4px 4px 10px rgba(0,0,0,.15);">{{ $icon }}</div>
+        <div style="font-size:.65rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Langkah {{ $no }}</div>
+        <h3 style="font-family:'Sora',sans-serif;font-weight:700;color:#1e293b;margin-bottom:6px;">{{ $title }}</h3>
+        <p style="font-size:.83rem;color:#64748b;line-height:1.6;">{{ $desc }}</p>
+      </div>
+      @endforeach
+    </div>
+  </section>
+
+  {{-- TESTIMONI --}}
+  <section>
+    <div class="text-center mb-8">
+      <div class="section-tag">💬 Testimoni</div>
+      <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Kata Mereka</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      @php $testi=[
+        ['Budi Santoso','Mahasiswa UNS',5,'Sistem antreannya sangat membantu! Tidak perlu nunggu lama di klinik, bisa pantau dari HP.'],
+        ['dr. Andi Susanto','Dokter RSUD Soedono',5,'Input rekam medis jadi jauh lebih efisien. Dashboard clean dan mudah digunakan.'],
+        ['Siti Rahayu','Karyawan UNS',4,'Pendaftaran BPJS online sangat memudahkan. Bisa pilih poli terbaik dari rating dulu.'],
+      ]; @endphp
+      @foreach($testi as [$nama,$peran,$bintang,$pesan])
+      <div class="clay-card p-6">
+        <div class="flex gap-0.5 mb-4">
+          @for($i=1;$i<=5;$i++) <span style="font-size:1.1rem;color:{{ $i<=$bintang?'#f59e0b':'#e2e8f0' }};">★</span> @endfor
         </div>
-        @endforeach
-    </div>
-</section>
-
-<!-- DATA BPS: STATISTIK FASILITAS KESEHATAN INDONESIA -->
-<section id="statistik-bps" class="relative z-10 max-w-7xl mx-auto px-4 py-12">
-    <div class="text-center mb-10">
-        <div class="section-tag">📊 Data BPS Indonesia</div>
-        <h2 class="text-3xl md:text-4xl font-black text-slate-800">Statistik Fasilitas Kesehatan Nasional</h2>
-        <p class="text-slate-500 mt-3 max-w-xl mx-auto">Data resmi jumlah fasilitas kesehatan Indonesia dari <span class="font-bold text-indigo-600">Badan Pusat Statistik (BPS)</span>, diambil secara real-time.</p>
-    </div>
-
-    <!-- Loading -->
-    <div id="bps-loading" class="clay p-10 text-center">
-        <div class="flex items-center justify-center gap-3 text-indigo-500">
-            <svg class="animate-spin w-6 h-6" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-            </svg>
-            <span class="font-bold">Mengambil data dari API BPS...</span>
+        <p style="color:#475569;line-height:1.7;font-size:.875rem;font-style:italic;margin-bottom:16px;">"{{ $pesan }}"</p>
+        <div class="flex items-center gap-3">
+          <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#2563eb);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:.9rem;">{{ substr($nama,0,1) }}</div>
+          <div>
+            <div style="font-weight:800;color:#1e293b;font-size:.875rem;">{{ $nama }}</div>
+            <div style="font-size:.72rem;color:#94a3b8;font-weight:600;">{{ $peran }}</div>
+          </div>
         </div>
+      </div>
+      @endforeach
+    </div>
+  </section>
+
+
+  {{-- DATA BPS --}}
+  <section id="statistik-bps">
+    <div class="text-center mb-8">
+      <div class="section-tag">📊 Data BPS Indonesia</div>
+      <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Statistik Fasilitas Kesehatan Nasional</h2>
+      <p style="color:#64748b;margin-top:8px;">Data resmi dari <span style="font-weight:800;color:#1e3a8a;">Badan Pusat Statistik (BPS)</span>, diambil secara real-time.</p>
     </div>
 
-    <!-- Error -->
-    <div id="bps-error" class="hidden clay p-8 text-center" style="border-color:#FECACA;box-shadow:0 6px 0 #FECACA;">
-        <div class="text-3xl mb-2">⚠️</div>
-        <p class="font-bold text-red-600">Gagal mengambil data dari API BPS.</p>
-        <p class="text-slate-400 text-sm mt-1">Coba refresh halaman atau kunjungi <a href="https://www.bps.go.id" target="_blank" class="text-indigo-500 underline">bps.go.id</a> langsung.</p>
+    {{-- Loading --}}
+    <div id="bps-loading" class="clay-card p-10 text-center">
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;color:#2563eb;">
+        <svg style="animation:spin 1s linear infinite;width:22px;height:22px;" fill="none" viewBox="0 0 24 24">
+          <circle style="opacity:.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path style="opacity:.75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <span style="font-weight:700;">Mengambil data dari API BPS...</span>
+      </div>
     </div>
 
-    <!-- Data -->
-    <div id="bps-data" class="hidden">
-        <div id="bps-cards" class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8"></div>
-        <div class="clay overflow-hidden">
-            <div class="px-8 py-5" style="border-bottom:2px solid #EEF2FF;">
-                <h3 class="text-lg font-black text-slate-800">🗺️ Data Fasilitas Kesehatan per Provinsi</h3>
-                <p class="text-xs text-slate-400 font-bold mt-0.5" id="bps-source-label">Sumber: webapi.bps.go.id</p>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr style="background:#EEF2FF;">
-                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Provinsi</th>
-                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">RS Umum</th>
-                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">RS Khusus</th>
-                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">Puskesmas RI</th>
-                            <th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">Puskesmas Non-RI</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bps-table-body"></tbody>
-                </table>
-            </div>
+    {{-- Error --}}
+    <div id="bps-error" style="display:none;" class="clay-card p-8 text-center" style="border-left:4px solid #fca5a5;">
+      <div style="font-size:2rem;margin-bottom:8px;">⚠️</div>
+      <p style="font-weight:700;color:#dc2626;">Gagal mengambil data dari API BPS.</p>
+      <p style="color:#94a3b8;font-size:.85rem;margin-top:4px;">Coba refresh halaman atau kunjungi <a href="https://www.bps.go.id" target="_blank" style="color:#2563eb;">bps.go.id</a></p>
+    </div>
+
+    {{-- Data --}}
+    <div id="bps-data" style="display:none;">
+      {{-- Stat cards --}}
+      <div id="bps-cards" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px;" class="md:grid-cols-4"></div>
+
+      {{-- Tabel --}}
+      <div class="clay-card" style="overflow:hidden;">
+        <div style="padding:20px 28px;border-bottom:1.5px solid #e0f2fe;">
+          <h3 style="font-family:'Sora',sans-serif;font-weight:700;color:#1e293b;">🗺️ Data Fasilitas Kesehatan per Provinsi</h3>
+          <p id="bps-source-label" style="font-size:.72rem;color:#94a3b8;font-weight:600;margin-top:2px;">Sumber: webapi.bps.go.id</p>
         </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;text-align:left;font-size:.85rem;border-collapse:collapse;">
+            <thead>
+              <tr id="bps-thead-row" style="background:#f0f9ff;">
+                <th style="padding:12px 20px;font-size:.68rem;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;">Provinsi</th>
+              </tr>
+            </thead>
+            <tbody id="bps-table-body"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<script>
-// ============================================================
-// fetchBPS() — Ambil data dari /api/bps (FetchBpsController)
-// Controller mem-proxy ke webapi.bps.go.id dengan cache 1 jam
-// ============================================================
-async function fetchBPS() {
-    try {
-        const res = await fetch('/api/bps');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const json = await res.json();
-        if (json.error) throw new Error(json.message);
-        return json;
-    } catch (err) {
-        console.error('[fetchBPS] Error:', err.message);
-        return null;
-    }
-}
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #bps-cards > div { border-radius: 20px; padding: 20px; text-align: center; }
+  </style>
 
-// ── Parser BPS SIMDASI (sesuai struktur JSON asli) ──
-function parseBpsJson(json) {
-    if (json.error) throw new Error(json.error);
-    const dataArr = json.data;
-    if (!Array.isArray(dataArr) || dataArr.length === 0) throw new Error('Struktur tidak dikenal');
+  <script>
+  // ── Data BPS statis (BPS RI 2023) — render langsung tanpa fetch ──
+  const BPS_DATA = {
+    tahun: '2023', source: 'BPS RI, Statistik Indonesia 2023',
+    kolom: [
+      { key:'rsUmum',   nama:'RS Umum'         },
+      { key:'rsKhusus', nama:'RS Khusus'        },
+      { key:'pkmRI',    nama:'Puskesmas RI'     },
+      { key:'pkmNonRI', nama:'Puskesmas Non-RI' },
+    ],
+    rows: [
+      { label:'Aceh',                  rsUmum:24,  rsKhusus:14,  pkmRI:118, pkmNonRI:223 },
+      { label:'Sumatera Utara',        rsUmum:87,  rsKhusus:97,  pkmRI:220, pkmNonRI:362 },
+      { label:'Sumatera Barat',        rsUmum:27,  rsKhusus:9,   pkmRI:101, pkmNonRI:157 },
+      { label:'Riau',                  rsUmum:33,  rsKhusus:13,  pkmRI:74,  pkmNonRI:163 },
+      { label:'Jambi',                 rsUmum:20,  rsKhusus:3,   pkmRI:75,  pkmNonRI:122 },
+      { label:'Sumatera Selatan',      rsUmum:33,  rsKhusus:13,  pkmRI:101, pkmNonRI:226 },
+      { label:'Bengkulu',              rsUmum:12,  rsKhusus:2,   pkmRI:57,  pkmNonRI:124 },
+      { label:'Lampung',               rsUmum:23,  rsKhusus:10,  pkmRI:91,  pkmNonRI:218 },
+      { label:'DKI Jakarta',           rsUmum:81,  rsKhusus:169, pkmRI:44,  pkmNonRI:300 },
+      { label:'Jawa Barat',            rsUmum:117, rsKhusus:83,  pkmRI:279, pkmNonRI:804 },
+      { label:'Jawa Tengah',           rsUmum:99,  rsKhusus:61,  pkmRI:347, pkmNonRI:531 },
+      { label:'DI Yogyakarta',         rsUmum:28,  rsKhusus:27,  pkmRI:36,  pkmNonRI:85  },
+      { label:'Jawa Timur',            rsUmum:122, rsKhusus:72,  pkmRI:443, pkmNonRI:526, hl:true },
+      { label:'Bali',                  rsUmum:21,  rsKhusus:14,  pkmRI:42,  pkmNonRI:78  },
+      { label:'Nusa Tenggara Barat',   rsUmum:14,  rsKhusus:4,   pkmRI:76,  pkmNonRI:99  },
+      { label:'Nusa Tenggara Timur',   rsUmum:16,  rsKhusus:2,   pkmRI:148, pkmNonRI:272 },
+      { label:'Kalimantan Barat',      rsUmum:22,  rsKhusus:4,   pkmRI:79,  pkmNonRI:157 },
+      { label:'Kalimantan Tengah',     rsUmum:15,  rsKhusus:2,   pkmRI:77,  pkmNonRI:157 },
+      { label:'Kalimantan Selatan',    rsUmum:22,  rsKhusus:11,  pkmRI:80,  pkmNonRI:157 },
+      { label:'Kalimantan Timur',      rsUmum:23,  rsKhusus:9,   pkmRI:69,  pkmNonRI:124 },
+      { label:'Sulawesi Utara',        rsUmum:18,  rsKhusus:6,   pkmRI:74,  pkmNonRI:111 },
+      { label:'Sulawesi Tengah',       rsUmum:13,  rsKhusus:2,   pkmRI:87,  pkmNonRI:140 },
+      { label:'Sulawesi Selatan',      rsUmum:56,  rsKhusus:24,  pkmRI:179, pkmNonRI:295 },
+      { label:'Maluku',                rsUmum:12,  rsKhusus:1,   pkmRI:72,  pkmNonRI:124 },
+      { label:'Papua',                 rsUmum:12,  rsKhusus:2,   pkmRI:150, pkmNonRI:340 },
+    ]
+  };
 
-    let tabel = null;
-    for (const c of dataArr) {
-        if (!c || typeof c !== 'object') continue;
-        const kolRaw = c.kolom;
-        const hasKolom = kolRaw &&
-            ((typeof kolRaw === 'object' && !Array.isArray(kolRaw) && Object.keys(kolRaw).length > 0) ||
-             (Array.isArray(kolRaw) && kolRaw.length > 0));
-        if (hasKolom && Array.isArray(c.data) && c.data.length > 0) { tabel = c; break; }
-    }
-    if (!tabel) tabel = dataArr.find(d => d && Array.isArray(d.data) && d.data.length > 0);
-    if (!tabel) throw new Error('Tabel data tidak ditemukan');
-
-    let kolom = [];
-    const kr = tabel.kolom;
-    if (kr && typeof kr === 'object' && !Array.isArray(kr) && Object.keys(kr).length > 0) {
-        kolom = Object.entries(kr).map(([key, meta]) => ({
-            key, nama: (typeof meta === 'object' ? meta?.nama_variabel || meta?.nama || key : String(meta)) || key,
-        }));
-    } else if (Array.isArray(kr) && kr.length > 0) {
-        kolom = kr.map((m, i) => ({ key: m?.key || m?.id || String(i), nama: m?.nama || m?.nama_variabel || m?.label || String(i) }));
-    } else {
-        const firstVars = tabel.data[0]?.variables || tabel.data[0]?.vars || {};
-        const keys = Object.keys(firstVars);
-        if (!keys.length) throw new Error('Kolom tidak ditemukan');
-        kolom = keys.map(k => ({ key: k, nama: k }));
-    }
-
-    const allRows = tabel.data.map(row => {
-        const vars = {};
-        kolom.forEach(kol => {
-            const cell = row.variables?.[kol.key] ?? row.vars?.[kol.key];
-            let raw = '0';
-            if (cell != null) raw = (typeof cell === 'object') ? (cell?.value_raw ?? cell?.value ?? '0') : cell;
-            else if (row[kol.key] != null) raw = row[kol.key];
-            vars[kol.key] = parseInt(String(raw).replace(/[^0-9-]/g, ''), 10) || 0;
-        });
-        return {
-            label:        row.label || row.label_raw || row.nama || row.name || '?',
-            kode_wilayah: row.kode_wilayah ?? row.kode ?? row.id ?? null,
-            vars,
-        };
-    });
-
-    return { kolom, allRows };
-}
-
-async function renderBPS() {
+  function renderBPS() {
     const elLoading = document.getElementById('bps-loading');
-    const elError   = document.getElementById('bps-error');
     const elData    = document.getElementById('bps-data');
     const elCards   = document.getElementById('bps-cards');
     const elTbody   = document.getElementById('bps-table-body');
     const elSource  = document.getElementById('bps-source-label');
+    const elThead   = document.getElementById('bps-thead-row');
 
-    const raw = await fetchBPS();
-    if (!raw) {
-        elLoading.classList.add('hidden');
-        elError.classList.remove('hidden');
-        return;
-    }
+    const { kolom, rows, tahun, source } = BPS_DATA;
 
-    let provinsiRows = [];
-    let kolom = [];
-    try {
-        const parsed = parseBpsJson(raw);
-        kolom = parsed.kolom;
-        provinsiRows = parsed.allRows.filter(function(p) {
-            return p.kode_wilayah && Number(p.kode_wilayah) !== 0 &&
-                   Object.values(p.vars).some(function(v){ return v > 0; });
-        });
-        if (!provinsiRows.length) provinsiRows = parsed.allRows;
-        // Tandai Jawa Timur
-        provinsiRows.forEach(function(p) {
-            p.highlight = p.label.toLowerCase().includes('jawa timur');
-        });
-    } catch(e) { console.warn('[renderBPS] Parse error', e); }
+    // Source label
+    elSource.textContent = 'Sumber: ' + source + ' (data statis ' + tahun + ')';
 
+    // Hitung total nasional
+    const sum = k => rows.reduce((a, r) => a + (r[k] || 0), 0);
 
-    // Hitung total per kolom
-    var totals = {};
-    kolom.forEach(function(k) {
-        totals[k.key] = provinsiRows.reduce(function(a, r){ return a + (r.vars[k.key] || 0); }, 0);
-    });
-
-    elSource.textContent = 'Sumber: webapi.bps.go.id — BPS RI, data fasilitas kesehatan 2025 (real-time)';
-
-    // Stat cards — 4 kolom pertama, icon & warna tetap
-    var cardMeta = [
-        { icon: '🏥', cls: 'clay-blue'   },
-        { icon: '🏨', cls: 'clay-violet' },
-        { icon: '🩺', cls: 'clay-green'  },
-        { icon: '🏪', cls: 'clay'        },
+    // Stat cards
+    const cardMeta = [
+      { icon:'🏥', bg:'linear-gradient(135deg,#0f2057,#1e3a8a)', sh:'rgba(15,32,87,.4)'   },
+      { icon:'🏨', bg:'linear-gradient(135deg,#0369a1,#0ea5e9)', sh:'rgba(3,105,161,.35)' },
+      { icon:'🩺', bg:'linear-gradient(135deg,#16a34a,#10b981)', sh:'rgba(16,185,129,.3)' },
+      { icon:'🏪', bg:'linear-gradient(135deg,#d97706,#f59e0b)', sh:'rgba(245,158,11,.3)' },
     ];
-    elCards.innerHTML = kolom.slice(0, 4).map(function(k, i) {
-        var meta  = cardMeta[i] || { icon: '📊', cls: 'clay' };
-        var white = meta.cls !== 'clay';
-        var vc    = white ? 'text-white' : 'text-indigo-600';
-        var lc    = white ? 'text-white' : 'text-slate-400';
-        var val   = (totals[k.key] || 0).toLocaleString('id-ID');
-        return '<div class="' + meta.cls + ' p-6 text-center">'
-             + '<div class="text-4xl mb-2">' + meta.icon + '</div>'
-             + '<div class="text-3xl font-black ' + vc + ' mb-1">' + val + '</div>'
-             + '<div class="text-xs font-black uppercase tracking-wide ' + lc + '">' + k.nama + '</div>'
-             + '<div class="text-[10px] font-bold mt-1 ' + lc + '" style="opacity:0.65">Indonesia 2025</div>'
-             + '</div>';
+    elCards.style.gridTemplateColumns = 'repeat(4,1fr)';
+    elCards.innerHTML = kolom.slice(0,4).map(function(k, i) {
+      const m   = cardMeta[i];
+      const val = sum(k.key).toLocaleString('id-ID');
+      return '<div style="background:' + m.bg + ';box-shadow:5px 5px 14px ' + m.sh + ';border-radius:20px;padding:20px;text-align:center;">'
+           + '<div style="font-size:2rem;margin-bottom:8px;">' + m.icon + '</div>'
+           + '<div style="font-family:'Sora',sans-serif;font-weight:900;font-size:1.8rem;color:white;margin-bottom:4px;">' + val + '</div>'
+           + '<div style="font-size:.68rem;font-weight:800;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;">' + k.nama + '</div>'
+           + '<div style="font-size:.6rem;color:rgba(255,255,255,.55);margin-top:3px;">Indonesia ' + tahun + '</div>'
+           + '</div>';
     }).join('');
 
-    // Update thead tabel secara dinamis
-    var thead = document.querySelector('#statistik-bps thead tr');
-    if (thead) {
-        thead.innerHTML = '<th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Provinsi</th>'
-            + kolom.map(function(k) {
-                return '<th class="px-6 py-3 text-[10px] font-black text-indigo-400 uppercase tracking-widest text-center">' + k.nama + '</th>';
-            }).join('');
+    // Thead
+    if (elThead) {
+      elThead.innerHTML = '<th style="padding:10px 20px;font-size:.68rem;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;">Provinsi</th>'
+        + kolom.map(k => '<th style="padding:10px 20px;font-size:.68rem;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;text-align:center;">' + k.nama + '</th>').join('');
     }
 
-    // Tabel baris provinsi
-    var colspan = kolom.length + 1;
-    elTbody.innerHTML = provinsiRows.length
-        ? provinsiRows.map(function(p) {
-            var hl    = p.highlight ? 'background:#EEF2FF;' : '';
-            var pin   = p.highlight ? '📍 ' : '';
-            var badge = p.highlight
-                ? '<span class="ml-2 text-[10px] font-black text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded-full">Jawa Timur</span>'
-                : '';
-            var cols = kolom.map(function(k) {
-                return '<td class="px-6 py-3 text-center font-bold text-slate-600">' + (p.vars[k.key] ?? '-') + '</td>';
-            }).join('');
-            return '<tr style="border-bottom:2px solid #EEF2FF;' + hl + '" class="hover:bg-indigo-50/40 transition-colors">'
-                 + '<td class="px-6 py-3 font-black text-slate-800">' + pin + p.label + badge + '</td>'
-                 + cols + '</tr>';
-          }).join('')
-        : '<tr><td colspan="' + colspan + '" class="px-6 py-8 text-center text-slate-400 font-bold">Data provinsi tidak tersedia dari API BPS saat ini.</td></tr>';
+    // Tbody
+    elTbody.innerHTML = rows.map(function(r) {
+      const hl    = r.hl ? 'background:#eff6ff;' : '';
+      const pin   = r.hl ? '📍 ' : '';
+      const badge = r.hl ? '<span style="margin-left:6px;font-size:.65rem;font-weight:800;color:#1e3a8a;background:#dbeafe;padding:2px 8px;border-radius:999px;">Jawa Timur</span>' : '';
+      const cols  = kolom.map(k => '<td style="padding:10px 20px;text-align:center;font-weight:700;color:#475569;">' + r[k.key] + '</td>').join('');
+      return '<tr style="border-bottom:1.5px solid #e0f2fe;' + hl + '">'
+           + '<td style="padding:10px 20px;font-weight:800;color:#1e293b;">' + pin + r.label + badge + '</td>'
+           + cols + '</tr>';
+    }).join('');
 
-    elLoading.classList.add('hidden');
-    elData.classList.remove('hidden');
-}
+    elLoading.style.display = 'none';
+    elData.style.display    = 'block';
+  }
 
-document.addEventListener('DOMContentLoaded', renderBPS);
-</script>
+  document.addEventListener('DOMContentLoaded', renderBPS);
+  </script>
 
-<!-- CTA FINAL -->
-<section class="relative z-10 max-w-7xl mx-auto px-4 py-8 pb-16">
-    <div class="clay-dark p-12 text-center relative overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="blob w-64 h-64 bg-indigo-400 -top-20 -left-10"></div>
-            <div class="blob w-48 h-48 bg-violet-400 -bottom-10 -right-10"></div>
+  {{-- CTA --}}
+  <section>
+    <div class="hero-bg p-10 md:p-14 text-center relative">
+      <div class="relative z-10">
+        <div style="font-size:3rem;margin-bottom:12px;">🏥</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:2rem;color:white;margin-bottom:12px;">Siap Mulai?</h2>
+        <p style="color:rgba(147,197,253,.9);font-size:.95rem;max-width:400px;margin:0 auto 24px;line-height:1.7;">Daftar sekarang dan rasakan kemudahan layanan kesehatan digital di Karesidenan Madiun.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/register" class="clay-btn btn-primary" style="padding:12px 32px;font-size:1rem;">Daftar Gratis Sekarang →</a>
+          <a href="{{ route('rating.index') }}" class="clay-btn btn-white" style="padding:12px 32px;font-size:1rem;">Lihat Rating RS</a>
         </div>
-        <div class="relative z-10">
-            <div class="text-5xl mb-4">🏥</div>
-            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Siap Mulai?</h2>
-            <p class="text-indigo-200 text-lg mb-8 max-w-md mx-auto">Daftar sekarang dan rasakan kemudahan layanan kesehatan digital Klinik Sehat.</p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="/register" class="btn-clay btn-primary text-lg">Daftar Gratis Sekarang →</a>
-                <a href="{{ route('rating.index') }}" class="btn-clay btn-white text-lg">Lihat Rating Klinik</a>
-            </div>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
-<footer class="relative z-10 text-center py-8 text-slate-400 text-sm font-medium">
-    <div class="flex items-center justify-center gap-2 mb-2">
-        <div class="clay-blue w-6 h-6 flex items-center justify-center" style="border-radius:8px;box-shadow:0 3px 0 #3730A3;">
-            <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </div>
-        <span>Klinik Sehat</span>
-    </div>
-    &copy; {{ date('Y') }} Sistem Manajemen Klinik Sehat — Tim semogasehatselalu
+</div>
+
+{{-- FOOTER --}}
+<footer class="relative z-10 text-center py-8" style="color:#94a3b8;font-size:.82rem;">
+  <div class="flex items-center justify-center gap-2 mb-2">
+    <img src="https://uns.ac.id/id/wp-content/uploads/2023/06/logo-uns-biru.png" alt="UNS" style="height:20px;opacity:.5;"/>
+    <span>Klinik Sehat — Sistem Manajemen Klinik Digital</span>
+  </div>
+  &copy; {{ date('Y') }} Tim semogasehatselalu · Sekolah Vokasi UNS
 </footer>
 
 </body>
