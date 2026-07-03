@@ -217,7 +217,7 @@
     </div>
 
     {{-- Loading --}}
-    <div id="bps-loading" class="clay-card p-10 text-center">
+    <div id="bps-loading" style="display:none;" class="clay-card p-10 text-center">
       <div style="display:flex;align-items:center;justify-content:center;gap:12px;color:#2563eb;">
         <svg style="animation:spin 1s linear infinite;width:22px;height:22px;" fill="none" viewBox="0 0 24 24">
           <circle style="opacity:.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -235,7 +235,7 @@
     </div>
 
     {{-- Data --}}
-    <div id="bps-data" style="display:none;">
+    <div id="bps-data">
       {{-- Stat cards --}}
       <div id="bps-cards" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px;" class="md:grid-cols-4"></div>
 
@@ -359,7 +359,7 @@
     elData.style.display    = 'block';
   }
 
-  document.addEventListener('DOMContentLoaded', renderBPS);
+  renderBPS();
   </script>
 
   {{-- CTA --}}
