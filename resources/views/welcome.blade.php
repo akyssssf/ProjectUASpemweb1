@@ -72,7 +72,7 @@
         </div>
         <h1 style="font-family:'Sora',sans-serif;font-weight:900;font-size:2.4rem;color:white;line-height:1.15;margin-bottom:16px;">
           Layanan Kesehatan<br>
-          <span style="color:#fde68a;">Terbaik & Cepat</span>
+          <span style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background:linear-gradient(90deg,#93c5fd,#c4b5fd);">Terbaik & Cepat</span>
         </h1>
         <p style="color:rgba(147,197,253,.9);font-size:.95rem;line-height:1.7;max-width:440px;margin-bottom:28px;">
           Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
@@ -207,7 +207,6 @@
     </div>
   </section>
 
-
   {{-- DATA BPS --}}
   <section id="statistik-bps">
     <div class="text-center mb-8">
@@ -216,7 +215,6 @@
       <p style="color:#64748b;margin-top:8px;">Data resmi dari <span style="font-weight:800;color:#1e3a8a;">Badan Pusat Statistik (BPS)</span>, diambil secara real-time.</p>
     </div>
 
-    {{-- Loading --}}
     <div id="bps-loading" style="display:none;" class="clay-card p-10 text-center">
       <div style="display:flex;align-items:center;justify-content:center;gap:12px;color:#2563eb;">
         <svg style="animation:spin 1s linear infinite;width:22px;height:22px;" fill="none" viewBox="0 0 24 24">
@@ -227,19 +225,14 @@
       </div>
     </div>
 
-    {{-- Error --}}
-    <div id="bps-error" style="display:none;" class="clay-card p-8 text-center" style="border-left:4px solid #fca5a5;">
+    <div id="bps-error" style="display:none;" class="clay-card p-8 text-center">
       <div style="font-size:2rem;margin-bottom:8px;">⚠️</div>
       <p style="font-weight:700;color:#dc2626;">Gagal mengambil data dari API BPS.</p>
       <p style="color:#94a3b8;font-size:.85rem;margin-top:4px;">Coba refresh halaman atau kunjungi <a href="https://www.bps.go.id" target="_blank" style="color:#2563eb;">bps.go.id</a></p>
     </div>
 
-    {{-- Data --}}
     <div id="bps-data">
-      {{-- Stat cards --}}
       <div id="bps-cards" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px;" class="md:grid-cols-4"></div>
-
-      {{-- Tabel --}}
       <div class="clay-card" style="overflow:hidden;">
         <div style="padding:20px 28px;border-bottom:1.5px solid #e0f2fe;">
           <h3 style="font-family:'Sora',sans-serif;font-weight:700;color:#1e293b;">🗺️ Data Fasilitas Kesehatan per Provinsi</h3>
@@ -265,7 +258,6 @@
   </style>
 
   <script>
-  // ── Data BPS statis (BPS RI 2023) — render langsung tanpa fetch ──
   const BPS_DATA = {
     tahun: '2023', source: 'BPS RI, Statistik Indonesia 2023',
     kolom: [
@@ -304,22 +296,13 @@
   };
 
   function renderBPS() {
-    const elLoading = document.getElementById('bps-loading');
-    const elData    = document.getElementById('bps-data');
-    const elCards   = document.getElementById('bps-cards');
-    const elTbody   = document.getElementById('bps-table-body');
-    const elSource  = document.getElementById('bps-source-label');
-    const elThead   = document.getElementById('bps-thead-row');
-
+    const elCards  = document.getElementById('bps-cards');
+    const elTbody  = document.getElementById('bps-table-body');
+    const elSource = document.getElementById('bps-source-label');
+    const elThead  = document.getElementById('bps-thead-row');
     const { kolom, rows, tahun, source } = BPS_DATA;
-
-    // Source label
     elSource.textContent = 'Sumber: ' + source + ' (data statis ' + tahun + ')';
-
-    // Hitung total nasional
     const sum = k => rows.reduce((a, r) => a + (r[k] || 0), 0);
-
-    // Stat cards
     const cardMeta = [
       { icon:'🏥', bg:'linear-gradient(135deg,#0f2057,#1e3a8a)', sh:'rgba(15,32,87,.4)'   },
       { icon:'🏨', bg:'linear-gradient(135deg,#0369a1,#0ea5e9)', sh:'rgba(3,105,161,.35)' },
@@ -328,23 +311,19 @@
     ];
     elCards.style.gridTemplateColumns = 'repeat(4,1fr)';
     elCards.innerHTML = kolom.slice(0,4).map(function(k, i) {
-      const m   = cardMeta[i];
+      const m = cardMeta[i];
       const val = sum(k.key).toLocaleString('id-ID');
-      return '<div style="background:' + m.bg + ';box-shadow:5px 5px 14px ' + m.sh + ';border-radius:20px;padding:20px;text-align:center;">'
+      return '<div style="background:' + m.bg + ';box-shadow:5px 5px 14px ' + m.sh + ';">'
            + '<div style="font-size:2rem;margin-bottom:8px;">' + m.icon + '</div>'
-           + '<div style="font-family:'Sora',sans-serif;font-weight:900;font-size:1.8rem;color:white;margin-bottom:4px;">' + val + '</div>'
+           + '<div style="font-family:Sora,sans-serif;font-weight:900;font-size:1.8rem;color:white;margin-bottom:4px;">' + val + '</div>'
            + '<div style="font-size:.68rem;font-weight:800;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;">' + k.nama + '</div>'
            + '<div style="font-size:.6rem;color:rgba(255,255,255,.55);margin-top:3px;">Indonesia ' + tahun + '</div>'
            + '</div>';
     }).join('');
-
-    // Thead
     if (elThead) {
       elThead.innerHTML = '<th style="padding:10px 20px;font-size:.68rem;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;">Provinsi</th>'
         + kolom.map(k => '<th style="padding:10px 20px;font-size:.68rem;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;text-align:center;">' + k.nama + '</th>').join('');
     }
-
-    // Tbody
     elTbody.innerHTML = rows.map(function(r) {
       const hl    = r.hl ? 'background:#eff6ff;' : '';
       const pin   = r.hl ? '📍 ' : '';
@@ -354,11 +333,9 @@
            + '<td style="padding:10px 20px;font-weight:800;color:#1e293b;">' + pin + r.label + badge + '</td>'
            + cols + '</tr>';
     }).join('');
-
-    elLoading.style.display = 'none';
-    elData.style.display    = 'block';
+    document.getElementById('bps-loading').style.display = 'none';
+    document.getElementById('bps-data').style.display    = 'block';
   }
-
   renderBPS();
   </script>
 
