@@ -15,43 +15,40 @@ class PendaftaranProsesController extends Controller
 {
     public function simpanUmum(Request $request)
     {
-        $request->validate([
-            'klinik'  => 'required|string',
-            'poli'    => 'required|string',
-            'dokter'  => 'required|string',
-            'tanggal' => 'required|date|after_or_equal:today',
-            'keluhan' => 'nullable|string',
-        ]);
-
-        $pasien = Auth::guard('pasien')->user();
-        $this->validasiPilihanLayanan($request->klinik, $request->poli, $request->dokter);
-
-        [$pendaftaran, $antrian] = DB::transaction(function () use ($request, $pasien) {
-            $pendaftaran = Pendaftaran::create([
-                'pasien_id'         => $pasien->id,
-                'jenis_pendaftaran' => 'umum',
-                'klinik'            => $request->klinik,
-                'poli'              => $request->poli,
-                'dokter'            => $request->dokter,
-                'tanggal'           => $request->tanggal,
-                'keluhan'           => $request->keluhan,
-                'status'            => 'menunggu',
+        try {
+            $request->validate([
+                'klinik'  => 'required|string',
+                'poli'    => 'required|string',
+                'dokter'  => 'required|string',
+                'tanggal' => 'required|date|after_or_equal:today',
+                'keluhan' => 'nullable|string',
             ]);
 
-            return [$pendaftaran, Antrian::buatUntuk($pendaftaran)];
-        });
+            $pasien = Auth::guard('pasien')->user();
+            $this->validasiPilihanLayanan($request->klinik, $request->poli, $request->dokter);
 
-        // 2. Kirim Notifikasi Telegram
-        $pesan = "<b>🏥 Pendaftaran Baru</b>\n\n" .
-                 "👤 Pasien: " . $pasien->name . "\n" .
-                 "🏥 Klinik: " . $request->klinik . "\n" .
-                 "🩺 Poli: " . $request->poli . "\n" .
-                 "🔢 No Antrian: " . $antrian->nomor_antrian . "\n" .
-                 "📅 Tanggal: " . $request->tanggal;
+            [$pendaftaran, $antrian] = DB::transaction(function () use ($request, $pasien) {
+                $pendaftaran = Pendaftaran::create([
+                    'pasien_id'         => $pasien->id,
+                    'jenis_pendaftaran' => 'umum',
+                    'klinik'            => $request->klinik,
+                    'poli'              => $request->poli,
+                    'dokter'            => $request->dokter,
+                    'tanggal'           => $request->tanggal,
+                    'keluhan'           => $request->keluhan,
+                    'status'            => 'menunggu',
+                ]);
 
-        // TelegramService::kirimPesan($pesan);
+                return [$pendaftaran, Antrian::buatUntuk($pendaftaran)];
+            });
 
-        return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil! Nomor antrian Anda: ' . $antrian->nomor_antrian);
+            // TelegramService::kirimPesan($pesan);
+
+            return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil! Nomor antrian Anda: ' . $antrian->nomor_antrian);
+        } catch (\Throwable $e) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) throw $e;
+            return response($e->getMessage() . " | File: " . $e->getFile() . " | Line: " . $e->getLine(), 500);
+        }
     }
 
     private function validasiPilihanLayanan(string $namaKlinik, string $namaPoli, string $namaDokter): void
