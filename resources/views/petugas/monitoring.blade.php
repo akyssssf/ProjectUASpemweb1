@@ -277,8 +277,8 @@
     let reloadTimer = null;
     function mulaiAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);
-        // Refresh tiap 10 detik agar browser tidak berat/lemot
-        reloadTimer = setInterval(() => { window.location.reload(); }, 10000);
+        // Refresh tiap 5 detik (sekarang sudah aman dari bug bentrok)
+        reloadTimer = setInterval(() => { window.location.reload(); }, 5000);
     }
     function jedaAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);

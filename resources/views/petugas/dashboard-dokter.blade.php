@@ -179,7 +179,7 @@
 </main>
 
 <script>
-    let reloadTimer = setInterval(() => { window.location.reload(); }, 15000);
+    let reloadTimer = setInterval(() => { window.location.reload(); }, 5000);
 
     // Jeda auto-reload saat dokter mengklik tombol "Periksa" atau berinteraksi
     document.querySelectorAll('a, form, button').forEach(el => {
