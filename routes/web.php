@@ -19,21 +19,6 @@ use App\Models\Klinik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-// --- Route Utama ---
-Route::get('/fix-db', function () {
-    try {
-        if (!Illuminate\Support\Facades\Schema::hasColumn('antrians', 'klinik')) {
-            Illuminate\Support\Facades\DB::statement('ALTER TABLE antrians ADD COLUMN klinik VARCHAR(255) AFTER id');
-        }
-        if (!Illuminate\Support\Facades\Schema::hasColumn('pendaftarans', 'jenis_pendaftaran')) {
-            Illuminate\Support\Facades\DB::statement('ALTER TABLE pendaftarans ADD COLUMN jenis_pendaftaran VARCHAR(255) AFTER pasien_id');
-        }
-        return "Database berhasil diperbaiki! Silakan kembali ke form pendaftaran.";
-    } catch (\Throwable $e) {
-        return "Gagal: " . $e->getMessage();
-    }
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
