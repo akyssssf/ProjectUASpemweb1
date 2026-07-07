@@ -18,6 +18,18 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);
+
+        // Percaya semua proxy (Railway jadi reverse-proxy di depan aplikasi).
+        // Tanpa ini, Laravel gak tau request aslinya lewat HTTPS, sehingga
+        // form action / URL yang di-generate jadi http:// bukan https://,
+        // dan browser nunjukin warning "not secure" pas submit form.
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR |
+                     Request::HEADER_X_FORWARDED_HOST |
+                     Request::HEADER_X_FORWARDED_PORT |
+                     Request::HEADER_X_FORWARDED_PROTO
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
