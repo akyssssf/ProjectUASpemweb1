@@ -53,7 +53,7 @@
     </div>
 
     <!-- Popup dipanggil -->
-    <div id="popup-dipanggil" class="hidden fixed inset-0 z-[999] flex items-center justify-center p-4" style="background:rgba(79,70,229,0.85);backdrop-filter:blur(8px);">
+    <div id="popup-dipanggil" class="hidden fixed inset-0 z-[999] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
         <div class="clay p-8 text-center max-w-sm w-full" style="border-radius:32px;box-shadow:0 16px 0 #C7D2FE;">
             <div class="text-6xl mb-4 animate-bounce">🔔</div>
             <p class="text-slate-500 font-black uppercase tracking-widest text-xs mb-2">Nomor Anda Dipanggil!</p>

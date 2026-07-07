@@ -68,7 +68,7 @@
                                 </button>
 
                                 <!-- Modal survei -->
-                                <div id="modal-survei-{{ $data->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(79,70,229,0.7);backdrop-filter:blur(6px);">
+                                <div id="modal-survei-{{ $data->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
                                     <div class="clay p-8 max-w-md w-full" style="border-radius:28px;box-shadow:0 16px 0 #B3C0E8;">
                                         <h4 class="font-black text-slate-800 text-lg mb-1">⭐ Beri Penilaian</h4>
                                         <p class="text-sm text-slate-400 font-bold mb-5">{{ $data->klinik }} — {{ $data->poli }}</p>

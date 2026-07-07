@@ -55,7 +55,21 @@ Route::post('/petugas/logout', [StaffAuthController::class, 'logout'])->name('pe
 
 // --- Route Dashboard & Layanan Pasien ---
 Route::middleware(['auth:pasien'])->group(function () {
-    Route::get('/dashboard', function () { return view('patient.dashboard'); });
+    Route::get('/dashboard', function () {
+        $pasienId = Auth::guard('pasien')->id();
+        $hariIni = now()->format('Y-m-d');
+        
+        // Cek apakah pasien punya pendaftaran hari ini yang antreannya belum selesai
+        $antreanAktif = \App\Models\Antrian::with('pendaftaran')
+            ->whereHas('pendaftaran', function($q) use ($pasienId) {
+                $q->where('pasien_id', $pasienId);
+            })
+            ->whereDate('tanggal_antrian', $hariIni)
+            ->whereIn('status', ['menunggu', 'dipanggil'])
+            ->first();
+
+        return view('patient.dashboard', compact('antreanAktif'));
+    });
     Route::get('/pendaftaran', [PendaftaranController::class, 'pilihJenis']);
     Route::get('/pendaftaran/riwayat', [RiwayatController::class, 'index'])->name('pendaftaran.riwayat');
     Route::get('/antrean', [AntreanController::class, 'index']);

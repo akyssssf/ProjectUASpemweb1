@@ -15,6 +15,24 @@
     </div>
 </div>
 
+@if(isset($antreanAktif) && $antreanAktif)
+<div class="mb-8 animate-pulse-slow">
+    <div class="clay p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6" style="border:2px solid #3B82F6; box-shadow: 0 10px 30px rgba(59,130,246,0.2);">
+        <div>
+            <div class="inline-block bg-blue-100 text-blue-700 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full mb-3">Tiket Antrean Anda</div>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800">{{ $antreanAktif->nomor_antrian }}</h2>
+            <p class="text-slate-500 font-bold mt-2">{{ $antreanAktif->klinik }} — {{ $antreanAktif->poli }}</p>
+        </div>
+        <div class="text-center md:text-right w-full md:w-auto">
+            <div class="inline-block px-5 py-3 rounded-2xl font-black {{ $antreanAktif->status == 'dipanggil' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }} mb-3 w-full md:w-auto">
+                {{ $antreanAktif->status == 'dipanggil' ? '📢 Sedang Dipanggil' : '⏳ Menunggu Panggilan' }}
+            </div>
+            <a href="/antrean" class="btn-clay btn-primary w-full text-center block" style="padding:10px;">Lihat Live Monitoring →</a>
+        </div>
+    </div>
+</div>
+@endif
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
     <a href="/pendaftaran" class="clay p-6 flex flex-col items-center text-center hover:-translate-y-1 transition-transform duration-200 group">
