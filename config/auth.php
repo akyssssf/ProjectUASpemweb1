@@ -29,6 +29,11 @@ return [
             'provider' => 'users',
         ],
 
+        'sanctum' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+
         'pasien' => [
             'driver' => 'session',
             'provider' => 'pasiens',

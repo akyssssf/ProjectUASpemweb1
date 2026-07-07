@@ -2,9 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SurveiController; 
+use App\Http\Controllers\SurveiController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\StaffController;
+use App\Http\Controllers\Api\PasienController;
 
 // Route untuk bikin akun (Register)
 Route::post('/register', function (Request $request) {
@@ -16,7 +18,7 @@ Route::post('/register', function (Request $request) {
     return response()->json(['message' => 'Akun berhasil dibuat'], 201);
 });
 
-// Route Autentikasi Khusus API (Langsung eksekusi di sini)
+// Route Autentikasi Khusus API
 Route::post('/login', function (Request $request) {
     $user = User::where('email', $request->email)->first();
 
@@ -35,4 +37,8 @@ Route::post('/login', function (Request $request) {
 // Route yang diproteksi Sanctum
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('surveys', SurveiController::class);
+
+    // Endpoint filtering Staff & Pasien
+    Route::get('/staff', [StaffController::class, 'index']);
+    Route::get('/pasien', [PasienController::class, 'index']);
 });

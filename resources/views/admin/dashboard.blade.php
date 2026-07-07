@@ -82,6 +82,24 @@
                 <h2 class="text-lg font-black text-slate-800">👥 Daftar Staff</h2>
                 <a href="{{ route('staff.register') }}" class="btn-clay btn-primary" style="padding:8px 18px;font-size:0.8rem;">+ Tambah</a>
             </div>
+
+            <!-- Form Filter Staff -->
+            <form method="GET" action="{{ route('admin.dashboard') }}" class="px-8 py-4 flex flex-wrap gap-3" style="border-bottom:2px solid #EEF2FF;">
+                <input type="text" name="staff_name" value="{{ request('staff_name') }}"
+                       placeholder="Cari nama staff..." class="px-4 py-2 rounded-lg border text-sm" style="border-color:#C7D2FE;">
+
+                <select name="staff_role" class="px-4 py-2 rounded-lg border text-sm" style="border-color:#C7D2FE;">
+                    <option value="">Semua Role</option>
+                    <option value="admin" @selected(request('staff_role') === 'admin')>Admin</option>
+                    <option value="dokter" @selected(request('staff_role') === 'dokter')>Dokter</option>
+                    <option value="loket" @selected(request('staff_role') === 'loket')>Loket</option>
+                    <option value="nakes" @selected(request('staff_role') === 'nakes')>Nakes</option>
+                </select>
+
+                <button type="submit" class="btn-clay btn-primary" style="padding:8px 18px;font-size:0.8rem;">Cari</button>
+                <a href="{{ route('admin.dashboard') }}" class="btn-clay" style="padding:8px 18px;font-size:0.8rem;">Reset</a>
+            </form>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
@@ -120,6 +138,19 @@
                 <h2 class="text-lg font-black text-slate-800">🧑‍🤝‍🧑 Daftar Pasien</h2>
                 <span class="text-xs font-black px-4 py-2 rounded-full" style="background:#EEF2FF;color:#4F46E5;border:1.5px solid #C7D2FE;">{{ $allPasien->count() }} terdaftar</span>
             </div>
+
+            <!-- Form Filter Pasien -->
+            <form method="GET" action="{{ route('admin.dashboard') }}" class="px-8 py-4 flex flex-wrap gap-3" style="border-bottom:2px solid #EEF2FF;">
+                <input type="text" name="pasien_name" value="{{ request('pasien_name') }}"
+                       placeholder="Cari nama pasien..." class="px-4 py-2 rounded-lg border text-sm" style="border-color:#C7D2FE;">
+
+                <input type="text" name="pasien_nik" value="{{ request('pasien_nik') }}"
+                       placeholder="Cari NIK..." class="px-4 py-2 rounded-lg border text-sm" style="border-color:#C7D2FE;">
+
+                <button type="submit" class="btn-clay btn-primary" style="padding:8px 18px;font-size:0.8rem;">Cari</button>
+                <a href="{{ route('admin.dashboard') }}" class="btn-clay" style="padding:8px 18px;font-size:0.8rem;">Reset</a>
+            </form>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
