@@ -49,7 +49,7 @@ class PendaftaranProsesController extends Controller
                  "🔢 No Antrian: " . $antrian->nomor_antrian . "\n" .
                  "📅 Tanggal: " . $request->tanggal;
 
-        TelegramService::kirimPesan($pesan);
+        // TelegramService::kirimPesan($pesan);
 
         return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil! Nomor antrian Anda: ' . $antrian->nomor_antrian);
     }

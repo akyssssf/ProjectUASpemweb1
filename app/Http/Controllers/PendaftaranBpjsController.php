@@ -57,7 +57,7 @@ class PendaftaranBpjsController extends Controller
                  "🔢 No Antrian: " . $antrian->nomor_antrian . "\n" .
                  "📅 Tanggal: " . $request->tanggal;
 
-        TelegramService::kirimPesan($pesan);
+        // TelegramService::kirimPesan($pesan);
 
         // 5. Redirect ke dashboard dengan pesan sukses
         return redirect('/dashboard')->with('success', 'Pendaftaran BPJS berhasil diajukan! Nomor antrian Anda: ' . $antrian->nomor_antrian);
