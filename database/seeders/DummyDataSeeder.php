@@ -144,7 +144,7 @@ class DummyDataSeeder extends Seeder
                     'dokter'            => $dokter->nama,
                     'tanggal'           => $tanggal,
                     'keluhan'           => $keluhanList[array_rand($keluhanList)],
-                    'status'            => 'menunggu',
+                    'status'            => $statusAntrian === 'selesai' ? 'selesai' : 'menunggu',
                 ]);
 
                 Antrian::create([

@@ -42,7 +42,6 @@
         <div class="clay p-8">
             <form action="{{ route('rekam_medis.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="pasien_id" value="{{ $pasien->id }}">
                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
 
                 <p class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-6">Format SOAP</p>

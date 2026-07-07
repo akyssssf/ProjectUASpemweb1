@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pendaftaran;
 use App\Models\Antrian;
+use App\Models\Klinik;
 use App\Services\TelegramService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PendaftaranBpjsController extends Controller
 {
@@ -20,33 +23,34 @@ class PendaftaranBpjsController extends Controller
             'poli'          => 'required|string',
             'dokter'        => 'required|string',
             'jenis_rujukan' => 'required|string',
-            'tanggal'       => 'required|date',
+            'tanggal'       => 'required|date|after_or_equal:today',
             'keluhan'       => 'nullable|string',
         ]);
 
         $pasien = Auth::guard('pasien')->user();
+        $this->validasiPilihanLayanan($request->klinik, $request->poli, $request->dokter);
 
-        // 2. Simpan ke database
-        $pendaftaran = Pendaftaran::create([
-            'pasien_id'         => $pasien->id,
-            'no_bpjs'           => $request->no_bpjs,
-            'faskes_asal'       => $request->faskes_asal,
-            'jenis_rujukan'     => $request->jenis_rujukan,
-            'klinik'            => $request->klinik,
-            'poli'              => $request->poli,
-            'dokter'            => $request->dokter,
-            'tanggal'           => $request->tanggal,
-            'keluhan'           => $request->keluhan,
-            'jenis_pendaftaran' => 'BPJS',
-            'status'            => 'menunggu',
-        ]);
+        [$pendaftaran, $antrian] = DB::transaction(function () use ($request, $pasien) {
+            $pendaftaran = Pendaftaran::create([
+                'pasien_id'         => $pasien->id,
+                'no_bpjs'           => $request->no_bpjs,
+                'faskes_asal'       => $request->faskes_asal,
+                'jenis_rujukan'     => $request->jenis_rujukan,
+                'klinik'            => $request->klinik,
+                'poli'              => $request->poli,
+                'dokter'            => $request->dokter,
+                'tanggal'           => $request->tanggal,
+                'keluhan'           => $request->keluhan,
+                'jenis_pendaftaran' => 'BPJS',
+                'status'            => 'menunggu',
+            ]);
 
-        // 3. Generate nomor antrian otomatis berdasarkan poli (reset tiap hari)
-        $antrian = Antrian::buatUntuk($pendaftaran);
+            return [$pendaftaran, Antrian::buatUntuk($pendaftaran)];
+        });
 
         // 4. Kirim Notifikasi Telegram
         $pesan = "<b>🏥 Pendaftaran BPJS Baru</b>\n\n" .
-                 "👤 Pasien: " . $pasien->nama . "\n" .
+                 "👤 Pasien: " . $pasien->name . "\n" .
                  "🪪 No BPJS: " . $request->no_bpjs . "\n" .
                  "🏥 Klinik: " . $request->klinik . "\n" .
                  "🩺 Poli: " . $request->poli . "\n" .
@@ -57,5 +61,21 @@ class PendaftaranBpjsController extends Controller
 
         // 5. Redirect ke dashboard dengan pesan sukses
         return redirect('/dashboard')->with('success', 'Pendaftaran BPJS berhasil diajukan! Nomor antrian Anda: ' . $antrian->nomor_antrian);
+    }
+
+    private function validasiPilihanLayanan(string $namaKlinik, string $namaPoli, string $namaDokter): void
+    {
+        $klinik = Klinik::with('polis.dokters')
+            ->where('nama', $namaKlinik)
+            ->first();
+
+        $poli = $klinik?->polis->firstWhere('nama', $namaPoli);
+        $dokter = $poli?->dokters->firstWhere('nama', $namaDokter);
+
+        if (!$klinik || !$poli || !$dokter) {
+            throw ValidationException::withMessages([
+                'dokter' => 'Pilihan klinik, poli, dan dokter tidak valid.',
+            ]);
+        }
     }
 }

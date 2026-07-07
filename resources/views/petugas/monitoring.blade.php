@@ -57,6 +57,18 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div class="clay mb-6 p-4 flex items-center gap-3" style="border-color:#A7F3D0;box-shadow:0 6px 0 #A7F3D0;">
+                <span class="font-black text-emerald-700">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="clay mb-6 p-4 flex items-center gap-3" style="border-color:#FECACA;box-shadow:0 6px 0 #FECACA;">
+                <span class="font-black text-red-700">{{ session('error') }}</span>
+            </div>
+        @endif
+
         <!-- Ringkasan Semua Antrian Aktif (untuk testing/overview cepat) -->
         @if (!$klinikDipilih && $ringkasanAktif->count() > 0)
         <div class="clay p-5 mb-6" style="border-color:#FDE68A;">
@@ -169,9 +181,15 @@
                                     </td>
                                     <td class="px-6 py-5 text-center">
                                         @if($row->status == 'menunggu')
-                                            <a href="/petugas/monitoring/panggil/{{ $row->id }}" class="btn-clay btn-green">PANGGIL</a>
+                                            <form method="POST" action="{{ route('monitoring.panggil', $row->id) }}" class="inline">
+                                                @csrf
+                                                <button type="submit" class="btn-clay btn-green">PANGGIL</button>
+                                            </form>
                                         @else
-                                            <a href="/petugas/monitoring/selesai/{{ $row->id }}" class="btn-clay btn-slate">SELESAI</a>
+                                            <form method="POST" action="{{ route('monitoring.selesai', $row->id) }}" class="inline">
+                                                @csrf
+                                                <button type="submit" class="btn-clay btn-slate">SELESAI</button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

@@ -101,36 +101,26 @@
         </div>
     </div>
 
-    <!-- Sidebar: Form survei umum -->
+    <!-- Sidebar: Aturan rating -->
     <div class="space-y-6">
         <div class="clay p-6">
-            <h3 class="font-black text-slate-800 mb-1">⭐ Beri Penilaian Umum</h3>
-            <p class="text-xs text-slate-400 font-bold mb-5 leading-relaxed">Kesan umum terhadap klinik ini, tidak perlu pernah berkunjung.</p>
+            <h3 class="font-black text-slate-800 mb-1">⭐ Rating Terverifikasi</h3>
+            <p class="text-xs text-slate-400 font-bold mb-5 leading-relaxed">Rating hanya dihitung dari pasien yang sudah selesai berobat di RS dan poli terkait.</p>
 
-            <form method="POST" action="{{ route('survei.umum') }}">
-                @csrf
-                <input type="hidden" name="klinik_id" value="{{ $klinik->id }}">
+            <div class="p-4 mb-5" style="background:#EFF6FF;border:2px solid #BFDBFE;border-radius:16px;">
+                <p class="label-clay mb-2">Alur rating</p>
+                <p class="text-sm text-slate-600 font-semibold leading-relaxed">Daftar antrian, diperiksa dokter, status kunjungan selesai, lalu tombol rating muncul di halaman Riwayat.</p>
+            </div>
 
-                <label class="label-clay mb-3">Rating</label>
-
-<!-- Star Rating Component -->
-<div class="star-rating flex gap-2 mb-5" id="stars-umum" data-value="0">
-    <button type="button" data-val="1" onclick="setRating('umum',1)" onmouseover="hoverStar('umum',1)" onmouseout="resetStar('umum')" class="star-btn text-4xl select-none cursor-pointer bg-transparent border-none p-0 transition-transform hover:scale-110" style="color:#e2e8f0;">★</button>
-    <button type="button" data-val="2" onclick="setRating('umum',2)" onmouseover="hoverStar('umum',2)" onmouseout="resetStar('umum')" class="star-btn text-4xl select-none cursor-pointer bg-transparent border-none p-0 transition-transform hover:scale-110" style="color:#e2e8f0;">★</button>
-    <button type="button" data-val="3" onclick="setRating('umum',3)" onmouseover="hoverStar('umum',3)" onmouseout="resetStar('umum')" class="star-btn text-4xl select-none cursor-pointer bg-transparent border-none p-0 transition-transform hover:scale-110" style="color:#e2e8f0;">★</button>
-    <button type="button" data-val="4" onclick="setRating('umum',4)" onmouseover="hoverStar('umum',4)" onmouseout="resetStar('umum')" class="star-btn text-4xl select-none cursor-pointer bg-transparent border-none p-0 transition-transform hover:scale-110" style="color:#e2e8f0;">★</button>
-    <button type="button" data-val="5" onclick="setRating('umum',5)" onmouseover="hoverStar('umum',5)" onmouseout="resetStar('umum')" class="star-btn text-4xl select-none cursor-pointer bg-transparent border-none p-0 transition-transform hover:scale-110" style="color:#e2e8f0;">★</button>
-</div>
-<input type="hidden" name="rating" id="rating-input-umum" required>
-
-
-                <label class="label-clay mb-2">Komentar (opsional)</label>
-                <textarea name="komentar" rows="4" placeholder="Ceritakan pengalaman atau kesan kamu..." class="input-clay mb-5"></textarea>
-
-                <button type="submit" class="btn-clay btn-primary w-full text-center" style="padding:12px;">
-                    Kirim Penilaian →
-                </button>
-            </form>
+            @auth('pasien')
+                <a href="{{ route('pendaftaran.riwayat') }}" class="btn-clay btn-primary w-full text-center block" style="padding:12px;text-decoration:none;">
+                    Buka Riwayat Kunjungan →
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-clay btn-primary w-full text-center block" style="padding:12px;text-decoration:none;">
+                    Masuk Pasien →
+                </a>
+            @endauth
         </div>
 
         <!-- Info klinik -->
@@ -153,26 +143,5 @@
     .btn-white { background: white; color: #0000CD; box-shadow: 0 5px 0 #B3C0E8; border: 2px solid #D0DAFF; }
     .btn-clay:hover { transform: translateY(-1px); }
 </style>
-
-<script>
-function updateStarDisplay(id, val, permanent) {
-    const container = document.getElementById('stars-' + id);
-    if (!container) return;
-    container.querySelectorAll('.star-btn').forEach((btn, idx) => {
-        btn.style.color = idx < val ? '#FED800' : '#e2e8f0';
-        btn.style.textShadow = idx < val ? '0 2px 8px rgba(254,216,0,0.5)' : 'none';
-    });
-    if (permanent) container.dataset.value = val;
-}
-function setRating(id, val) {
-    document.getElementById('rating-input-' + id).value = val;
-    updateStarDisplay(id, val, true);
-}
-function hoverStar(id, val) { updateStarDisplay(id, val, false); }
-function resetStar(id) {
-    const container = document.getElementById('stars-' + id);
-    if (container) updateStarDisplay(id, parseInt(container.dataset.value) || 0, false);
-}
-</script>
 
 @endsection

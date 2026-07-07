@@ -61,30 +61,8 @@ class SurveiPasienController extends Controller
         return back()->with('success', 'Terima kasih atas penilaian Anda!');
     }
 
-    /**
-     * Simpan survei UMUM: rating untuk sebuah klinik/RS secara keseluruhan,
-     * tanpa perlu pernah berkunjung. Bisa diisi siapa saja (publik), login
-     * opsional.
-     */
     public function simpanUmum(Request $request)
     {
-        $request->validate([
-            'klinik_id' => 'required|exists:kliniks,id',
-            'rating'    => 'required|integer|min:1|max:5',
-            'komentar'  => 'nullable|string|max:1000',
-        ]);
-
-        $pasien = Auth::guard('pasien')->user();
-
-        Survei::create([
-            'pasien_id' => $pasien?->id,
-            'klinik_id' => $request->klinik_id,
-            'poli_id'   => null,
-            'tipe'      => 'umum',
-            'rating'    => $request->rating,
-            'komentar'  => $request->komentar,
-        ]);
-
-        return back()->with('success', 'Terima kasih atas penilaian Anda!');
+        return back()->with('error', 'Rating hanya bisa diberikan dari riwayat kunjungan yang sudah selesai.');
     }
 }

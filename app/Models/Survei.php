@@ -12,6 +12,16 @@ class Survei extends Model
         'pasien_id', 'klinik_id', 'poli_id', 'pendaftaran_id', 'tipe', 'rating', 'komentar',
     ];
 
+    public function scopeVerifiedVisit($query)
+    {
+        return $query
+            ->where('tipe', 'spesifik')
+            ->whereNotNull('pendaftaran_id')
+            ->whereHas('pendaftaran.antrian', function ($q) {
+                $q->where('status', 'selesai');
+            });
+    }
+
     public function pasien()
     {
         return $this->belongsTo(Pasien::class);

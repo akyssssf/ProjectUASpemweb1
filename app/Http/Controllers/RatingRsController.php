@@ -11,14 +11,15 @@ class RatingRsController extends Controller
     {
         $kliniks = Klinik::with([
                 'polis' => function ($q) {
-                    $q->withCount('surveis')->withAvg('surveis', 'rating');
+                    $q->withCount(['ratingSurveis as surveis_count'])
+                        ->withAvg(['ratingSurveis as surveis_avg_rating'], 'rating');
                 },
-                'surveis' => function ($q) {
+                'ratingSurveis' => function ($q) {
                     $q->with('poli')->whereNotNull('komentar')->latest()->limit(5);
                 },
             ])
-            ->withCount('surveis')
-            ->withAvg('surveis', 'rating')
+            ->withCount(['ratingSurveis as surveis_count'])
+            ->withAvg(['ratingSurveis as surveis_avg_rating'], 'rating')
             ->get();
 
         if ($request->filled('poli')) {
@@ -48,7 +49,7 @@ class RatingRsController extends Controller
                 ];
             })->sortByDesc('rating')->values();
 
-            $ulasan = $k->surveis->filter(function ($s) {
+            $ulasan = $k->ratingSurveis->filter(function ($s) {
                 return $s->komentar !== null;
             })->sortByDesc('created_at')->take(5)->map(function ($s) {
                 return [
@@ -75,13 +76,14 @@ class RatingRsController extends Controller
     public function show($id)
     {
         $klinik = Klinik::with(['polis' => function ($q) {
-                $q->withCount('surveis')->withAvg('surveis', 'rating');
+                $q->withCount(['ratingSurveis as surveis_count'])
+                    ->withAvg(['ratingSurveis as surveis_avg_rating'], 'rating');
             }])
-            ->withCount('surveis')
-            ->withAvg('surveis', 'rating')
+            ->withCount(['ratingSurveis as surveis_count'])
+            ->withAvg(['ratingSurveis as surveis_avg_rating'], 'rating')
             ->findOrFail($id);
 
-        $ulasanTerbaru = $klinik->surveis()
+        $ulasanTerbaru = $klinik->ratingSurveis()
             ->with('poli')
             ->whereNotNull('komentar')
             ->orderByDesc('created_at')

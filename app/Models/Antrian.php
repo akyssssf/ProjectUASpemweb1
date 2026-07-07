@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Antrian extends Model
 {
@@ -17,7 +18,9 @@ class Antrian extends Model
 
     public static function buatUntuk(Pendaftaran $pendaftaran): self
     {
-        $hariIni = now()->format('Y-m-d');
+        $tanggalAntrian = $pendaftaran->tanggal
+            ? Carbon::parse($pendaftaran->tanggal)->toDateString()
+            : now()->toDateString();
         $klinik  = $pendaftaran->klinik;
         $poli    = $pendaftaran->poli;
 
@@ -28,7 +31,7 @@ class Antrian extends Model
         // berbeda tidak berbagi urutan nomor yang sama)
         $terakhir = self::where('klinik', $klinik)
             ->where('poli', $poli)
-            ->where('tanggal_antrian', $hariIni)
+            ->where('tanggal_antrian', $tanggalAntrian)
             ->orderByDesc('id')
             ->first();
 
@@ -43,7 +46,7 @@ class Antrian extends Model
             'nomor_antrian'   => $kodePoli . '-' . $urutanBaru,
             'klinik'          => $klinik,
             'poli'            => $poli,
-            'tanggal_antrian' => $hariIni,
+            'tanggal_antrian' => $tanggalAntrian,
             'status'          => 'menunggu',
         ]);
     }

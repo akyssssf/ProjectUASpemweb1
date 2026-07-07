@@ -22,14 +22,56 @@
     .btn-green{background:linear-gradient(135deg,#16a34a,#10b981);color:white;box-shadow:5px 5px 14px rgba(16,185,129,.3);}
     .hero-bg{background:linear-gradient(135deg,#0f2057 0%,#1e3a8a 45%,#1e40af 70%,#0369a1 100%);border-radius:28px;overflow:hidden;position:relative;box-shadow:8px 8px 32px rgba(15,32,87,.4),inset 3px 3px 12px rgba(255,255,255,.06);}
     .hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 25%,rgba(255,255,255,.07) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(56,189,248,.12) 0%,transparent 50%);pointer-events:none;}
+    .hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(90deg,rgba(0,0,0,.68),transparent 72%);pointer-events:none;}
+    .hero-shell{padding:2rem;}
+    .hero-content{position:relative;}
+    .hero-content::after{content:'';position:absolute;width:150px;height:150px;right:4%;bottom:-12%;border-radius:999px;background:radial-gradient(circle,rgba(103,232,249,.28),transparent 64%);filter:blur(4px);pointer-events:none;}
+    .hero-title{font-family:'Sora',sans-serif;font-weight:900;font-size:clamp(2.3rem,4.4vw,4.2rem);color:white;line-height:1.05;margin-bottom:18px;letter-spacing:0;}
+    .hero-title-accent{display:inline-block;background:linear-gradient(90deg,#93c5fd 0%,#c4b5fd 50%,#67e8f9 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+    .hero-copy{color:rgba(191,219,254,.9);font-size:1rem;line-height:1.8;max-width:500px;margin-bottom:30px;}
+    .hero-kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);border-radius:999px;padding:.45rem 1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.16);}
+    .hero-kicker-dot{width:9px;height:9px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;display:inline-block;box-shadow:0 0 0 5px rgba(52,211,153,.14);}
+    .hero-kicker-text{font-size:.74rem;font-weight:800;color:rgba(255,255,255,.88);letter-spacing:.06em;}
+    .hero-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    .hero-stat{min-height:132px;border-radius:22px;padding:24px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .hero-stat-white{background:rgba(255,255,255,.96);border:1.5px solid rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(15,32,87,.18),inset 3px 3px 8px rgba(255,255,255,.9),inset -3px -3px 8px rgba(180,210,245,.25);}
+    .hero-stat-green{background:linear-gradient(135deg,#16a34a,#10b981);box-shadow:0 12px 28px rgba(16,185,129,.28);}
+    .hero-stat-purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9);box-shadow:0 12px 28px rgba(109,40,217,.28);}
+    .hero-stat-number{font-family:'Sora',sans-serif;font-weight:900;font-size:2.25rem;line-height:1;color:#2563eb;margin-bottom:12px;}
+    .hero-stat-label{font-size:.72rem;font-weight:900;color:#64748b;text-transform:uppercase;letter-spacing:.06em;}
+    .hero-stat-dark .hero-stat-number,.hero-stat-dark .hero-stat-label{color:white;}
+    .hero-stat-dark .hero-stat-label{opacity:.82;}
+    .hero-live-row{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 30px;}
+    .hero-live-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.18);border-radius:14px;padding:9px 13px;color:#DBEAFE;font-size:.78rem;font-weight:800;backdrop-filter:blur(8px);}
+    .hero-live-chip svg{width:16px;height:16px;color:#67E8F9;stroke-width:2.4;}
+    .hero-stat{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease;}
+    .hero-stat::after{content:'';position:absolute;width:90px;height:90px;right:-24px;top:-24px;border-radius:999px;background:rgba(255,255,255,.16);}
+    .hero-stat:hover{transform:translateY(-5px);}
+    .hero-stat-mini{margin-top:10px;font-size:.68rem;font-weight:800;color:#64748b;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:999px;padding:4px 10px;}
+    .hero-stat-dark .hero-stat-mini{color:rgba(255,255,255,.82);background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.24);}
     .stat-pill{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.22);border-radius:50px;padding:.5rem 1rem;backdrop-filter:blur(8px);}
     .section-tag{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:999px;padding:5px 16px;font-size:.72rem;font-weight:800;color:#2563eb;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;}
-    .icon-wrap{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+    .icon-wrap{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:white;}
+    .icon-wrap svg{width:29px;height:29px;stroke-width:2.35;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+    .feature-card{position:relative;overflow:hidden;min-height:245px;}
+    .feature-card::after{content:'';position:absolute;width:130px;height:130px;right:-52px;top:-52px;border-radius:999px;background:radial-gradient(circle,rgba(59,130,246,.12),transparent 68%);pointer-events:none;}
+    .feature-card:hover .icon-wrap{transform:translateY(-2px) scale(1.03);}
+    .feature-card .icon-wrap{transition:transform .2s ease;}
+    .feature-cta{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:.78rem;font-weight:900;color:#2563eb;}
     .float{animation:float 4s ease-in-out infinite;}
     .float-2{animation:float 5s ease-in-out infinite 1s;}
     .float-3{animation:float 6s ease-in-out infinite 2s;}
     @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
     @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+    @media(max-width:768px){
+      .nav-inner{height:auto;min-height:64px;flex-wrap:wrap;padding:12px 16px;}
+      .hero-shell{padding:1.5rem;}
+      .hero-stat-grid{grid-template-columns:1fr 1fr;gap:12px;}
+      .hero-stat{min-height:104px;padding:18px 12px;}
+      .hero-stat-number{font-size:1.8rem;}
+      .hero-copy{font-size:.94rem;}
+      .hero-live-row{margin:16px 0 24px;}
+    }
   </style>
 </head>
 <body>
@@ -63,41 +105,59 @@
 <div class="relative z-10 max-w-6xl mx-auto px-4 space-y-10 py-8">
 
   {{-- HERO --}}
-  <div class="hero-bg p-8 md:p-12">
-    <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+  <div class="hero-bg hero-shell">
+    <div class="relative z-10 hero-content grid md:grid-cols-2 gap-10 items-center">
       <div>
-        <div class="inline-flex items-center gap-2 mb-5" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.35rem .9rem;">
-          <span style="width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse 1.5s infinite;display:inline-block;"></span>
-          <span style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.05em;">SISTEM AKTIF · REAL-TIME</span>
+        <div class="hero-kicker">
+          <span class="hero-kicker-dot"></span>
+          <span class="hero-kicker-text">SISTEM AKTIF · REAL-TIME</span>
         </div>
-        <h1 style="font-family:'Sora',sans-serif;font-weight:900;font-size:2.4rem;color:white;line-height:1.15;margin-bottom:16px;">
+        <h1 class="hero-title">
           Layanan Kesehatan<br>
-          <span style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background:linear-gradient(90deg,#93c5fd,#c4b5fd);">Terbaik & Cepat</span>
+          <span class="hero-title-accent">Terbaik & Cepat</span>
         </h1>
-        <p style="color:rgba(147,197,253,.9);font-size:.95rem;line-height:1.7;max-width:440px;margin-bottom:28px;">
+        <p class="hero-copy">
           Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
         </p>
+        <div class="hero-live-row">
+          <span class="hero-live-chip">
+            <svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+            Antrean live
+          </span>
+          <span class="hero-live-chip">
+            <svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg>
+            Rating RS
+          </span>
+          <span class="hero-live-chip">
+            <svg viewBox="0 0 24 24"><path d="M8 7V4h8v3"/><path d="M6 21h12a2 2 0 0 0 2-2v-9H4v9a2 2 0 0 0 2 2Z"/><path d="M10 14h4"/><path d="M12 12v4"/></svg>
+            Rekam medis
+          </span>
+        </div>
         <div class="flex flex-wrap gap-3">
           <a href="/register" class="clay-btn btn-primary" style="padding:12px 28px;font-size:.95rem;">Daftar Sekarang →</a>
           <a href="#cara" class="clay-btn btn-white" style="padding:12px 28px;font-size:.95rem;">Cara Pakai</a>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="clay-card float p-5 text-center">
-          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:#2563eb;">500+</div>
-          <div style="font-size:.7rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Pasien</div>
+      <div class="hero-stat-grid">
+        <div class="hero-stat hero-stat-white float">
+          <div class="hero-stat-number">500+</div>
+          <div class="hero-stat-label">Pasien</div>
+          <div class="hero-stat-mini">demo siap pakai</div>
         </div>
-        <div style="background:linear-gradient(135deg,#16a34a,#10b981);border-radius:20px;box-shadow:5px 5px 14px rgba(16,185,129,.3);" class="float-2 p-5 text-center">
-          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:white;">4.8</div>
-          <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Rating</div>
+        <div class="hero-stat hero-stat-green hero-stat-dark float-2">
+          <div class="hero-stat-number">4.8</div>
+          <div class="hero-stat-label">Rating</div>
+          <div class="hero-stat-mini">berbasis ulasan</div>
         </div>
-        <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:20px;box-shadow:5px 5px 14px rgba(109,40,217,.3);" class="float-3 p-5 text-center">
-          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:white;">24/7</div>
-          <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">Aktif</div>
+        <div class="hero-stat hero-stat-purple hero-stat-dark float-3">
+          <div class="hero-stat-number">24/7</div>
+          <div class="hero-stat-label">Aktif</div>
+          <div class="hero-stat-mini">monitoring</div>
         </div>
-        <div class="clay-card float p-5 text-center">
-          <div style="font-family:'Sora',sans-serif;font-weight:900;font-size:2rem;color:#2563eb;">14</div>
-          <div style="font-size:.7rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;">RS Madiun</div>
+        <div class="hero-stat hero-stat-white float">
+          <div class="hero-stat-number">14</div>
+          <div class="hero-stat-label">RS Madiun</div>
+          <div class="hero-stat-mini">multi poli</div>
         </div>
       </div>
     </div>
@@ -112,16 +172,36 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       @php $fitur = [
-        ['icon'=>'📋','bg'=>'linear-gradient(135deg,#1e3a8a,#2563eb)','shadow'=>'rgba(37,99,235,.35)','title'=>'Pendaftaran Online','desc'=>'Daftar BPJS maupun umum dari mana saja. Tidak perlu antre di loket.','tags'=>['BPJS','Non-BPJS']],
-        ['icon'=>'⏰','bg'=>'linear-gradient(135deg,#16a34a,#10b981)','shadow'=>'rgba(16,185,129,.3)','title'=>'Antrean Real-Time','desc'=>'Pantau nomor antrean dan estimasi waktu tunggu. Notifikasi suara saat dipanggil.','tags'=>['Live','Suara']],
-        ['icon'=>'⭐','bg'=>'linear-gradient(135deg,#d97706,#f59e0b)','shadow'=>'rgba(245,158,11,.3)','title'=>'Rating & Survei','desc'=>'Nilai layanan setelah kunjungan. Temukan klinik terbaik di Karesidenan Madiun.','tags'=>['Per Kunjungan','Publik']],
-        ['icon'=>'🩺','bg'=>'linear-gradient(135deg,#7c3aed,#6d28d9)','shadow'=>'rgba(109,40,217,.3)','title'=>'Rekam Medis SOAP','desc'=>'Dokter input rekam medis terstruktur. Tersimpan aman dan mudah diakses.','tags'=>['SOAP','Aman']],
-        ['icon'=>'👥','bg'=>'linear-gradient(135deg,#0891b2,#0284c7)','shadow'=>'rgba(2,132,199,.3)','title'=>'Kelola Staff & Pasien','desc'=>'Admin kelola akun dokter, petugas, dan data pasien dari satu dashboard.','tags'=>['Admin','Dokter']],
-        ['icon'=>'🏥','bg'=>'linear-gradient(135deg,#0f2057,#1e3a8a)','shadow'=>'rgba(15,32,87,.35)','title'=>'14 RS Madiun','desc'=>'Mencakup RSUD dan RS swasta se-Karesidenan Madiun. Data nyata dan akurat.','tags'=>['Madiun','Karesidenan']],
+        ['icon'=>'clipboard','bg'=>'linear-gradient(135deg,#1e3a8a,#2563eb)','shadow'=>'rgba(37,99,235,.35)','title'=>'Pendaftaran Online','desc'=>'Daftar BPJS maupun umum dari mana saja. Tidak perlu antre di loket.','tags'=>['BPJS','Non-BPJS']],
+        ['icon'=>'clock','bg'=>'linear-gradient(135deg,#16a34a,#10b981)','shadow'=>'rgba(16,185,129,.3)','title'=>'Antrean Real-Time','desc'=>'Pantau nomor antrean dan estimasi waktu tunggu. Notifikasi suara saat dipanggil.','tags'=>['Live','Suara']],
+        ['icon'=>'star','bg'=>'linear-gradient(135deg,#d97706,#f59e0b)','shadow'=>'rgba(245,158,11,.3)','title'=>'Rating & Survei','desc'=>'Nilai layanan setelah kunjungan. Temukan klinik terbaik di Karesidenan Madiun.','tags'=>['Per Kunjungan','Publik']],
+        ['icon'=>'medical','bg'=>'linear-gradient(135deg,#7c3aed,#6d28d9)','shadow'=>'rgba(109,40,217,.3)','title'=>'Rekam Medis SOAP','desc'=>'Dokter input rekam medis terstruktur. Tersimpan aman dan mudah diakses.','tags'=>['SOAP','Aman']],
+        ['icon'=>'users','bg'=>'linear-gradient(135deg,#0891b2,#0284c7)','shadow'=>'rgba(2,132,199,.3)','title'=>'Kelola Staff & Pasien','desc'=>'Admin kelola akun dokter, petugas, dan data pasien dari satu dashboard.','tags'=>['Admin','Dokter']],
+        ['icon'=>'hospital','bg'=>'linear-gradient(135deg,#0f2057,#1e3a8a)','shadow'=>'rgba(15,32,87,.35)','title'=>'14 RS Madiun','desc'=>'Mencakup RSUD dan RS swasta se-Karesidenan Madiun. Data nyata dan akurat.','tags'=>['Madiun','Karesidenan']],
       ]; @endphp
       @foreach($fitur as $f)
-      <div class="clay-card p-6 hover:-translate-y-1 transition-transform duration-200">
-        <div class="icon-wrap mb-4" style="background:{{ $f['bg'] }};box-shadow:4px 4px 10px {{ $f['shadow'] }};">{{ $f['icon'] }}</div>
+      <div class="clay-card feature-card p-6 hover:-translate-y-1 transition-transform duration-200">
+        <div class="icon-wrap mb-4" style="background:{{ $f['bg'] }};box-shadow:4px 4px 10px {{ $f['shadow'] }};">
+          @switch($f['icon'])
+            @case('clipboard')
+              <svg viewBox="0 0 24 24"><path d="M9 5h6"/><path d="M9 3h6a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1V5a2 2 0 0 1 2-2Z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>
+              @break
+            @case('clock')
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              @break
+            @case('star')
+              <svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg>
+              @break
+            @case('medical')
+              <svg viewBox="0 0 24 24"><path d="M8 7V4h8v3"/><path d="M6 21h12a2 2 0 0 0 2-2v-9H4v9a2 2 0 0 0 2 2Z"/><path d="M10 14h4"/><path d="M12 12v4"/></svg>
+              @break
+            @case('users')
+              <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              @break
+            @default
+              <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 21v-6h6v6"/><path d="M9 7h.01"/><path d="M15 7h.01"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
+          @endswitch
+        </div>
         <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;color:#1e293b;margin-bottom:8px;">{{ $f['title'] }}</h3>
         <p style="color:#64748b;font-size:.875rem;line-height:1.6;margin-bottom:12px;">{{ $f['desc'] }}</p>
         <div class="flex flex-wrap gap-2">
@@ -129,6 +209,7 @@
             <span style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;padding:3px 10px;font-size:.68rem;font-weight:700;color:#2563eb;">{{ $tag }}</span>
           @endforeach
         </div>
+        <span class="feature-cta">Lihat detail <span>→</span></span>
       </div>
       @endforeach
     </div>

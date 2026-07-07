@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Antrian;
 use App\Models\Klinik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MonitoringController extends Controller
 {
@@ -86,17 +87,55 @@ class MonitoringController extends Controller
 
     public function panggil($id)
     {
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update(['status' => 'dipanggil']);
+        $hasil = DB::transaction(function () use ($id) {
+            $antrian = Antrian::with('pendaftaran')->lockForUpdate()->findOrFail($id);
 
-        return back();
+            if ($antrian->status !== 'menunggu') {
+                return 'Antrean ini sudah tidak dalam status menunggu.';
+            }
+
+            $sudahAdaDipanggil = Antrian::where('id', '!=', $antrian->id)
+                ->where('klinik', $antrian->klinik)
+                ->where('poli', $antrian->poli)
+                ->whereDate('tanggal_antrian', $antrian->tanggal_antrian)
+                ->where('status', 'dipanggil')
+                ->exists();
+
+            if ($sudahAdaDipanggil) {
+                return 'Masih ada pasien yang sedang dipanggil di klinik dan poli ini. Selesaikan dulu sebelum memanggil nomor berikutnya.';
+            }
+
+            $antrian->update(['status' => 'dipanggil']);
+
+            return null;
+        });
+
+        if ($hasil) {
+            return back()->with('error', $hasil);
+        }
+
+        return back()->with('success', 'Nomor antrean berhasil dipanggil.');
     }
 
     public function selesai($id)
     {
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update(['status' => 'selesai']);
+        $hasil = DB::transaction(function () use ($id) {
+            $antrian = Antrian::with('pendaftaran')->lockForUpdate()->findOrFail($id);
 
-        return back();
+            if ($antrian->status !== 'dipanggil') {
+                return 'Hanya antrean yang sedang dipanggil yang bisa diselesaikan.';
+            }
+
+            $antrian->update(['status' => 'selesai']);
+            $antrian->pendaftaran?->update(['status' => 'selesai']);
+
+            return null;
+        });
+
+        if ($hasil) {
+            return back()->with('error', $hasil);
+        }
+
+        return back()->with('success', 'Antrean berhasil diselesaikan.');
     }
 }

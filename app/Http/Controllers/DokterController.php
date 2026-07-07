@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Dokter;
 use App\Models\MedicalRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DokterController extends Controller
 {
@@ -16,18 +18,45 @@ class DokterController extends Controller
     public function index()
     {
         // Ambil nama dokter dari akun staf yang sedang login
-        $namaDokterLogin = Auth::guard('staff')->user()->name;
+        $staff = Auth::guard('staff')->user();
+        $namaDokterLogin = $staff->name;
+        $hariIni = now()->format('Y-m-d');
 
-        $antrianDipanggil = Antrian::with('pendaftaran.pasien')
-            ->where('status', 'dipanggil')
-            ->where('tanggal_antrian', now()->format('Y-m-d'))
-            // Filter: Hanya tampilkan antrean untuk dokter ini
+        $profilDokter = Dokter::with('poli.klinik')
+            ->where('nama', $namaDokterLogin)
+            ->first();
+
+        $baseQuery = Antrian::with('pendaftaran.pasien')
+            ->where('tanggal_antrian', $hariIni)
             ->whereHas('pendaftaran', function($query) use ($namaDokterLogin) {
                 $query->where('dokter', $namaDokterLogin);
-            })
+            });
+
+        $antrianDipanggil = (clone $baseQuery)
+            ->where('status', 'dipanggil')
+            ->orderBy('id')
             ->get();
 
-        return view('petugas.dashboard-dokter', compact('antrianDipanggil'));
+        $antrianMenunggu = (clone $baseQuery)
+            ->where('status', 'menunggu')
+            ->orderBy('id')
+            ->limit(5)
+            ->get();
+
+        $ringkasan = [
+            'dipanggil' => $antrianDipanggil->count(),
+            'menunggu' => (clone $baseQuery)->where('status', 'menunggu')->count(),
+            'selesai' => (clone $baseQuery)->where('status', 'selesai')->count(),
+            'total_hari_ini' => (clone $baseQuery)->count(),
+        ];
+
+        return view('petugas.dashboard-dokter', compact(
+            'staff',
+            'profilDokter',
+            'antrianDipanggil',
+            'antrianMenunggu',
+            'ringkasan'
+        ));
     }
 
     /**
@@ -61,25 +90,37 @@ class DokterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'antrian_id' => 'required',
-            'pasien_id'  => 'required',
-            'subjective' => 'required',
-            'objective'  => 'required',
-            'assessment' => 'required',
-            'plan'       => 'required',
+            'antrian_id' => 'required|exists:antrians,id',
+            'subjective' => 'required|string',
+            'objective'  => 'required|string',
+            'assessment' => 'required|string',
+            'plan'       => 'required|string',
         ]);
 
-        MedicalRecord::create([
-            'pasien_id'  => $request->pasien_id,
-            'staff_id'   => Auth::guard('staff')->user()->id,
-            'subjective' => $request->subjective,
-            'objective'  => $request->objective,
-            'assessment' => $request->assessment,
-            'plan'       => $request->plan,
-        ]);
+        $staff = Auth::guard('staff')->user();
 
-        // Tandai antrean sebagai 'selesai' agar otomatis hilang dari dashboard
-        Antrian::find($request->antrian_id)->update(['status' => 'selesai']);
+        DB::transaction(function () use ($request, $staff) {
+            $antrian = Antrian::with('pendaftaran')
+                ->where('id', $request->antrian_id)
+                ->where('status', 'dipanggil')
+                ->whereHas('pendaftaran', function($query) use ($staff) {
+                    $query->where('dokter', $staff->name);
+                })
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            MedicalRecord::create([
+                'pasien_id'  => $antrian->pendaftaran->pasien_id,
+                'staff_id'   => $staff->id,
+                'subjective' => $request->subjective,
+                'objective'  => $request->objective,
+                'assessment' => $request->assessment,
+                'plan'       => $request->plan,
+            ]);
+
+            $antrian->update(['status' => 'selesai']);
+            $antrian->pendaftaran?->update(['status' => 'selesai']);
+        });
 
         return redirect()->route('dokter.dashboard')->with('success', 'Rekam medis tersimpan & antrean selesai!');
     }

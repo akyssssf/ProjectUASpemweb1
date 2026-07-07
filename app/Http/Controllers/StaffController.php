@@ -14,7 +14,7 @@ class StaffController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:staffs',
-            'role' => 'required',
+            'role' => 'required|in:admin,dokter',
             'password' => 'required|min:6',
         ]);
         $data['password'] = Hash::make($data['password']);
@@ -32,7 +32,7 @@ class StaffController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:staffs,email,'.$id,
-            'role' => 'required',
+            'role' => 'required|in:admin,dokter',
         ]);
         $staff->update($data);
         return redirect()->route('admin.dashboard')->with('success', 'Data diupdate');

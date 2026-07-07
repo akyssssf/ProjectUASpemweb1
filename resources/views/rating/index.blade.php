@@ -299,9 +299,9 @@
 const klinikData = @json($klinikJson);
 
 const isLoggedIn = @json(auth('pasien')->check());
-const routeSurveiUmum = "{{ route('survei.umum') }}";
 const routePendaftaran = "/pendaftaran";
 const routeLogin = "{{ route('login') }}";
+const routeRiwayat = "{{ route('pendaftaran.riwayat') }}";
 const routeRegister = "/register";
 const csrfToken = "{{ csrf_token() }}";
 
@@ -400,24 +400,25 @@ function renderDetail(k) {
     </div>`;
   }).join('');
 
-  // Form survei umum
-  const surveiFormHtml = `
-    <form id="form-survei-umum" onsubmit="submitSurvei(event,${k.id})">
-      <input type="hidden" name="klinik_id" value="${k.id}">
-      <p style="font-size:.78rem;color:#64748b;margin-bottom:12px;">Nilai kesan umum klinik ini, tanpa perlu pernah berkunjung.</p>
-      <div class="flex gap-2 mb-3" id="stars-umum" data-val="0">
-        ${[1,2,3,4,5].map(i=>`
-          <button type="button" class="star-btn text-3xl select-none transition-transform hover:scale-110"
-            style="background:none;border:none;cursor:pointer;color:#e2e8f0;"
-            onclick="setStar(${i})" onmouseover="hoverStar(${i})" onmouseout="resetStar()">★</button>
-        `).join('')}
+  const ratingRuleHtml = isLoggedIn ? `
+    <div>
+      <p style="font-size:.82rem;color:#475569;line-height:1.7;margin-bottom:14px;">
+        Rating hanya bisa dikirim dari kunjungan yang sudah selesai, supaya skor RS dan poli berasal dari pasien yang benar-benar berobat.
+      </p>
+      <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:16px;padding:12px;margin-bottom:14px;">
+        <p style="font-size:.75rem;font-weight:800;color:#2563eb;">Alur rating</p>
+        <p style="font-size:.78rem;color:#64748b;margin-top:4px;">Daftar antrian → diperiksa dokter → status selesai → beri penilaian di Riwayat.</p>
       </div>
-      <input type="hidden" name="rating" id="rating-val" required>
-      <textarea name="komentar" rows="2" class="clay-input mb-3" placeholder="Komentar (opsional)..." style="resize:none;font-size:.85rem;"></textarea>
-      <button type="submit" class="clay-btn w-full py-2.5 text-sm text-white" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
-        Kirim Penilaian ⭐
-      </button>
-    </form>`;
+      <a href="${routeRiwayat}" class="clay-btn w-full py-2.5 text-sm text-white text-center block" style="background:linear-gradient(135deg,#f59e0b,#d97706);text-decoration:none;">
+        Buka Riwayat Kunjungan →
+      </a>
+    </div>` : `
+    <div class="text-center py-2">
+      <div class="text-4xl mb-3">⭐</div>
+      <p class="font-bold text-slate-700 mb-1">Rating dari pasien berobat</p>
+      <p class="text-slate-400 text-sm mb-4">Masuk dulu, lalu beri rating dari Riwayat setelah kunjungan selesai.</p>
+      <a href="${routeLogin}" class="clay-btn clay-btn-sm block py-2.5 text-sm text-white text-center" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);text-decoration:none;">Masuk Pasien</a>
+    </div>`;
 
   // Form daftar antrian
   const daftarFormHtml = isLoggedIn ? `
@@ -440,8 +441,8 @@ function renderDetail(k) {
           <label style="font-size:.75rem;font-weight:700;color:#374151;display:block;margin-bottom:4px;">Jenis</label>
           <select name="jenis_pendaftaran" class="clay-select" required>
             <option value="Umum">Umum</option>
-            <option value="BPJS">BPJS</option>
           </select>
+          <p style="font-size:.68rem;color:#94a3b8;font-weight:700;margin-top:6px;">Pendaftaran BPJS tersedia lewat form pendaftaran lengkap.</p>
         </div>
         <div>
           <label style="font-size:.75rem;font-weight:700;color:#374151;display:block;margin-bottom:4px;">Tanggal Kunjungan</label>
@@ -512,13 +513,13 @@ function renderDetail(k) {
         ${daftarFormHtml}
       </div>
 
-      {{-- Survei umum --}}
+      {{-- Aturan rating --}}
       <div class="clay-card p-5">
         <div class="flex items-center gap-2 mb-4">
-          <span style="background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:10px;padding:6px 8px;font-size:1rem;">⭐</span>
-          <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:.9rem;color:#1e293b;">Beri Penilaian</h3>
+          <span style="background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:10px;padding:6px 8px;font-size:1rem;color:white;">✓</span>
+          <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:.9rem;color:#1e293b;">Rating Terverifikasi</h3>
         </div>
-        ${surveiFormHtml}
+        ${ratingRuleHtml}
       </div>
     </div>
   </div>`;
@@ -532,23 +533,6 @@ function tutupDetail() {
   document.getElementById('detail-panel').classList.remove('open');
   if (activeCard) activeCard.classList.remove('active-card');
   activeId = null; activeCard = null;
-}
-
-// ── Star rating ──────────────────────────────────────────────────────
-let currentStar = 0;
-function setStar(val) {
-  currentStar = val;
-  document.getElementById('rating-val').value = val;
-  updateStarDisplay(val, true);
-}
-function hoverStar(val) { updateStarDisplay(val, false); }
-function resetStar() { updateStarDisplay(currentStar, false); }
-function updateStarDisplay(val, permanent) {
-  document.querySelectorAll('#stars-umum .star-btn').forEach((btn, idx) => {
-    btn.style.color = idx < val ? '#f59e0b' : '#e2e8f0';
-    btn.style.textShadow = idx < val ? '0 2px 6px rgba(245,158,11,.4)' : 'none';
-    if(permanent) btn.style.transform = idx < val ? 'scale(1.1)' : 'scale(1)';
-  });
 }
 
 // ── Load poli & dokter dinamis ────────────────────────────────────────
@@ -577,30 +561,11 @@ function updateDokter(klinikId) {
     });
 }
 
-// ── Submit survei umum ────────────────────────────────────────────────
-async function submitSurvei(e, klinikId) {
-  e.preventDefault();
-  const form = e.target;
-  if (!document.getElementById('rating-val').value) {
-    Swal.fire({icon:'warning',title:'Pilih Rating',text:'Berikan bintang dulu sebelum mengirim!',confirmButtonColor:'#2563eb'}); return;
-  }
-  const fd = new FormData(form);
-  fd.append('_token', csrfToken);
-  const res = await fetch(routeSurveiUmum, {method:'POST', body:fd});
-  if (res.ok || res.redirected) {
-    Swal.fire({icon:'success',title:'Terima Kasih! ⭐',text:'Penilaian Anda telah dikirim.',confirmButtonColor:'#2563eb'})
-      .then(() => location.reload());
-  } else {
-    Swal.fire({icon:'error',title:'Gagal',text:'Terjadi kesalahan. Coba lagi.',confirmButtonColor:'#2563eb'});
-  }
-}
-
 // ── Submit daftar antrian ─────────────────────────────────────────────
 async function submitDaftar(e) {
   e.preventDefault();
   const form = e.target;
-  const jenis = form.jenis_pendaftaran.value;
-  const endpoint = jenis === 'BPJS' ? '/pendaftaran/simpan-bpjs' : '/pendaftaran/simpan-umum';
+  const endpoint = '/pendaftaran/simpan-umum';
   const fd = new FormData(form);
   fd.append('_token', csrfToken);
 

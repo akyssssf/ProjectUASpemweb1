@@ -22,4 +22,9 @@ class Poli extends Model
     {
         return $this->hasMany(Survei::class);
     }
+
+    public function ratingSurveis()
+    {
+        return $this->hasMany(Survei::class)->verifiedVisit();
+    }
 }

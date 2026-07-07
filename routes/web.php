@@ -98,8 +98,8 @@ Route::middleware(['auth:pasien'])->group(function () {
 Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
     // Monitoring bisa diakses semua staf
     Route::get('/monitoring', [MonitoringController::class, 'index']);
-    Route::get('/monitoring/panggil/{id}', [MonitoringController::class, 'panggil']);
-    Route::get('/monitoring/selesai/{id}', [MonitoringController::class, 'selesai']);
+    Route::post('/monitoring/panggil/{id}', [MonitoringController::class, 'panggil'])->name('monitoring.panggil');
+    Route::post('/monitoring/selesai/{id}', [MonitoringController::class, 'selesai'])->name('monitoring.selesai');
 
     // --- Rute Khusus Dokter ---
     Route::middleware(['role:dokter'])->group(function () {
@@ -118,6 +118,8 @@ Route::middleware(['auth:staff'])->prefix('petugas')->group(function () {
         Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
         Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
+        Route::get('/pasien/{id}/edit', [AdminDashboardController::class, 'editPasien'])->name('pasien.edit');
+        Route::put('/pasien/{id}', [AdminDashboardController::class, 'updatePasien'])->name('pasien.update');
         Route::delete('/pasien/{id}', [AdminDashboardController::class, 'destroyPasien'])->name('pasien.destroy');
     });
 });

@@ -109,10 +109,11 @@ class DemoScenarioSeeder extends Seeder
             'dokter'            => $dokterUmum?->nama ?? 'dr. Andi Susanto',
             'tanggal'           => Carbon::now()->subDays(7)->format('Y-m-d'),
             'keluhan'           => 'Sakit kepala dan demam sejak 3 hari, disertai mual',
-            'status'            => 'menunggu',
+            'status'            => 'selesai',
         ]);
         Antrian::create([
             'pendaftaran_id'  => $pendaftaran1->id,
+            'klinik'          => $klinikSoedono->nama,
             'nomor_antrian'   => 'U-101',
             'poli'            => $poliUmum?->nama ?? 'Poli Umum',
             'tanggal_antrian' => Carbon::now()->subDays(7)->format('Y-m-d'),
@@ -139,10 +140,11 @@ class DemoScenarioSeeder extends Seeder
             'dokter'            => $dokterJantung?->nama ?? 'dr. Hendra Kusuma Sp.JP',
             'tanggal'           => Carbon::now()->subDays(30)->format('Y-m-d'),
             'keluhan'           => 'Kontrol tekanan darah dan jantung rutin',
-            'status'            => 'menunggu',
+            'status'            => 'selesai',
         ]);
         Antrian::create([
             'pendaftaran_id'  => $pendaftaran2->id,
+            'klinik'          => $klinikSoedono->nama,
             'nomor_antrian'   => 'J-055',
             'poli'            => $poliJantung?->nama ?? 'Poli Jantung',
             'tanggal_antrian' => Carbon::now()->subDays(30)->format('Y-m-d'),
@@ -174,6 +176,7 @@ class DemoScenarioSeeder extends Seeder
         ]);
         Antrian::create([
             'pendaftaran_id'  => $pendaftaran3->id,
+            'klinik'          => $klinikSoedono->nama,
             'nomor_antrian'   => 'U-003',
             'poli'            => $poliUmum?->nama ?? 'Poli Umum',
             'tanggal_antrian' => $today,
@@ -204,6 +207,7 @@ class DemoScenarioSeeder extends Seeder
             ]);
             Antrian::create([
                 'pendaftaran_id'  => $pend->id,
+                'klinik'          => $klinikSoedono->nama,
                 'nomor_antrian'   => $item['nomor'],
                 'poli'            => $item['poli']->nama,
                 'tanggal_antrian' => $today,
@@ -213,7 +217,6 @@ class DemoScenarioSeeder extends Seeder
 
         // ── 5. ANTRIAN DIPANGGIL untuk dokter (siap input rekam medis) ─
         $antrianDipanggil = [
-            ['pasien' => $pasienLain[0], 'poli' => $poliUmum,    'dokter' => $dokterUmum,    'staff' => $dokterUmumStaff,    'nomor' => 'U-001'],
             ['pasien' => $pasienLain[1], 'poli' => $poliJantung, 'dokter' => $dokterJantung, 'staff' => $dokterJantungStaff, 'nomor' => 'J-001'],
         ];
 
@@ -231,6 +234,7 @@ class DemoScenarioSeeder extends Seeder
             ]);
             Antrian::create([
                 'pendaftaran_id'  => $pend->id,
+                'klinik'          => $klinikSoedono->nama,
                 'nomor_antrian'   => $item['nomor'],
                 'poli'            => $item['poli']->nama,
                 'tanggal_antrian' => $today,
@@ -259,7 +263,7 @@ class DemoScenarioSeeder extends Seeder
         $this->command->info('');
         $this->command->info('📋 URUTAN DEMO:');
         $this->command->info('   1. [PUBLIK]   Buka /rating → lihat semua RS Madiun dengan rating');
-        $this->command->info('   2. [PUBLIK]   Klik RS → beri survei umum tanpa login');
+        $this->command->info('   2. [PUBLIK]   Klik RS → lihat rating terverifikasi dan daftar umum cepat');
         $this->command->info('   3. [PASIEN]   Login demo@pasien.com → lihat dashboard');
         $this->command->info('   4. [PASIEN]   Cek Antrean → ada popup DIPANGGIL (U-003)');
         $this->command->info('   5. [PASIEN]   Lihat Riwayat → ada tombol Beri Penilaian');
