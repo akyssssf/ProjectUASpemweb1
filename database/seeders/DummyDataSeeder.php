@@ -149,6 +149,7 @@ class DummyDataSeeder extends Seeder
 
                 Antrian::create([
                     'pendaftaran_id'  => $pendaftaran->id,
+                    'klinik'          => $klinik->nama,
                     'nomor_antrian'   => $prefix . '-' . $noAntrian++,
                     'poli'            => $poli->nama,
                     'tanggal_antrian' => $tanggal,
