@@ -52,6 +52,7 @@
             </div>
         </a>
         <div class="flex items-center gap-3">
+            <a href="/petugas/monitoring" class="btn btn-amber px-4 py-2.5">Buka Layar Monitoring</a>
             <a href="{{ route('staff.register') }}" class="btn btn-white px-4 py-2.5">Tambah Staf</a>
             <form action="{{ route('petugas.logout') }}" method="POST">
                 @csrf
