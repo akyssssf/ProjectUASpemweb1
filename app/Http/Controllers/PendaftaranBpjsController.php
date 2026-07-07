@@ -69,8 +69,8 @@ class PendaftaranBpjsController extends Controller
             ->where('nama', $namaKlinik)
             ->first();
 
-        $poli = $klinik?->polis->firstWhere('nama', $namaPoli);
-        $dokter = $poli?->dokters->firstWhere('nama', $namaDokter);
+        $poli = $klinik ? $klinik->polis->firstWhere('nama', $namaPoli) : null;
+        $dokter = $poli ? $poli->dokters->firstWhere('nama', $namaDokter) : null;
 
         if (!$klinik || !$poli || !$dokter) {
             throw ValidationException::withMessages([
