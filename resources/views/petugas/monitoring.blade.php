@@ -277,19 +277,28 @@
     let reloadTimer = null;
     function mulaiAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);
-        reloadTimer = setInterval(() => { window.location.reload(); }, 5000);
+        // Refresh tiap 10 detik agar browser tidak berat/lemot
+        reloadTimer = setInterval(() => { window.location.reload(); }, 10000);
     }
     function jedaAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);
         reloadTimer = null;
     }
 
+    // Jeda auto-reload saat filter diubah
     const filterKlinik = document.getElementById('filter-klinik');
     const filterPoli = document.getElementById('filter-poli');
     [filterKlinik, filterPoli].forEach(el => {
         el.addEventListener('focus', jedaAutoReload);
         el.addEventListener('change', jedaAutoReload);
         el.addEventListener('blur', () => setTimeout(mulaiAutoReload, 8000));
+    });
+
+    // KUNCI: Jeda auto-reload saat tombol ditekan!
+    // Jika timer meledak berbarengan saat form disubmit, browser akan membatalkan request Panggil
+    // sehingga terkesan lola/tidak merespon.
+    document.querySelectorAll('form').forEach(f => {
+        f.addEventListener('submit', jedaAutoReload);
     });
 
     mulaiAutoReload();
