@@ -42,6 +42,13 @@ class PendaftaranProsesController extends Controller
                 return [$pendaftaran, Antrian::buatUntuk($pendaftaran)];
             });
 
+            $pesan = "<b>🏥 Pendaftaran Umum Baru</b>\n\n" .
+                     "👤 Pasien: " . $pasien->name . "\n" .
+                     "🏥 Klinik: " . $request->klinik . "\n" .
+                     "🩺 Poli: " . $request->poli . "\n" .
+                     "🔢 No Antrian: " . $antrian->nomor_antrian . "\n" .
+                     "📅 Tanggal: " . $request->tanggal;
+
             TelegramService::kirimPesan($pesan);
 
             return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil! Nomor antrian Anda: ' . $antrian->nomor_antrian);
