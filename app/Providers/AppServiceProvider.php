@@ -12,7 +12,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // RAILWAY FIX: Force Private Network URL to avoid 30s IPv6 public proxy timeout
+        if (env('MYSQL_PRIVATE_URL')) {
+            $privateUrl = env('MYSQL_PRIVATE_URL');
+            $_ENV['DATABASE_URL'] = $privateUrl;
+            $_SERVER['DATABASE_URL'] = $privateUrl;
+            putenv('DATABASE_URL=' . $privateUrl);
+        } else {
+            // Destroy DATABASE_URL if no MySQL private URL exists, forcing fallback to config/database.php (e.g. sqlite)
+            putenv('DATABASE_URL');
+            unset($_ENV['DATABASE_URL'], $_SERVER['DATABASE_URL']);
+        }
     }
 
     /**
