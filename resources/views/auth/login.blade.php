@@ -64,52 +64,11 @@
 <script>
 function bukaLupaPassword() {
     Swal.fire({
+        icon: 'info',
         title: 'Lupa Password?',
-        text: 'Masukkan NIK Anda yang terdaftar. Password akan direset ke bawaan.',
-        input: 'text',
-        inputAttributes: {
-            maxlength: 16,
-            pattern: '[0-9]*',
-            placeholder: 'Masukkan 16 digit NIK'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Reset Password',
-        cancelButtonText: 'Batal',
-        showLoaderOnConfirm: true,
-        preConfirm: (nik) => {
-            if(!nik || nik.length !== 16) {
-                Swal.showValidationMessage('NIK harus 16 digit angka');
-                return false;
-            }
-            return fetch('/lupa-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ nik })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(!data.success) {
-                    throw new Error(data.message || 'Gagal mereset password');
-                }
-                return data;
-            })
-            .catch(error => {
-                Swal.showValidationMessage(error.message);
-            });
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                html: `Password untuk NIK <b>${result.value.nik}</b> berhasil direset.<br><br>Password baru Anda: <b style="font-size:1.2rem;color:#2563eb;">${result.value.password}</b>`,
-                confirmButtonColor: '#2563eb'
-            });
-        }
+        html: `Untuk alasan keamanan, reset password tidak dapat dilakukan secara otomatis.<br><br>Silakan hubungi Admin Klinik Sehat via WhatsApp di:<br><br><a href="https://wa.me/6281234567890" target="_blank" style="font-weight:bold; font-size:1.1rem; color:#2563eb; text-decoration:none;">📞 +62 812-3456-7890</a>`,
+        confirmButtonText: 'Tutup',
+        confirmButtonColor: '#2563eb'
     });
 }
 </script>

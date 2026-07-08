@@ -277,8 +277,8 @@
     let reloadTimer = null;
     function mulaiAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);
-        // Refresh tiap 5 detik (sekarang sudah aman dari bug bentrok)
-        reloadTimer = setInterval(() => { window.location.reload(); }, 5000);
+        // Refresh tiap 25 detik agar tidak membebani server/database
+        reloadTimer = setInterval(() => { window.location.reload(); }, 25000);
     }
     function jedaAutoReload() {
         if (reloadTimer) clearInterval(reloadTimer);

@@ -179,7 +179,8 @@
 </main>
 
 <script>
-    let reloadTimer = setInterval(() => { window.location.reload(); }, 5000);
+    // Auto refresh setiap 25 detik (ditambah agar tidak membebani server)
+    let reloadTimer = setInterval(() => { window.location.reload(); }, 25000);
 
     // Jeda auto-reload saat dokter mengklik tombol "Periksa" atau berinteraksi
     document.querySelectorAll('a, form, button').forEach(el => {
