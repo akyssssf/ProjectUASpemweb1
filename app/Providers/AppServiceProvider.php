@@ -15,13 +15,9 @@ class AppServiceProvider extends ServiceProvider
         // RAILWAY FIX: Force Private Network URL to avoid 30s IPv6 public proxy timeout
         $privateUrl = getenv('MYSQL_PRIVATE_URL') ?: (isset($_ENV['MYSQL_PRIVATE_URL']) ? $_ENV['MYSQL_PRIVATE_URL'] : null);
         if ($privateUrl) {
-            $_ENV['DATABASE_URL'] = $privateUrl;
-            $_SERVER['DATABASE_URL'] = $privateUrl;
-            putenv('DATABASE_URL=' . $privateUrl);
-        } else {
-            // Destroy DATABASE_URL if no MySQL private URL exists, forcing fallback to config/database.php (e.g. sqlite)
-            putenv('DATABASE_URL');
-            unset($_ENV['DATABASE_URL'], $_SERVER['DATABASE_URL']);
+            \Illuminate\Support\Facades\Config::set('database.default', 'mysql');
+            \Illuminate\Support\Facades\Config::set('database.connections.mysql.url', $privateUrl);
+            \Illuminate\Support\Facades\DB::purge('mysql');
         }
     }
 
