@@ -12,18 +12,7 @@
             <p class="text-slate-500 mt-1 font-medium">Selamat datang kembali! 👋</p>
         </div>
 
-        {{-- Info akun demo --}}
-        <div class="clay mb-5 p-4" style="border-color:#FFE57F;box-shadow:0 6px 0 #C8860A;border-radius:16px;">
-            <p class="text-xs font-black uppercase tracking-widest mb-2" style="color:#C8860A;">🎯 Akun Demo Pasien</p>
-            <div class="space-y-1 text-xs font-bold text-slate-600">
-                <div class="flex justify-between"><span>Email</span><span class="font-black text-slate-800">budi@gmail.com</span></div>
-                <div class="flex justify-between"><span>NIK</span><span class="font-black text-slate-800">3577010101900001</span></div>
-                <div class="flex justify-between"><span>Password</span><span class="font-black text-slate-800">password123</span></div>
-            </div>
-            <div class="mt-3 pt-3 border-t border-amber-100">
-                <p class="text-xs text-slate-400 font-bold">Atau daftar akun baru sendiri →</p>
-            </div>
-        </div>
+
 
         <div class="clay p-8">
             @if ($errors->any())

@@ -51,21 +51,7 @@
       <p style="color:#64748b;font-size:.9rem;margin-top:4px;">Masuk untuk akses panel kontrol klinik</p>
     </div>
 
-    {{-- Akun Demo --}}
-    <div class="clay-card mb-5 p-4" style="border-left:4px solid #f59e0b;">
-      <p style="font-size:.72rem;font-weight:800;color:#d97706;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">🎯 Akun Demo Petugas</p>
-      <div style="space-y:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;background:#fffbeb;border-radius:10px;padding:8px 12px;margin-bottom:6px;">
-          <span style="font-size:.78rem;font-weight:600;color:#92400e;">👑 Admin</span>
-          <span style="font-size:.78rem;font-weight:800;color:#1e293b;">admin@klinik.com / 123456</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;background:#fffbeb;border-radius:10px;padding:8px 12px;margin-bottom:6px;">
-          <span style="font-size:.78rem;font-weight:600;color:#92400e;">👨‍⚕️ Dokter</span>
-          <span style="font-size:.78rem;font-weight:800;color:#1e293b;">dr-andi-susanto@klinik.com</span>
-        </div>
-        <p style="font-size:.7rem;color:#92400e;text-align:center;">Password semua dokter: <strong>dokter123</strong></p>
-      </div>
-    </div>
+
 
     {{-- Form Login --}}
     <div class="clay-card p-7">

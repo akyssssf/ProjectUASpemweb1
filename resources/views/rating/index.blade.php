@@ -127,13 +127,13 @@
 {{-- NAVBAR --}}
 <nav class="top-nav">
   <div class="nav-inner">
-    <div class="flex items-center gap-3">
+    <a href="/" class="flex items-center gap-3" style="text-decoration:none;">
       <img src="https://uns.ac.id/id/wp-content/uploads/2023/06/logo-uns-biru.png" alt="UNS" class="h-9 object-contain" style="filter:drop-shadow(0 2px 6px rgba(30,58,138,.3))"/>
       <div>
         <p style="font-family:'Sora',sans-serif;font-weight:800;color:white;font-size:.9rem;">Klinik Sehat</p>
         <p style="font-size:.65rem;color:rgba(147,197,253,.85);">Sistem Layanan Klinik Digital</p>
       </div>
-    </div>
+    </a>
     <div class="flex items-center gap-3">
       @auth('pasien')
         <a href="/dashboard" class="clay-btn clay-btn-sm bg-white text-blue-700 px-4 py-2 text-xs">Dashboard →</a>
