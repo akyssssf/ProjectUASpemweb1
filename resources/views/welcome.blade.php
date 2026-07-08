@@ -102,7 +102,7 @@
   </div>
 </nav>
 
-<div class="relative z-10 max-w-6xl mx-auto px-4 space-y-24 py-12">
+<div class="relative z-10 max-w-6xl mx-auto px-4 space-y-16 py-12">
 
   {{-- HERO --}}
   <div class="hero-bg hero-shell">
@@ -142,7 +142,7 @@
   </div>
 
   {{-- FITUR UNGGULAN --}}
-  <section id="fitur" style="margin-top: 6rem;">
+  <section id="fitur">
     <div class="text-center mb-8">
       <div class="section-tag">✨ Fitur Unggulan</div>
       <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Semua yang Kamu Butuhkan</h2>
@@ -194,7 +194,7 @@
   </section>
 
   {{-- LAYANAN POLI --}}
-  <section id="layanan" style="margin-top: 6rem;">
+  <section id="layanan">
     <div class="hero-bg p-8 md:p-10">
       <div class="relative z-10 text-center mb-8">
         <div class="inline-block mb-4" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 16px;font-size:.72rem;font-weight:800;color:white;text-transform:uppercase;letter-spacing:.05em;">🏥 Layanan Poli</div>
@@ -213,7 +213,7 @@
   </section>
 
   {{-- CARA PAKAI --}}
-  <section id="cara" style="margin-top: 6rem;">
+  <section id="cara">
     <div class="text-center mb-8">
       <div class="section-tag">📋 Cara Pakai</div>
       <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.8rem;color:#1e293b;">Mudah dalam 4 Langkah</h2>
