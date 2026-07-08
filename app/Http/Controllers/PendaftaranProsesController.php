@@ -42,7 +42,7 @@ class PendaftaranProsesController extends Controller
                 return [$pendaftaran, Antrian::buatUntuk($pendaftaran)];
             });
 
-            // TelegramService::kirimPesan($pesan);
+            TelegramService::kirimPesan($pesan);
 
             return redirect('/dashboard')->with('success', 'Pendaftaran Berhasil! Nomor antrian Anda: ' . $antrian->nomor_antrian);
         } catch (\Throwable $e) {
