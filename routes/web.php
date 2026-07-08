@@ -23,6 +23,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/ping', function () {
+    return 'pong';
+});
+
 // --- Route Publik: Proxy API BPS (statistik fasilitas kesehatan) ---
 Route::get('/api/bps', [FetchBpsController::class, 'fetch'])->name('bps.fetch');
 
