@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-[80vh] flex items-center justify-center py-8">
-    <div class="w-full max-w-md">
+<div class="py-12 md:py-16">
+    <div class="w-full max-w-md mx-auto">
 
         <div class="text-center mb-12">
             <div class="clay-blue w-16 h-16 flex items-center justify-center mx-auto mb-4" style="border-radius:20px;box-shadow:0 6px 0 #00005A;">

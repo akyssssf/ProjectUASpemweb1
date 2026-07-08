@@ -212,7 +212,7 @@
   @endif
 
   {{-- GRID RS --}}
-  <div id="rs-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+  <div id="rs-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" style="margin-top: 5rem;">
     @forelse($kliniks as $klinik)
     <div class="clay-card clay-card-hover rs-card fade-in"
       data-nama="{{ strtolower($klinik->nama) }}"
