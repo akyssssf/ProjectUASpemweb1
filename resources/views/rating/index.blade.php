@@ -155,10 +155,7 @@
     <div class="relative z-10">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <div class="inline-flex items-center gap-2 mb-4" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.35rem .9rem;">
-            <span class="w-2 h-2 rounded-full bg-emerald-400" style="animation:pulse 1.5s infinite;"></span>
-            <span style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.05em;">SISTEM AKTIF · REAL-TIME</span>
-          </div>
+
           <h1 style="font-family:'Sora',sans-serif;font-weight:800;font-size:2rem;color:white;line-height:1.2;" class="mb-3">
             Temukan Klinik &<br/>Poli Terbaik untuk Anda
           </h1>

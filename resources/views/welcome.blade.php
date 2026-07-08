@@ -106,58 +106,36 @@
 
   {{-- HERO --}}
   <div class="hero-bg hero-shell">
-    <div class="relative z-10 hero-content grid md:grid-cols-2 gap-10 items-center">
+    <div class="relative z-10 hero-content grid md:grid-cols-[1.1fr_1fr] gap-10 items-center">
       <div>
-        <div class="hero-kicker">
-          <span class="hero-kicker-dot"></span>
-          <span class="hero-kicker-text">SISTEM AKTIF · REAL-TIME</span>
-        </div>
-        <h1 class="hero-title">
+        <h1 class="hero-title" style="font-size:clamp(2rem,3.8vw,3.5rem); margin-bottom:12px;">
           Layanan Kesehatan<br>
           <span class="hero-title-accent">Terbaik & Cepat</span>
         </h1>
-        <p class="hero-copy">
+        <p class="hero-copy" style="margin-bottom:24px;">
           Daftar periksa, pantau antrean secara real-time, dan berikan penilaian layanan dengan mudah melalui sistem digital Klinik Sehat.
         </p>
-        <div class="hero-live-row">
-          <span class="hero-live-chip">
-            <svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
-            Antrean live
-          </span>
-          <span class="hero-live-chip">
-            <svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg>
-            Rating RS
-          </span>
-          <span class="hero-live-chip">
-            <svg viewBox="0 0 24 24"><path d="M8 7V4h8v3"/><path d="M6 21h12a2 2 0 0 0 2-2v-9H4v9a2 2 0 0 0 2 2Z"/><path d="M10 14h4"/><path d="M12 12v4"/></svg>
-            Rekam medis
-          </span>
-        </div>
         <div class="flex flex-wrap gap-3">
           <a href="/register" class="clay-btn btn-primary" style="padding:12px 28px;font-size:.95rem;">Daftar Sekarang →</a>
           <a href="#cara" class="clay-btn btn-white" style="padding:12px 28px;font-size:.95rem;">Cara Pakai</a>
         </div>
       </div>
       <div class="hero-stat-grid">
-        <div class="hero-stat hero-stat-white float">
+        <div class="hero-stat hero-stat-white float" style="min-height:100px;">
           <div class="hero-stat-number">500+</div>
           <div class="hero-stat-label">Pasien</div>
-          <div class="hero-stat-mini">demo siap pakai</div>
         </div>
-        <div class="hero-stat hero-stat-green hero-stat-dark float-2">
+        <div class="hero-stat hero-stat-green hero-stat-dark float-2" style="min-height:100px;">
           <div class="hero-stat-number">4.8</div>
           <div class="hero-stat-label">Rating</div>
-          <div class="hero-stat-mini">berbasis ulasan</div>
         </div>
-        <div class="hero-stat hero-stat-purple hero-stat-dark float-3">
+        <div class="hero-stat hero-stat-purple hero-stat-dark float-3" style="min-height:100px;">
           <div class="hero-stat-number">24/7</div>
           <div class="hero-stat-label">Aktif</div>
-          <div class="hero-stat-mini">monitoring</div>
         </div>
-        <div class="hero-stat hero-stat-white float">
+        <div class="hero-stat hero-stat-white float" style="min-height:100px;">
           <div class="hero-stat-number">14</div>
           <div class="hero-stat-label">RS Madiun</div>
-          <div class="hero-stat-mini">multi poli</div>
         </div>
       </div>
     </div>

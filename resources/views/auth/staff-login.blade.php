@@ -78,6 +78,12 @@
       </form>
     </div>
 
+    <div class="text-center mt-6">
+      <a href="{{ route('login') }}" style="font-size:.85rem;font-weight:700;color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#64748b'">
+        ← Kembali ke Login Pasien
+      </a>
+    </div>
+
   </div>
 </div>
 </body>
