@@ -102,7 +102,7 @@
   </div>
 </nav>
 
-<div class="relative z-10 max-w-6xl mx-auto px-4 space-y-10 py-8">
+<div class="relative z-10 max-w-6xl mx-auto px-4 space-y-24 py-12">
 
   {{-- HERO --}}
   <div class="hero-bg hero-shell">

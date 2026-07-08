@@ -148,7 +148,7 @@
   </div>
 </nav>
 
-<div class="relative z-10 max-w-6xl mx-auto px-4 py-8 space-y-6">
+<div class="relative z-10 max-w-6xl mx-auto px-4 py-12 space-y-16">
 
   {{-- HERO --}}
   <div class="hero-bg p-8 md:p-10">

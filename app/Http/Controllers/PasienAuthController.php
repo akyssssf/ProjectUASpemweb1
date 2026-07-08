@@ -67,4 +67,23 @@ class PasienAuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+
+    public function lupaPassword(Request $request) {
+        $request->validate(['nik' => 'required|digits:16']);
+        
+        $pasien = Pasien::where('nik', $request->nik)->first();
+        if (!$pasien) {
+            return response()->json(['success' => false, 'message' => 'NIK tidak ditemukan. Pastikan NIK Anda benar.']);
+        }
+        
+        // Reset password ke default
+        $pasien->password = Hash::make('password123');
+        $pasien->save();
+        
+        return response()->json([
+            'success' => true, 
+            'nik' => $pasien->nik,
+            'password' => 'password123'
+        ]);
+    }
 }

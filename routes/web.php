@@ -51,6 +51,7 @@ Route::post('/login', [PasienAuthController::class, 'login']);
 Route::get('/register', [PasienAuthController::class, 'showRegister']);
 Route::post('/register', [PasienAuthController::class, 'register']);
 Route::post('/logout', [PasienAuthController::class, 'logout']);
+Route::post('/lupa-password', [PasienAuthController::class, 'lupaPassword']);
 
 // --- Route Auth Staff ---
 Route::get('/petugas/login', [StaffAuthController::class, 'showLogin'])->name('petugas.login');
