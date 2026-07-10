@@ -41,4 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Endpoint filtering Staff & Pasien
     Route::get('/staff', [StaffController::class, 'index']);
     Route::get('/pasien', [PasienController::class, 'index']);
+
+    // Endpoint CRUD Pasien (Tugas Mandiri: Update & Destroy)
+    Route::get('/pasien/{id}', [PasienController::class, 'show']);
+    Route::match(['put', 'patch'], '/pasien/{id}', [PasienController::class, 'update']);
+    Route::delete('/pasien/{id}', [PasienController::class, 'destroy']);
 });
